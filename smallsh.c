@@ -1,4 +1,5 @@
 #include "./smallsh.h"
+#include "./printFunctions.h"
 
 // Basic template copied from students.c Please see readme for full citations.
 // If you are not compiling with the gcc option --std=gnu99, then
@@ -18,7 +19,8 @@ int main(int argc, char* argv[]) {
         char* input = getRawInput();
         struct command* newCommand = createCommand(input);
 
-        // If the line isn't blank, execute the instruction 
+        printStartTerminal();
+        // If the input isn't blank, execute the instruction 
         if (newCommand->instruction) {
             // TODO Step 1 : let's just print things ok
             //executeCommand(command);
