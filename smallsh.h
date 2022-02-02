@@ -41,6 +41,7 @@ struct command {
     bool isComment;
 };
 
+void printBlank();
 /*
 * Accepts user input, creates a new command struct based on its contents
 * Structure originally based on project 1 createMovie.

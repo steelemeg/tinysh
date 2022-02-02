@@ -14,9 +14,9 @@ int main(int argc, char* argv[]) {
     // TODO get rid of this--go three times for starters
     int keepGoing = 3;
     while (keepGoing > 0) {
-
+        
         struct command* newCommand = createCommand(getRawInput());
-
+        printBlank();
         // If the line isn't blank, execute the instruction 
         if (newCommand->instruction) {
             // TODO Step 1 : let's just print things ok
