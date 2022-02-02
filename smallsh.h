@@ -51,7 +51,7 @@ struct command* createCommand(char* userInput) {
     struct command* newCommand = malloc(sizeof(struct command));
     char* copyInput = calloc(strlen(userInput) + 1, sizeof(char));
     strcpy(copyInput, userInput);
-    const char comment = "#";
+    const char comment = '#';
 
     // The first token should be the instruction. It should also tell us if this is a blank or comment.
     token = strtok_r(userInput, DELIMITER, &saveptr);
