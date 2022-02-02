@@ -14,7 +14,6 @@ int main(int argc, char* argv[]) {
     // TODO get rid of this--go three times for starters
     int keepGoing = 3;
     while (keepGoing > 0) {
-        printCommandPrompt();
 
         struct command* newCommand = createCommand(getRawInput());
 
@@ -22,7 +21,7 @@ int main(int argc, char* argv[]) {
         if (newCommand->instruction) {
             // TODO Step 1 : let's just print things ok
             //executeCommand(command);
-            printTest(newCommand->instruction);
+            printText(newCommand->instruction);
         }
         keepGoing--;
 
