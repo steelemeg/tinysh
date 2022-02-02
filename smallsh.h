@@ -32,7 +32,6 @@
 // Your shell must support command lines with a maximum length of 2048 characters, and a maximum of 512 arguments.
 #define MAX_COMMAND 2048
 #define MAX_ARG 512
-#define COMMENT "#"
 
 // As recommended in the assignment, creating a struct to hold commands and their possible parameters.
 struct command {
@@ -52,13 +51,14 @@ struct command* createCommand(char* userInput) {
     struct command* newCommand = malloc(sizeof(struct command));
     char* copyInput = calloc(strlen(userInput) + 1, sizeof(char));
     strcpy(copyInput, userInput);
+    const char comment = "#";
 
     // The first token should be the instruction. It should also tell us if this is a blank or comment.
     token = strtok_r(userInput, DELIMITER, &saveptr);
     // Handle bad inputs. Inner calloc/strcpy lifted from Project 1, if statements protect from blanks and comments.
     if (token != NULL) {
         // Ignore comments
-        if (token[0] != COMMENT) {
+        if (token[0] != comment) {
             newCommand->instruction = calloc(strlen(token) + 1, sizeof(char));
             strcpy(newCommand->instruction, token);
         }
