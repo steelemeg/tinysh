@@ -28,9 +28,9 @@ struct command* createCommand(char* userInput) {
     // The first token should be the instruction. It should also tell us if this is a blank or comment.
     token = strtok_r(userInput, DELIMITER, &saveptr);
     // Handle bad blank inputs.   
-    if (token == NULL) {
+    if (token == NULL || token[0] == comment) {
         newCommand->isCommentOrBlank = true;
-        //printf("done with cmd blank\n");
+        printf("done with cmd blank\n");
         return newCommand;
     }
     
