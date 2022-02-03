@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
         // If the input wasn't blank, execute the instruction 
         if (newCommand->instruction) {
             // TODO Step 1 : let's just print things ok
-            //execCommand(newCommand);
+            execCommand(newCommand);
         }
         keepGoing--;
     // TODO deal with child processes lurking about
