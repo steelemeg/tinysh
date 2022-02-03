@@ -61,7 +61,13 @@ char* getExpandedInput() {
     // Drop the trailing newline
     input[strcspn(input, "\n")] = 0;
   
-
+    // Screen for blanks and comments
+    const char comment = '#';
+    if (input[0] == '\0' || input[0] == comment) {
+        return input;
+    }
+    
+    // If the string has non-comment commands, start working on the expansion.
     size_t origSize = strlen(input);
     char* doubleDollar = "$$";    
     int expandedSize = 0;
