@@ -15,7 +15,9 @@ void execExit() {
 void execCommand(struct command* currCommand) {
 
     // Comments mean we should do nothing! 
-    if (!currCommand->isCommentOrBlank) { printShout(currCommand->instruction); }
+    if (currCommand->isCommentOrBlank) {    }
+    // actual commands
+    else { printShout(currCommand->instruction); }
 
     return;
 }
