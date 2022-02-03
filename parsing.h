@@ -47,7 +47,13 @@ struct command* createCommand(char* userInput) {
     return newCommand;
 }
 
-
+/*
+* Get input from the user.
+* Check if it is a comment or a blank line.
+* If not, per the project guide, expand any instance of "$$" in a command into the process ID of the smallsh itself.
+* No other variable expansion is performed.
+* Returns user input, expanded if appropriate, for parsing into a command.
+*/
 char* getExpandedInput() {
     // Get the user's input. Per the assignment, we know that 
     // commands will not be more than 2048 characters long.
@@ -57,7 +63,7 @@ char* getExpandedInput() {
     // Drop the trailing newline
     rawInput[strcspn(rawInput, "\n")] = 0;
 
-    // Screen for blanks and comments
+    // Screen for blanks and comments now
     const char comment = '#';
     if (rawInput[0] == '\0' || rawInput[0] == comment) {
         return rawInput;
@@ -82,6 +88,8 @@ char* getExpandedInput() {
     // Iterate through the input string, copying characters into the expandedInput string. If $$s are encountered,
     // substitute the pid and realloc expanded input to ensure there is enough space. Based off of the strcpy variant 
     // from my Project 1.
+    // I tried to handle odd numbers of $s (i.e. "input $$$") like the actual shell and just 
+    // expanded the first two (i.e. resulting in "input 12345%"). 
     {
         // Use these as array pointers into the input and expandedOutput arrays
         int inputPtr = 0;
@@ -104,8 +112,8 @@ char* getExpandedInput() {
             }
             // If a $ is located and the next character is also $, expand the PID.
             else if (rawInput[inputPtr] == singleDollar && (rawInput[inputPtr + 1] == singleDollar)) {
-                // Make sure there is enough room in the expanded output
-                // Don't need to add the full length of the PID, since the original alloc accounted for the two $$ characters.
+                // Make sure there is enough room in the expanded output, since the actual PID will need more than 2 characters.
+                // Don't need to add the full length of the PID, since the original calloc accounted for the two $$ characters.
                 expandedSize = strlen(expandedOutput) + pidSize - 2;
                 expandedOutput = realloc(expandedOutput, expandedSize); 
 
@@ -114,12 +122,9 @@ char* getExpandedInput() {
                 // Move both pointers. input pointer moves by 2, output pointer moves by pid size
                 inputPtr = inputPtr + 2;
                 outputPtr = outputPtr + pidSize;
-            }
-
-            
+            }            
         }
     }
-    printf("here's what we got %s\n", expandedOutput);
+    free rawInput;
     return expandedOutput;
-
 }
