@@ -23,24 +23,37 @@ struct child {
 *  Accepts one input, the integer pid.
 *  Returns the new struct.
 */
-struct child* createChild(int pid) {
+struct child* createChild(struct child** first, int pid) {
     struct child* newChild = malloc(sizeof(struct child));
-    newChild->next = NULL;
+    newChild->next = *first;
     newChild->childPid = pid;
+    *first = newChild;
 
-    // Is this the first node in the linked list?
-    if (firstChild == NULL) {
-        // This is the first node in the linked list
-        firstChild = newChild;
-        lastChild = newChild;
-        childNum++;
+    
+}
 
-    }
-    else
+/*
+*  Removes a child struct from the linked list.
+*  Accepts one input, the integer pid.
+*  Returns a bool indicating success or failure of the removal.
+*/
+bool removeChild(int pid) {
+    // Track the previous and next nodes to snip out the target
+    currChild = firstChild;
+    prevChild = NULL;
+    nextChild = firstChild->next;
+
+    while (currChild != NULL)
     {
-        // This is not the first node.
-        lastChild->next = newChild;
-        lastChild = newChild;
+        nextChild = currChild->next;
+        if (currChild->childPid == pid){
+            if (currChild == firstChild) { firstChild = currChild->next; }
+            // Reroute the previous node linkage to the next node 
+            if (prevChild != NULL) { prevChild->next = currChild->next; }
+            
+        }
+        prevChild = currChild;
+        currChild = currChild->next;
     }
 }
 
