@@ -48,6 +48,38 @@ struct command* createCommand(char* userInput) {
 }
 
 /*
+* Expansion was hitting issues because strtok_r only accepted one delimiter, not a delimiter string.
+* Rework of strtok_r to allow string delimiter.
+*/
+char* strtokStr(char* input, char* delimiter, char** savePtr)
+{
+    char* end;
+    if (input == NULL)
+        input = *savePtr;
+    // Screen for the end of the string
+    if (input == NULL || *input == '\0')
+    {
+        *savePtr = input;
+        return NULL;
+    }
+
+    // Find the end of the token. Use strstr to search for the delimiter substring.
+    end = strstr(input, delimiter);
+    // if the delimiter was never found, the input was the last token. Move the pointer to the end.
+    if (end == NULL)
+    {
+        *savePtr = input + strlen(input);
+        return input;
+    }
+
+    // Learn from project 2 and memset the token. Manually move the pointer past the end.
+    memset(end, 0, strlen(delimiter));
+    *savePtr = end + strlen(delimiter);
+    return input;
+}
+
+
+/*
 * Get input from the user.
 * Check if it is a comment or a blank line.
 * If not, per the project guide, expand any instance of "$$" in a command into the process ID of the smallsh itself.
@@ -89,7 +121,7 @@ char* getExpandedInput() {
     // Borrowing sprintf trick from Project 2
     sprintf(currPid, "%d", pid);
     
-    token = strtok_r(input, doubleDollar, &saveptr);
+    token = strtokStr(input, doubleDollar, &saveptr);
     partialSize = strlen(token);
     
     // So if the length of the raw input is the same as token, then $$ never appeared and processing is done.
@@ -118,7 +150,7 @@ char* getExpandedInput() {
         //}
         printf("remaining to process %s len %d", saveptr, strlen(saveptr));
         printf("expansion %s\n", expandedInput);
-        token = strtok_r(NULL, doubleDollar, &saveptr);        
+        token = strtokStr(NULL, doubleDollar, &saveptr);
         printf("expansion last %s\n", expandedInput);
     }
 
