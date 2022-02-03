@@ -1,14 +1,34 @@
 // Functions for executing specific commands
 
-/* The exit command exits your shell. 
-*  First of the three built-in shell commands that smallsh handles. 
+/* 
 *  Accepts no arguments. 
 *  Kills any child processes or jobs.
+*  Used as part of the exit function execution.
+*  Returns the current exit success parameter value.
 */
 int killChildProcesses() {
     // Per Ed #351 (formal citation in the readme)
     // TODO Walk through the array of child PIDs. Kill them if they are running.
     return EXIT_SUCCESS;
+}
+
+/*
+*  Used to change the current working directory 
+*  Accepts one parameter, a command struct, which allows us to get the relevant operands.
+*  If no target directory is provided, goes to user home.
+*/
+void execCd(struct command* currCommand) {
+    // handle the command with no argument
+    if (currCommand->operandCount == 0) {
+        // Functions pulled from Linux Programming Interface text, page 363-364; full citation in readme.
+        chdir(getenv("HOME"));
+    }
+    else {
+        // change the current directory to the specified path
+        chdir(commandLine->args[0]);
+    }
+
+    return;
 }
 
 /*

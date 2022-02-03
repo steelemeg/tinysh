@@ -15,3 +15,5 @@ Ed Discussion (February 1, 2022) Exit Function [Assignment clarification] https:
 Tutorials Point (February 1, 2022) C Library function - exit() [Example source code] https://www.tutorialspoint.com/c_standard_library/c_function_exit.htm
 
 Geeks for Geeks (February 2, 2022) Count Occurence in Given String [Example source code] https://www.geeksforgeeks.org/program-count-occurrence-given-character-string/
+
+Stack Overflow (February 2, 2022) Chdir to Home Directory [Example source code] https://stackoverflow.com/questions/9493234/chdir-to-home-directory

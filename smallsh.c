@@ -27,6 +27,7 @@
 #include <errno.h>
 
 #include "./parsing.h"
+#include "./printing.h"
 #include "./execute.h"
 
 
@@ -40,20 +41,6 @@
 *   Compile the program as follows:
 *       gcc --std=gnu99 -o smallsh main.c
 */
-
-
-/*
-* Prints a specified string out to the shell.
-* Be sure you flush out the output buffers each time you print!
-* Helps ensure that printf is always follwed by fflush.
-*/
-void printShout(const char* printTarget) {
-    printf("%s", printTarget);
-    fflush(NULL);
-
-    return;
-}
-
 int main(int argc, char* argv[]) {
     // TODO deal with SIGINT
     // TODO deal with SIGTST
