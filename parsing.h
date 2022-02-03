@@ -81,7 +81,7 @@ char* expansion(char* rawInput) {
     // Borrowing sprintf trick from Project 2
     sprintf(currPid, "%d", pid);
 
-    print("first bit: %s\n", token)
+    printf("first bit: %s\n", token);
     return expandedInput;
 
     
