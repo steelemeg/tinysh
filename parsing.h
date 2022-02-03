@@ -121,7 +121,7 @@ char* getExpandedInput() {
     // Borrowing sprintf trick from Project 2
     sprintf(currPid, "%d", pid);
     
-    token = strtokStr(input, doubleDollar, &saveptr);
+    token = strtokStr(input, doubleDollar, &saveptr, currPid);
     partialSize = strlen(token);
     
     // So if the length of the raw input is the same as token, then $$ never appeared and processing is done.
