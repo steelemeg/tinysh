@@ -48,9 +48,11 @@ struct command* createCommand(char* userInput) {
 }
 
 /*
-*  Per the project guide, expand any instance of "$$" in a command into the process ID of the smallsh itself.
+* Get input from the user.
+* Check if it is a comment or a blank line.
+* If not, per the project guide, expand any instance of "$$" in a command into the process ID of the smallsh itself.
 * No other variable expansion is performed.
-* Takes the raw user input, returns expanded input.
+* Returns appropriate input for parsing into a command.
 */
 char* getExpandedInput() {
     // Get the user's input. Per the assignment, we know that 
@@ -71,12 +73,12 @@ char* getExpandedInput() {
     size_t origSize = strlen(input);
     char* doubleDollar = "$$";    
     int expandedSize = 0;
+    int n = 0;
     int partialSize = 0;
     char* copyInput = calloc(origSize + 1, sizeof(char));
     char* saveptr;
     char* token;
     bool trailing = false;
-    bool moreInput = true;
     char* expandedInput = calloc(origSize + 1, sizeof(char));
     pid_t pid = getpid();
 
@@ -94,6 +96,7 @@ char* getExpandedInput() {
     if (origSize == partialSize) {
         strcpy(expandedInput, input);
         free(copyInput);
+        free(currPid);
         return expandedInput;
     }
 
@@ -102,16 +105,17 @@ char* getExpandedInput() {
     // This has the potential to go over the max char limit after expansion. Upping the size as we go.
     // Flow: Token holds the input up until $$. Realloc the output. Concat the token the the output, concat the pid to the output.
     //      Get a new token. Check if this is the end or if there are trailing chars.
-   // while (moreInput){
+    while (token != NULL){
         expandedSize = strlen(expandedInput) + strlen(token) + strlen(currPid);
-        printf("expanded size vs orig expanded input strlen: %d %d", expandedSize, strlen(expandedInput));
         if (expandedSize > (origSize + 1)) { expandedInput = realloc(expandedInput, expandedSize); } 
         
+        // Tack on the token and, if relevant, the PID
         strcat(expandedInput, token);
         strcat(expandedInput, currPid);
-        printf("expansion %s", expandedInput);
-            //token = strtok_r(rawInput, doubleDollar, &saveptr);        
-    //}
+        printf("expansion %s\n", expandedInput);
+        token = strtok_r(NULL, doubleDollar, &saveptr);        
+        printf("expansion last %s\n", expandedInput);
+    }
 
     free(currPid);
     free(copyInput);
