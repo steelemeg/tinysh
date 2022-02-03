@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
         // Drop the trailing newline
         input[strcspn(input, "\n")] = 0;
 
-        print("Raw: %s", input);
+        printf("Raw: %s", input);
 
         // TODO something with expansion, pain, etc. Probably going to need a separate parse function for this.
         expansion(input);
