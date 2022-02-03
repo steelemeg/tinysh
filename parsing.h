@@ -97,7 +97,6 @@ char* expansion(char* rawInput) {
 
     free(currPid);
     free(copyInput);
-    printShout(expandedInput);
     return expandedInput;
 
     
