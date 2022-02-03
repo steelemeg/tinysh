@@ -7,3 +7,5 @@ Stack Overflow(January 24, 2022) Removing trailing newline character from fgets(
 Stack Overflow (February 2, 2022) Maximum PID in Linux [Documentation] https://stackoverflow.com/questions/6294133/maximum-pid-in-linux 
 
 OSU CS344 (February 2, 2022) Exploration: Signal Handling (Example Code Handlers for SIGINT, SIGUSR2, and Ignoring SIGTERM, etc. [Example Source Code] https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api
+
+Malmstein, Robert (February 2, 2022) This is the Story of a Shell [Theory and example source code] https://medium.com/@romalms10/this-is-the-story-of-a-shell-73686729a650
