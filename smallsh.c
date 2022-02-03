@@ -46,9 +46,11 @@ int main(int argc, char* argv[]) {
     // TODO deal with SIGTST
     // TODO get rid of this--go three times for starters
     int keepGoing = 3;
+    char* colon = ": ";
+    
     while (keepGoing > 0) {
         // Mimicing the formatting of the screenshots, start each line with ":"
-        printStartTerminal();
+        pprintShout(colon);
 
         char* protoCommand = getExpandedInput();
         // Build a command struct from the expanded input.

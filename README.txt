@@ -13,3 +13,5 @@ Malmstein, Robert (February 2, 2022) This is the Story of a Shell [Theory and ex
 Ed Discussion (February 1, 2022) Exit Function [Assignment clarification] https://edstem.org/us/courses/16718/discussion/1064594
 
 Tutorials Point (February 1, 2022) C Library function - exit() [Example source code] https://www.tutorialspoint.com/c_standard_library/c_function_exit.htm
+
+Geeks for Geeks (February 2, 2022) Count Occurence in Given String [Example source code] https://www.geeksforgeeks.org/program-count-occurrence-given-character-string/

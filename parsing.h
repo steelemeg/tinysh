@@ -48,15 +48,13 @@ struct command* createCommand(char* userInput) {
     strcpy(newCommand->instruction, token);
 
     // The output from getExpandedInput has been space-condensed. Therefore we can use spaces as a proxy 
-    // for the number of arguments.
-    printf("pre space count %d\n", argCount);
+    // for the number of arguments. Idea from https://www.geeksforgeeks.org/program-count-occurrence-given-character-string ,
+    // formal citation in the readme
     for (int n = 0; copyInput[n]; n++) {
         if (copyInput[n] == *DELIMITER) { argCount++; }
     }
-    printf("space count %d\n", argCount);
-
-
-
+    newCommand->operandCount += argCount;
+    
     return newCommand;
 }
 
@@ -120,7 +118,7 @@ char* getExpandedInput() {
                 // Just in case we get any inputs with multiple spaces, condense them to single spaces.
                 if (rawInput[inputPtr] == space && rawInput[inputPtr + 1] == space) { inputPtr++; }
                 // if there is a trailing space, strip it
-                if (rawInput[inputPtr + 1] == '\0') { inputPtr++; }
+                else if (rawInput[inputPtr + 1] == '\0') { inputPtr++; }
                 else {
                     expandedOutput[outputPtr] = rawInput[inputPtr];
                     inputPtr++;
