@@ -26,8 +26,8 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#include "./parsing.h"
 #include "./printing.h"
+#include "./parsing.h"
 #include "./execute.h"
 
 
