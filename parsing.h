@@ -67,6 +67,7 @@ char* expansion(char* rawInput) {
 
     // So if the length of the raw input is the same as token, then $$ never appeared.
     if (rawSize == partialSize) {
+        printf("no $$s");
         strcpy(expandedInput, rawInput);
         return expandedInput;
     }
