@@ -32,20 +32,19 @@ struct command* createCommand(char* userInput) {
     // Handle blank or commented inputs.   
     if (token == NULL || token[0] == comment) {
         newCommand->isCommentOrBlank = true;
+        newCommand->operandCount = 0;
         return newCommand;
     }
+    else { newCommand->isCommentOrBlank = false; }
     
     // Inner calloc / strcpy lifted from Project 1, if statements protect from blanksand comments.
     // Originally ignored comments entirely, but this caused problems with printing the start-of-line colon. 
     newCommand->instruction = calloc(strlen(token) + 1, sizeof(char));
     strcpy(newCommand->instruction, token);
-        
-  
-    // Moving comment handling logic -- comments still create commands, but they'll be flagged appropriately.
-    if (newCommand->instruction[0] == comment) {
-        newCommand->isCommentOrBlank = true;
-    }
-    else { newCommand->isCommentOrBlank = false; }
+
+    // The output from getExpandedInput has been space-condensed. Therefore we can use spaces as a proxy 
+    // for the number of arguments.
+
 
 
     return newCommand;
