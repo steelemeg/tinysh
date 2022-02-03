@@ -146,7 +146,7 @@ char* getExpandedInput() {
         // Was having an issue where the PID got appended to all PID-containing inputs.
         // Fix: Check to see if the remaining str contains any $$ before appending.
         //if (strstr(saveptr, doubleDollar)) {
-        //    strcat(expandedInput, currPid);
+        strcat(expandedInput, currPid);
         //}
         printf("remaining to process %s len %d", saveptr, strlen(saveptr));
         printf("expansion %s\n", expandedInput);
