@@ -1,5 +1,5 @@
 // Defining some items for frequent use.
-#define DELIMITER " "
+//#define DELIMITER " "
 // Your shell must support command lines with a maximum length of 2048 characters, and a maximum of 512 arguments.
 #define MAX_COMMAND 2048
 #define MAX_ARG 512
@@ -28,9 +28,10 @@ struct command* createCommand(char* userInput) {
     char* copyInput = calloc(strlen(userInput) + 1, sizeof(char));
     strcpy(copyInput, userInput);
     const char comment = '#';
+    const char space = ' ';     
 
     // The first token should be the instruction. It should also tell us if this is a blank or comment.
-    token = strtok_r(userInput, DELIMITER, &saveptr);
+    token = strtok_r(userInput, space, &saveptr);
 
     // Start the argument counter at zero
     newCommand->operandCount = argCount;
@@ -49,7 +50,9 @@ struct command* createCommand(char* userInput) {
 
     // The output from getExpandedInput has been space-condensed. Therefore we can use spaces as a proxy 
     // for the number of arguments.
-    for (argCount = 0; copyInput[argCount]; copyInput[argCount] == DELIMITER ? argCount++ : *copyInput++);
+    for (int n = 0; copyInput[n]; n++) {
+        if (copyInput[n] = space) { argCount++; }
+    }
     printf("space count %s\n", argCount);
 
 
