@@ -50,6 +50,7 @@ struct command* createCommand(char* userInput) {
 
     // The output from getExpandedInput has been space-condensed. Therefore we can use spaces as a proxy 
     // for the number of arguments.
+    printf("pre space count %s\n", argCount);
     for (int n = 0; copyInput[n]; n++) {
         if (copyInput[n] == *DELIMITER) { argCount++; }
     }
