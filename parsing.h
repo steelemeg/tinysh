@@ -131,7 +131,7 @@ char* getExpandedInput() {
         free(currPid);
         return expandedInput;
     }
-
+    printf("pid: %s\n", currPid);
     // I don't know how many tokens or how many $$s are in the input. Loop through the input until the end, building the expanded input string.
     // Basing logic off of the languages substruct from my Project 2, similar issue of needing to strtok until the token is empty
     // This has the potential to go over the max char limit after expansion. Upping the size as we go.
@@ -151,11 +151,11 @@ char* getExpandedInput() {
         printf("remaining to process %s len %d\n", saveptr, strlen(saveptr));
         printf("expansion %s\n", expandedInput);
         token = strtokStr(NULL, doubleDollar, &saveptr, currPid);
-        printf("expansion last %s\n", expandedInput);
     }
 
     free(currPid);
-    free(copyInput);
+    free(copyInput);        
+    printf("final output %s\n", expandedInput);
     return expandedInput;
 
 }
