@@ -59,6 +59,7 @@ int main(int argc, char* argv[]) {
         if (newCommand->instruction) {
             // TODO Step 1 : let's just print things ok
             execCommand(newCommand);
+            printf("\n");
         }
         keepGoing--;
     // TODO deal with child processes lurking about
