@@ -228,7 +228,7 @@ char* getExpandedInput2() {
             
         }
     }
-    printShout(expandedOutput);
+    printf("here's what we got %s\n", expandedOutput);
     return expandedOutput;
 
 }
