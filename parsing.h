@@ -52,52 +52,16 @@ struct command* createCommand(char* userInput) {
 * No other variable expansion is performed.
 * Takes the raw user input, returns expanded input.
 */
-char* expansion(char* rawInput) {
-    int rawSize = strlen(rawInput);
-    char* doubleDollar = "$$";    
-    int expandedSize = 0;
-    int partialSize = 0;
-    char* copyInput = calloc(strlen(rawInput) + 1, sizeof(char));
-    char* saveptr;
-    char* token;
-    char* expandedInput = calloc(partialSize + 1, sizeof(char));
-    pid_t pid = getpid();
+char* getExpandedInput() {
+    // Get the user's input. Per the assignment, we know that 
+    // commands will not be more than 2048 characters long.
+    char* input = calloc(MAX_COMMAND, sizeof(char));
+    // using fgets instead of getline based on project 2 testing
+    fgets(input, MAX_COMMAND, stdin);
+    // Drop the trailing newline
+    input[strcspn(input, "\n")] = 0;
+    printf("%d\n", strlen(input));
 
-    // The max possible PID is somewhere between 32768 and 2^22 per https://stackoverflow.com/questions/6294133/maximum-pid-in-linux 
-    // Formal citation in readme.
-    // Going with a max allowed of 11 to be on the safe side, adding 1 for null terminator
-    char* currPid = calloc(12, sizeof(char));
-    // Borrowing sprintf trick from Project 2
-    sprintf(currPid, "%d", pid);
-    
-    token = strtok_r(rawInput, doubleDollar, &saveptr);
-    partialSize = strlen(token);
-    
-    // So if the length of the raw input is the same as token, then $$ never appeared.
-    if (rawSize == partialSize) {
-        strcpy(expandedInput, rawInput);
-        free(copyInput);
-        return expandedInput;
-    }
-
-    // I don't know how many tokens or how many $$s are in the input. Loop through the input until the end, building the expanded input string.
-    // Basing logic off of the languages substruct from my Project 2, similar issue of needing to strtok until the token is empty
-    // This has the potential to go over the max char limit after expansion. Upping the size as we go.
-    // Flow: Token holds the input up until $$. Put token into buffer, put pid into buffer. Resize buffer. Get next token.
-    //while (token[0] != '\0') {
-        // Time for a sliding tile puzzle.  Resize the buffer. Stash the expansion in the buffer, free the expansion,
-        // resize the expansion, then bring it back. There has got to be a better way to do this.
-        // wait -- realloc?
-    expandedSize = strlen(token) + strlen(currPid);
-    expandedInput = realloc(expandedInput, expandedSize);
-    strcat(expandedInput, token);
-    strcat(expandedInput, currPid);
-        //token = strtok_r(rawInput, doubleDollar, &saveptr);        
-    //}
-
-    free(currPid);
-    free(copyInput);
-    return expandedInput;
 
     
     

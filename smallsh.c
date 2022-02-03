@@ -49,18 +49,10 @@ int main(int argc, char* argv[]) {
     while (keepGoing > 0) {
         // Mimicing the formatting of the screenshots, start each line with ":"
         printStartTerminal();
-        // Get the user's input. Per the assignment, we know that 
-        // commands will not be more than 2048 characters long.
-        char* input = calloc(MAX_COMMAND, sizeof(char));
-        // using fgets instead of getline based on project 2 testing
-        fgets(input, MAX_COMMAND, stdin);
-        // Drop the trailing newline
-        input[strcspn(input, "\n")] = 0;
 
-        // TODO something with expansion, pain, etc. Probably going to need a separate parse function for this.
-        printShout(expansion(input));
+        char* protoCommand = getExpandedInput();
         // Build a command struct from the expanded input.
-        struct command* newCommand = createCommand(input);
+        struct command* newCommand = createCommand(protoCommand);
 
         
         // If the input wasn't blank, execute the instruction 
