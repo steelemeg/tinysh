@@ -30,7 +30,7 @@ struct command* createCommand(char* userInput) {
     // Handle bad blank inputs.   
     if (token == NULL) {
         newCommand->isCommentOrBlank = true;
-        printf("done with cmd blank\n");
+        //printf("done with cmd blank\n");
         return newCommand;
     }
     
