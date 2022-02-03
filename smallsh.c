@@ -57,7 +57,9 @@ int main(int argc, char* argv[]) {
         if (newCommand->instruction) {
             // TODO Step 1 : let's just print things ok
             //executeCommand(command);
-            printShout(newCommand->instruction);
+            if (!newCommand->isComment) {
+                printShout(newCommand->instruction);
+            }
         }
         keepGoing--;
     // TODO deal with child processes lurking about
