@@ -106,7 +106,7 @@ char* getExpandedInput() {
             // If the input isn't a $, copy it straight into the output 
             if (rawInput[inputPtr] != singleDollar) {
                 // Just in case we get any inputs with multiple spaces, condense them to single spaces.
-                if (rawInput[inputPtr] == space && rawInput[inputPtr + 1] == space) { inputPtr++ }
+                if (rawInput[inputPtr] == space && rawInput[inputPtr + 1] == space) { inputPtr++; }
                 else {
                     expandedOutput[outputPtr] = rawInput[inputPtr];
                     inputPtr++;
