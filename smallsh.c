@@ -28,6 +28,7 @@
 
 #include "./parsing.h"
 #include "./printing.h"
+#include "./execute.h"
 
 
 // Basic template copied from students.c Please see readme for full citations.
