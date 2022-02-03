@@ -120,7 +120,7 @@ char* getExpandedInput() {
                 // Just in case we get any inputs with multiple spaces, condense them to single spaces.
                 if (rawInput[inputPtr] == space && rawInput[inputPtr + 1] == space) { inputPtr++; }
                 // if there is a trailing space, strip it
-                if (rawInput[inputPtr + 1] != '\0') { inputPtr++; }
+                //if (rawInput[inputPtr + 1] != '\0') { inputPtr++; }
                 else {
                     expandedOutput[outputPtr] = rawInput[inputPtr];
                     inputPtr++;
