@@ -1,0 +1,1 @@
+Stack Overflow(January 24, 2022) Removing trailing newline character from fgets() input[Example source code] https://stackoverflow.com/questions/2693776/removing-trailing-newline-character-from-fgets-input

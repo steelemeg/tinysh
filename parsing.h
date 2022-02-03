@@ -26,13 +26,15 @@ struct command* createCommand(char* userInput) {
 
     // The first token should be the instruction. It should also tell us if this is a blank or comment.
     token = strtok_r(userInput, DELIMITER, &saveptr);
-    // Handle bad inputs. Inner calloc/strcpy lifted from Project 1, if statements protect from blanks and comments.
-    if (token != NULL) {
+    // Handle bad blank inputs. 
+    if (token == NULL) { return newCommand; }
+    
+    // Inner calloc / strcpy lifted from Project 1, if statements protect from blanksand comments.
         // Originally ignored comments entirely, but this caused problems with printing the start-of-line colon. 
         newCommand->instruction = calloc(strlen(token) + 1, sizeof(char));
         strcpy(newCommand->instruction, token);
         
-    }
+  
     // Moving comment handling logic -- comments still create commands, but they'll be flagged appropriately.
     if (newCommand->instruction[0] == comment) {
         newCommand->isComment = true;
@@ -41,13 +43,3 @@ struct command* createCommand(char* userInput) {
     return newCommand;
 }
 
-/* Get raw user input */
-char* getRawInput() {
-    char* input = calloc(MAX_COMMAND, sizeof(char));
-    // using fgets instead of getline based on project 2 testing
-    fgets(input, MAX_COMMAND, stdin);
-    // Drop the trailing newline
-    input[strcspn(input, "\n")] = 0;
-    // TODO something with expansion, pain, etc
-    return input;
-}

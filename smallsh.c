@@ -47,14 +47,23 @@ int main(int argc, char* argv[]) {
     // TODO get rid of this--go three times for starters
     int keepGoing = 3;
     while (keepGoing > 0) {
-        // Mimicing the formatting of the screenshots
+        // Mimicing the formatting of the screenshots, start each line with ":"
         printStartTerminal();
-        // Get the user's input and build a command struct from it
-        char* input = getRawInput();
+        // Get the user's input. Per the assignment, we know that 
+        // commands will not be more than 2048 characters long.
+        char* input = calloc(MAX_COMMAND, sizeof(char));
+        // using fgets instead of getline based on project 2 testing
+        fgets(input, MAX_COMMAND, stdin);
+        // Drop the trailing newline
+        input[strcspn(input, "\n")] = 0;
+
+        // TODO something with expansion, pain, etc. Probably going to need a separate parse function for this.
+       
+        // Build a command struct from the expanded input.
         struct command* newCommand = createCommand(input);
 
         
-        // If the input isn't blank, execute the instruction 
+        // If the input wasn't blank, execute the instruction 
         if (newCommand->instruction) {
             // TODO Step 1 : let's just print things ok
             //executeCommand(command);
