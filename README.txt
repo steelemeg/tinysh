@@ -19,3 +19,5 @@ Geeks for Geeks (February 2, 2022) Count Occurence in Given String [Example sour
 Stack Overflow (February 2, 2022) Chdir to Home Directory [Example source code] https://stackoverflow.com/questions/9493234/chdir-to-home-directory
 
 TODO text citations page 363-364 The Current Working Directory of a Process
+
+Delft Stack [Februar 2, 2022] C Initialize Array to 0 [Example source code] https://www.delftstack.com/howto/c/c-initialize-array-to-0/

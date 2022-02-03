@@ -31,6 +31,7 @@
 #include "./execute.h"
 
 
+
 // Basic template copied from students.c Please see readme for full citations.
 // If you are not compiling with the gcc option --std=gnu99, then
 // uncomment the following line or you might get a compiler warning
@@ -47,7 +48,18 @@ int main(int argc, char* argv[]) {
     // TODO get rid of this--go three times for starters
     int keepGoing = 3;
     char* colon = ": ";
+
+    // Using a limited number of file-scope vars to keep tabs on child processes. 
+    // Status should start as zero, and is modified by foreground process changes
+    int statusFlag = 0;
+    struct child* firstChild = NULL;
+    struct child* lastChild = NULL;
+    int childNum = 0;
     
+    createChild(2);
+    createChild(3);
+    createChild(5);
+    childList(firstChild);
     while (keepGoing > 0) {
         // Mimicing the formatting of the screenshots, start each line with ":"
         printShout(colon);

@@ -12,6 +12,52 @@ struct command {
     char** operands;
 };
 
+// Opting to track child processes in a linked list.
+struct child {
+    int childPid;
+    struct child* next;
+};
+
+/*
+*  Creates a new child struct.
+*  Accepts one input, the integer pid.
+*  Returns the new struct.
+*/
+struct child* createChild(int pid) {
+    struct child* newChild = malloc(sizeof(struct child));
+    newChild->next = NULL;
+    newChild->childPid = pid;
+
+    // Is this the first node in the linked list?
+    if (firstChild == NULL) {
+        // This is the first node in the linked list
+        firstChild = newChild;
+        lastChild = newChild;
+        childNum++;
+
+    }
+    else
+    {
+        // This is not the first node.
+        lastChild->next = newChild;
+        lastChild = newChild;
+    }
+}
+
+/*
+* Print the linked list of all child processes. Included for testing purposes. Copied from Assignment 1.
+* TODO turn this into remove all eventually
+*/
+void childList(struct child* currChild)
+{
+    while (currChild != NULL)
+    {
+        printf("child id %d\n", currChild->childPid);
+        currChild = currChild->next;
+    }
+}
+
+
 
 /*
 * Accepts user input, creates a new command struct based on its contents
@@ -28,6 +74,7 @@ struct command* createCommand(char* userInput) {
     char* copyInput = calloc(strlen(userInput) + 1, sizeof(char));
     strcpy(copyInput, userInput);
     const char comment = '#';
+    int tokenLength = 0;
     // Set up a blank array to hold the inputs. We know there will be a maximum of 512 arguments.
     newCommand->operands = calloc(MAX_ARG, sizeof(char*));
 
@@ -60,7 +107,9 @@ struct command* createCommand(char* userInput) {
     // Attempt to grab the next token if there is one, then keep going until the end of the input.
     token = strtok_r(NULL, DELIMITER, &saveptr);
     while (token != NULL) {
-        printf("ok so here's the clean copy maybe %s\n", copyInput);
+        tokenLength = strlen(token);
+        // 
+
         token = strtok_r(NULL, DELIMITER, &saveptr);
     }
     return newCommand;
