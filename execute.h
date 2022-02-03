@@ -55,6 +55,7 @@ void execCommand(struct command* currCommand) {
         exit(success);
     }
     
+    else if (strcmp(currCommand->instruction, "cd") == 0) { execCd(currCommand); }
     else{ printShout(currCommand->instruction); }
 
     return;
