@@ -30,6 +30,7 @@ struct command* createCommand(char* userInput) {
     // Handle bad blank inputs.   
     if (token == NULL) {
         newCommand->isCommentOrBlank = true;
+        printf("done with cmd blank\n");
         return newCommand;
     }
     
@@ -66,7 +67,6 @@ char* getExpandedInput() {
     // Screen for blanks and comments now
     const char comment = '#';
     if (rawInput[0] == '\0' || rawInput[0] == comment) {
-        printf("done with getting blank\n");
         return rawInput;
     }
 
