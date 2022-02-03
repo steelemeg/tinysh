@@ -9,7 +9,7 @@ struct command {
     char* instruction;
     int operandCount;
     char** operands;
-    bool isComment;
+    bool isCommentOrBlank;
 };
 
 /*
@@ -26,8 +26,11 @@ struct command* createCommand(char* userInput) {
 
     // The first token should be the instruction. It should also tell us if this is a blank or comment.
     token = strtok_r(userInput, DELIMITER, &saveptr);
-    // Handle bad blank inputs. 
-    if (token == NULL) { return newCommand; }
+    // Handle bad blank inputs.   
+    if (token == NULL) {
+        newCommand->isCommentOrBlank = true;
+        return newCommand;
+    }
     
     // Inner calloc / strcpy lifted from Project 1, if statements protect from blanksand comments.
         // Originally ignored comments entirely, but this caused problems with printing the start-of-line colon. 
@@ -37,9 +40,9 @@ struct command* createCommand(char* userInput) {
   
     // Moving comment handling logic -- comments still create commands, but they'll be flagged appropriately.
     if (newCommand->instruction[0] == comment) {
-        newCommand->isComment = true;
+        newCommand->isCommentOrBlank = true;
     }
-    else { newCommand->isComment = false; }
+    else { newCommand->isCommentOrBlank = false; }
     return newCommand;
 }
 
