@@ -103,6 +103,7 @@ char* getExpandedInput() {
         
         strcat(expandedInput, token);
         strcat(expandedInput, currPid);
+        printf("expansion %s", expandedInput);
             //token = strtok_r(rawInput, doubleDollar, &saveptr);        
     //}
 
