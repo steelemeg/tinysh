@@ -60,7 +60,7 @@ char* expansion(char* rawInput) {
     char* copyInput = calloc(strlen(rawInput) + 1, sizeof(char));
     char* saveptr;
     char* token;
-    char* expandedInput = calloc(strlen(partialSize) + 1, sizeof(char));
+    char* expandedInput = calloc(partialSize + 1, sizeof(char));
     pid_t pid = getpid();
 
     // The max possible PID is somewhere between 32768 and 2^22 per https://stackoverflow.com/questions/6294133/maximum-pid-in-linux 
@@ -88,14 +88,14 @@ char* expansion(char* rawInput) {
         // Time for a sliding tile puzzle.  Resize the buffer. Stash the expansion in the buffer, free the expansion,
         // resize the expansion, then bring it back. There has got to be a better way to do this.
         // wait -- realloc?
-        expandedSize = strlen(token) + strlen(currPid);
-        expandedInput = realloc(expandedInput, expandedSize);
-        strcpy(expandedInput, token);
-        strcat(expandedInput, currPid);
+    expandedSize = strlen(token) + strlen(currPid);
+    expandedInput = realloc(expandedInput, expandedSize);
+    strcpy(expandedInput, token);
+    strcat(expandedInput, currPid);
         //token = strtok_r(rawInput, doubleDollar, &saveptr);        
     //}
 
-    free currPid;
+    free(currPid);
     free(copyInput);
     return expandedInput;
 
