@@ -148,7 +148,7 @@ char* getExpandedInput() {
         //if (strstr(saveptr, doubleDollar)) {
         //strcat(expandedInput, currPid);
         //}
-        printf("remaining to process %s len %d", saveptr, strlen(saveptr));
+        printf("remaining to process %s len %d\n", saveptr, strlen(saveptr));
         printf("expansion %s\n", expandedInput);
         token = strtokStr(NULL, doubleDollar, &saveptr, currPid);
         printf("expansion last %s\n", expandedInput);
