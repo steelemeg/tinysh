@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
             printf("\n");
         }
         keepGoing--;
-    // TODO deal with child processes lurking about
+    // TODO deal with child processes lurking about -- maybe in the exit
     }
 
     return EXIT_SUCCESS;

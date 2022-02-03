@@ -9,3 +9,5 @@ Stack Overflow (February 2, 2022) Maximum PID in Linux [Documentation] https://s
 OSU CS344 (February 2, 2022) Exploration: Signal Handling (Example Code Handlers for SIGINT, SIGUSR2, and Ignoring SIGTERM, etc. [Example Source Code] https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api
 
 Malmstein, Robert (February 2, 2022) This is the Story of a Shell [Theory and example source code] https://medium.com/@romalms10/this-is-the-story-of-a-shell-73686729a650
+
+Ed Discussion (February 1, 2022) Exit Function [Assignment clarification] https://edstem.org/us/courses/16718/discussion/1064594

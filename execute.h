@@ -6,6 +6,10 @@
 *  Kills any child processes or jobs.
 */
 void execExit() {
+    // Per Ed #351 (formal citation in the readme)
+    // Walk through the array of child PIDs. Kill them if they are running.
+
+    // Call the build in shell exit with the status flag
 
 }
 
@@ -19,8 +23,9 @@ void execCommand(struct command* currCommand) {
         //pass
     }
     // actual commands
-    else { printShout(currCommand->instruction); }
-
+    else if (strcmp(currCommand->instruction, "exit" == 0)) { execExit(); }
+    
+    else{ printShout(currCommand->instruction); }
 
     return;
 }
