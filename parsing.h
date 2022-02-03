@@ -99,14 +99,19 @@ char* getExpandedInput() {
         int inputPtr = 0;
         int outputPtr = 0;
         const char singleDollar = '$';
+        const char space = ' ';
         bool firstDollarFound = false;
 
         while (rawInput[inputPtr] != '\0') {
             // If the input isn't a $, copy it straight into the output 
             if (rawInput[inputPtr] != singleDollar) {
-                expandedOutput[outputPtr] = rawInput[inputPtr];
-                inputPtr++;
-                outputPtr++;
+                // Just in case we get any inputs with multiple spaces, condense them to single spaces.
+                if (rawInput[inputPtr] == space && rawInput[inputPtr + 1] == space) { inputPtr++ }
+                else {
+                    expandedOutput[outputPtr] = rawInput[inputPtr];
+                    inputPtr++;
+                    outputPtr++;
+                }
             }
             // If a $ is located, is the next character also $? If not, just keep the $ and move on.
             else if (rawInput[inputPtr] == singleDollar && (rawInput[inputPtr + 1] != singleDollar)) {
