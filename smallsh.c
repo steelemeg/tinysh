@@ -26,6 +26,13 @@
 #include <fcntl.h>
 #include <errno.h>
 
+// Using a limited number of file-scope vars to keep tabs on child processes. 
+// Status should start as zero, and is modified by foreground process changes
+int statusFlag = 0;
+struct child* firstChild = NULL;
+struct child* lastChild = NULL;
+int childNum = 0;
+
 #include "./printing.h"
 #include "./parsing.h"
 #include "./execute.h"
@@ -49,12 +56,7 @@ int main(int argc, char* argv[]) {
     int keepGoing = 3;
     char* colon = ": ";
 
-    // Using a limited number of file-scope vars to keep tabs on child processes. 
-    // Status should start as zero, and is modified by foreground process changes
-    int statusFlag = 0;
-    struct child* firstChild = NULL;
-    struct child* lastChild = NULL;
-    int childNum = 0;
+
     
     createChild(2);
     createChild(3);
