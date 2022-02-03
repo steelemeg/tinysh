@@ -12,6 +12,7 @@ struct command {
     char** operands;
 };
 
+
 /*
 * Accepts user input, creates a new command struct based on its contents
 * Accepts blanks and comments based on the spec, but flags them for later ignoring.
@@ -22,6 +23,7 @@ struct command {
 struct command* createCommand(char* userInput) {
     char* saveptr;
     char* token;
+    int argCount = 0;
     struct command* newCommand = malloc(sizeof(struct command));
     char* copyInput = calloc(strlen(userInput) + 1, sizeof(char));
     strcpy(copyInput, userInput);
@@ -29,21 +31,26 @@ struct command* createCommand(char* userInput) {
 
     // The first token should be the instruction. It should also tell us if this is a blank or comment.
     token = strtok_r(userInput, DELIMITER, &saveptr);
+
+    // Start the argument counter at zero
+    newCommand->operandCount = argCount;
+
     // Handle blank or commented inputs.   
     if (token == NULL || token[0] == comment) {
         newCommand->isCommentOrBlank = true;
-        newCommand->operandCount = 0;
         return newCommand;
     }
     else { newCommand->isCommentOrBlank = false; }
     
-    // Inner calloc / strcpy lifted from Project 1, if statements protect from blanksand comments.
+    // Inner calloc / strcpy based on Project 1, if statements protect from blanks and comments.
     // Originally ignored comments entirely, but this caused problems with printing the start-of-line colon. 
     newCommand->instruction = calloc(strlen(token) + 1, sizeof(char));
     strcpy(newCommand->instruction, token);
 
     // The output from getExpandedInput has been space-condensed. Therefore we can use spaces as a proxy 
     // for the number of arguments.
+    for (argCount = 0; copyInput[argCount]; copyInput[argCount] == DELIMITER ? argCount++ : *copyInput++);
+    printf("space count %s\n", argCount);
 
 
 
