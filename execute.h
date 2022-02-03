@@ -16,6 +16,7 @@ int killChildProcesses() {
 *  Used to change the current working directory 
 *  Accepts one parameter, a command struct, which allows us to get the relevant operands.
 *  If no target directory is provided, goes to user home.
+*  Based on my admittedly limited understanding of chdir, it supports relative and absolute paths natively.
 */
 void execCd(struct command* currCommand) {
     // handle the command with no argument
@@ -34,6 +35,18 @@ void execCd(struct command* currCommand) {
     return;
 }
 
+/*
+*  TODO
+*/
+void execStatus(struct command* currCommand) {
+}
+
+/*
+*  TODO
+*  
+*/
+void execLibrary(struct command* currCommand) {
+}
 /*
 * Executes instruction with arguments in the shell. 
 * Accepts a command struct containing parameters

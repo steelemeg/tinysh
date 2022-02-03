@@ -17,3 +17,5 @@ Tutorials Point (February 1, 2022) C Library function - exit() [Example source c
 Geeks for Geeks (February 2, 2022) Count Occurence in Given String [Example source code] https://www.geeksforgeeks.org/program-count-occurrence-given-character-string/
 
 Stack Overflow (February 2, 2022) Chdir to Home Directory [Example source code] https://stackoverflow.com/questions/9493234/chdir-to-home-directory
+
+TODO text citations page 363-364 The Current Working Directory of a Process

@@ -23,17 +23,19 @@ struct command {
 struct command* createCommand(char* userInput) {
     char* saveptr;
     char* token;
-    int argCount = 0;
+    int operandCounter = 0;
     struct command* newCommand = malloc(sizeof(struct command));
     char* copyInput = calloc(strlen(userInput) + 1, sizeof(char));
     strcpy(copyInput, userInput);
-    const char comment = '#';    
+    const char comment = '#';
+    // Set up a blank array to hold the inputs. We know there will be a maximum of 512 arguments.
+    newCommand->operands = calloc(MAX_ARG, sizeof(char*));
 
     // The first token should be the instruction. It should also tell us if this is a blank or comment.
     token = strtok_r(userInput, DELIMITER, &saveptr);
 
     // Start the argument counter at zero
-    newCommand->operandCount = argCount;
+    newCommand->operandCount = operandCounter;
 
     // Handle blank or commented inputs.   
     if (token == NULL || token[0] == comment) {
@@ -43,7 +45,7 @@ struct command* createCommand(char* userInput) {
     else { newCommand->isCommentOrBlank = false; }
     
     // Inner calloc / strcpy based on Project 1, if statements protect from blanks and comments.
-    // Originally ignored comments entirely, but this caused problems with printing the start-of-line colon. 
+    // Originally ignored comments entirely, but this caused problems with printing the start-of-line colon reliably. 
     newCommand->instruction = calloc(strlen(token) + 1, sizeof(char));
     strcpy(newCommand->instruction, token);
 
@@ -51,10 +53,16 @@ struct command* createCommand(char* userInput) {
     // for the number of arguments. Idea from https://www.geeksforgeeks.org/program-count-occurrence-given-character-string ,
     // formal citation in the readme
     for (int n = 0; copyInput[n]; n++) {
-        if (copyInput[n] == *DELIMITER) { argCount++; }
+        if (copyInput[n] == *DELIMITER) { operandCounter++; }
     }
-    newCommand->operandCount += argCount;
-    
+    newCommand->operandCount += operandCounter;
+
+    // Attempt to grab the next token if there is one, then keep going until the end of the input.
+    token = strtok_r(NULL, DELIMITER, &saveptr);
+    while (token != NULL) {
+        printShout("ok so here's the clean copy maybe %s\n", copyInput);
+        token = strtok_r(NULL, DELIMITER, &saveptr);
+    }
     return newCommand;
 }
 
