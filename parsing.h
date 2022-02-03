@@ -66,6 +66,7 @@ char* getExpandedInput() {
     // Screen for blanks and comments now
     const char comment = '#';
     if (rawInput[0] == '\0' || rawInput[0] == comment) {
+        printf("done with getting blank\n");
         return rawInput;
     }
 
@@ -126,6 +127,5 @@ char* getExpandedInput() {
         }
     }
     free(rawInput);
-    printf("done with getting\n");
     return expandedOutput;
 }
