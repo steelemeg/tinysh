@@ -26,7 +26,7 @@ void execCd(struct command* currCommand) {
     else {
         // Try to change the current directory to the specified path
         // First make sure it exists.
-        if (chdir(currCommand->operands[0] == -1)) { printShout("No such file or directory."); }
+        if (chdir(currCommand->operands[0]) == -1) { printShout("No such file or directory."); }
         // If it exists, chdir into it.
         else { chdir(currCommand->operands[0]); }
     }
