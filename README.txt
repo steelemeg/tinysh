@@ -1,1 +1,9 @@
+
+
+Brewster, Benjamin (January 31, 2022) 3.1 Process [Video lecture] https://www.youtube.com/watch?v=1R9h-H2UnLs
+
 Stack Overflow(January 24, 2022) Removing trailing newline character from fgets() input[Example source code] https://stackoverflow.com/questions/2693776/removing-trailing-newline-character-from-fgets-input
+
+Stack Overflow (February 2, 2022) Maximum PID in Linux [Documentation] https://stackoverflow.com/questions/6294133/maximum-pid-in-linux 
+
+OSU CS344 (February 2, 2022) Exploration: Signal Handling (Example Code Handlers for SIGINT, SIGUSR2, and Ignoring SIGTERM, etc. [Example Source Code] https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api

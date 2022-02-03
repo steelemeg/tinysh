@@ -14,7 +14,8 @@ struct command {
 
 /*
 * Accepts user input, creates a new command struct based on its contents
-* Structure originally based on project 1 createMovie.
+* Accepts blanks and comments based on the spec, but flags them for later ignoring.
+* Structure originally based on project 1 createMovie, draws heavily from strtok and strcpy usage there.
 */
 struct command* createCommand(char* userInput) {
     char* saveptr;
@@ -46,3 +47,45 @@ struct command* createCommand(char* userInput) {
     return newCommand;
 }
 
+/*
+*  Per the project guide, expand any instance of "$$" in a command into the process ID of the smallsh itself.
+* No other variable expansion is performed.
+* Takes the raw user input, returns expanded input.
+*/
+char* expansion(char* rawInput) {
+    int rawSize = strlen(rawInput);
+    char* doubleDollar = "$$";    
+    int expandedSize = 0;
+    int partialSize = 0;
+    char* copyInput = calloc(strlen(rawInput) + 1, sizeof(char));
+    char* expandedInput = calloc(strlen(rawInput) + 1, sizeof(char));
+    char* saveptr;
+    char* token;
+
+    token = strtok_r(rawInput, doubleDollar, &saveptr);
+    partialSize = strlen(token);
+
+    // So if the length of the raw input is the same as token, then $$ never appeared.
+    if (rawSize == partialSize) {
+        strcpy(expandedInput, rawInput);
+        return expandedInput;
+    }
+
+    // Otherwise, we need to plug in the PID for all instances of $$, and I'm assuming there can be more than once.
+    // The max possible PID is somewhere between 32768 and 2^22 per https://stackoverflow.com/questions/6294133/maximum-pid-in-linux 
+    // Formal citation in readme.
+    // Going with a max allowed of 11 to be on the safe side, adding 1 for null terminator
+    char* currPid = calloc(12, sizeof(char));
+    pid_t pid = getpid();
+    printf("pid: %d\n", pid);
+    // Borrowing sprintf trick from Project 2
+    sprintf(currPid, "%d", pid);
+
+    print("first bit: %s\n", token)
+    return expandedInput;
+
+    
+    
+
+
+}
