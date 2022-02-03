@@ -5,13 +5,15 @@
 *  Accepts no arguments. 
 *  Kills any child processes or jobs.
 */
-void execExit() {
+int execExit() {
     // Per Ed #351 (formal citation in the readme)
     // TODO Walk through the array of child PIDs. Kill them if they are running.
 
-    // Call the built-in shell exit with the status flag
-    //exit(EXIT_SUCCESS);
-    return EXIT_SUCCESS;
+    // Need to use the built-in exit command unlike previous projects where we just did a "return EXIT_SUCCESS"
+    // Kill parent process to break the calling function's while loop. 
+    //https://www.tutorialspoint.com/c_standard_library/c_function_exit.htm formal citation in readme
+    exit(EXIT_SUCCESS);
+    return(EXIT_SUCCESS);
 }
 
 /*
@@ -24,7 +26,7 @@ void execCommand(struct command* currCommand) {
         //pass
     }
     // actual commands
-    else if (strcmp(currCommand->instruction, "exit") == 0) { execExit(); }
+    else if (strcmp(currCommand->instruction, "exit") == 0) { return execExit(); }
     
     else{ printShout(currCommand->instruction); }
 
