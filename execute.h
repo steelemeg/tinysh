@@ -12,7 +12,10 @@ int killChildProcesses() {
 }
 
 /*
-* Executes instruction with arguments in the shell. Accepts a command struct containing parametersn
+* Executes instruction with arguments in the shell. 
+* Accepts a command struct containing parameters
+* Calls the appropriate function based on the instruction and arguments in the command struct.
+* Returns no values.
 */
 void execCommand(struct command* currCommand) {
 

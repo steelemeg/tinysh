@@ -7,15 +7,17 @@
 // As recommended in the assignment, creating a struct to hold commands and their possible parameters.
 struct command {
     char* instruction;
+    bool isCommentOrBlank;
     int operandCount;
     char** operands;
-    bool isCommentOrBlank;
 };
 
 /*
 * Accepts user input, creates a new command struct based on its contents
 * Accepts blanks and comments based on the spec, but flags them for later ignoring.
 * Structure originally based on project 1 createMovie, draws heavily from strtok and strcpy usage there.
+* Per the specs, quoting is not supported and arguments with spaces inside them are not possible.
+* Therefore, using space as the delimiter. 
 */
 struct command* createCommand(char* userInput) {
     char* saveptr;
@@ -34,9 +36,9 @@ struct command* createCommand(char* userInput) {
     }
     
     // Inner calloc / strcpy lifted from Project 1, if statements protect from blanksand comments.
-        // Originally ignored comments entirely, but this caused problems with printing the start-of-line colon. 
-        newCommand->instruction = calloc(strlen(token) + 1, sizeof(char));
-        strcpy(newCommand->instruction, token);
+    // Originally ignored comments entirely, but this caused problems with printing the start-of-line colon. 
+    newCommand->instruction = calloc(strlen(token) + 1, sizeof(char));
+    strcpy(newCommand->instruction, token);
         
   
     // Moving comment handling logic -- comments still create commands, but they'll be flagged appropriately.
@@ -44,6 +46,8 @@ struct command* createCommand(char* userInput) {
         newCommand->isCommentOrBlank = true;
     }
     else { newCommand->isCommentOrBlank = false; }
+
+
     return newCommand;
 }
 
@@ -126,5 +130,6 @@ char* getExpandedInput() {
         }
     }
     free(rawInput);
+    printf("%s\n", expandedOutput);
     return expandedOutput;
 }
