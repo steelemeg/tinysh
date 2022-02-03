@@ -24,8 +24,11 @@ void execCd(struct command* currCommand) {
         chdir(getenv("HOME"));
     }
     else {
-        // change the current directory to the specified path
-        chdir(commandLine->args[0]);
+        // Try to change the current directory to the specified path
+        // First make sure it exists.
+        if (chdir(command->operands[0] == -1)) { printShout("No such file or directory."); }
+        // If it exists, chdir into it.
+        else { chdir(command->operands[0]); }
     }
 
     return;
