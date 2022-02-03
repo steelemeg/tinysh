@@ -1,6 +1,6 @@
 
 /*
-* Prints a specified string to the terminal
+* Prints a specified string out to the shell. SHOUT IT OUT
 * Be sure you flush out the output buffers each time you print!
 */
 void printShout(const char* printTarget) {
