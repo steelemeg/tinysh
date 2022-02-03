@@ -125,6 +125,6 @@ char* getExpandedInput() {
             }            
         }
     }
-    free rawInput;
+    free(rawInput);
     return expandedOutput;
 }
