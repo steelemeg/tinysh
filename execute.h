@@ -6,7 +6,7 @@
 void execCommand(struct command* currCommand) {
 
     // Comments mean we should do nothing! 
-    if (currCommand->isComment) {
+    if (currCommand->isCommentOrBlank) {
         //pass
         printShout("I'm a comment aaaaa");
 
