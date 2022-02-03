@@ -66,17 +66,6 @@ struct command* createCommand(char* userInput) {
     return newCommand;
 }
 
-/*
-* Prints a specified string to the terminal
-* Be sure you flush out the output buffers each time you print!
-*/
-void printText(const char* printTarget) {
-    printf("%s", printTarget);
-    fflush(NULL);
-
-    return;
-}
-
 /* Get raw user input */
 char* getRawInput() {
     char* input = calloc(MAX_COMMAND, sizeof(char));
