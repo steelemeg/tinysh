@@ -51,7 +51,7 @@ struct command* createCommand(char* userInput) {
 * Expansion was hitting issues because strtok_r only accepted one delimiter, not a delimiter string.
 * Rework of strtok_r to allow string delimiter.
 */
-char* strtokStr(char* input, char* delimiter, char** savePtr)
+char* strtokStr(char* input, char* delimiter, char** savePtr, char* currPid)
 {
     char* end;
     if (input == NULL)
@@ -75,7 +75,7 @@ char* strtokStr(char* input, char* delimiter, char** savePtr)
     // Learn from project 2 and memset the token. Manually move the pointer past the end.
     memset(end, 0, strlen(delimiter));
     *savePtr = end + strlen(delimiter);
-    return input;
+    return strcat(input, currPid);
 }
 
 
@@ -146,11 +146,11 @@ char* getExpandedInput() {
         // Was having an issue where the PID got appended to all PID-containing inputs.
         // Fix: Check to see if the remaining str contains any $$ before appending.
         //if (strstr(saveptr, doubleDollar)) {
-        strcat(expandedInput, currPid);
+        //strcat(expandedInput, currPid);
         //}
         printf("remaining to process %s len %d", saveptr, strlen(saveptr));
         printf("expansion %s\n", expandedInput);
-        token = strtokStr(NULL, doubleDollar, &saveptr);
+        token = strtokStr(NULL, doubleDollar, &saveptr, currPid);
         printf("expansion last %s\n", expandedInput);
     }
 
