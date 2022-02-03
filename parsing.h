@@ -111,7 +111,11 @@ char* getExpandedInput() {
         
         // Tack on the token and, if relevant, the PID
         strcat(expandedInput, token);
-        strcat(expandedInput, currPid);
+        // Was having an issue where the PID got appended to all PID-containing inputs.
+        // Fix: Check to see if the remaining str contains any $$ before appending.
+        if (strstr(token, doubleDollar)) {
+            strcat(expandedInput, currPid);
+        }
         printf("expansion %s\n", expandedInput);
         token = strtok_r(NULL, doubleDollar, &saveptr);        
         printf("expansion last %s\n", expandedInput);
