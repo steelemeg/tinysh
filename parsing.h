@@ -99,7 +99,7 @@ char* expansion(char* rawInput) {
         // resize the expansion, then bring it back. There has got to be a better way to do this.
         // wait -- realloc?
         expandedSize = strlen(expandedInput);
-        realloc(expandedInput, expandedSize + strlen(currPid));
+        expandedInput = realloc(expandedInput, expandedSize + strlen(currPid));
         strcat(expandedInput, currPid);
         token = strtok_r(rawInput, doubleDollar, &saveptr);        
     }
