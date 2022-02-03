@@ -27,8 +27,7 @@ struct command* createCommand(char* userInput) {
     struct command* newCommand = malloc(sizeof(struct command));
     char* copyInput = calloc(strlen(userInput) + 1, sizeof(char));
     strcpy(copyInput, userInput);
-    const char comment = '#';
-    const char space = ' ';     
+    const char comment = '#';    
 
     // The first token should be the instruction. It should also tell us if this is a blank or comment.
     token = strtok_r(userInput, DELIMITER, &saveptr);
@@ -52,7 +51,6 @@ struct command* createCommand(char* userInput) {
     // for the number of arguments.
     printf("pre space count %d\n", argCount);
     for (int n = 0; copyInput[n]; n++) {
-        printf("in loop\n");
         if (copyInput[n] == *DELIMITER) { argCount++; }
     }
     printf("space count %d\n", argCount);
@@ -114,10 +112,15 @@ char* getExpandedInput() {
         bool firstDollarFound = false;
 
         while (rawInput[inputPtr] != '\0') {
+            // if there is a leading space, strip it
+            if (outputPtr == 0 && rawInput[inputPtr] == space) { inputPtr++; }
+            
             // If the input isn't a $, copy it straight into the output 
-            if (rawInput[inputPtr] != singleDollar) {
+            else if (rawInput[inputPtr] != singleDollar) {
                 // Just in case we get any inputs with multiple spaces, condense them to single spaces.
                 if (rawInput[inputPtr] == space && rawInput[inputPtr + 1] == space) { inputPtr++; }
+                // if there is a trailing space, strip it
+                if (rawInput[inputPtr + 1] != '\0') { inputPtr++; }
                 else {
                     expandedOutput[outputPtr] = rawInput[inputPtr];
                     inputPtr++;
