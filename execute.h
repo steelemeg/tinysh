@@ -7,10 +7,11 @@
 */
 void execExit() {
     // Per Ed #351 (formal citation in the readme)
-    // Walk through the array of child PIDs. Kill them if they are running.
+    // TODO Walk through the array of child PIDs. Kill them if they are running.
 
-    // Call the build in shell exit with the status flag
-    exit(EXIT_SUCCESS);
+    // Call the built-in shell exit with the status flag
+    //exit(EXIT_SUCCESS);
+    return EXIT_SUCCESS;
 }
 
 /*
