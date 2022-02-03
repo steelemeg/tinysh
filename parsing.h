@@ -33,6 +33,11 @@ struct command* createCommand(char* userInput) {
         strcpy(newCommand->instruction, token);
         
     }
+    // Moving comment handling logic -- comments still create commands, but they'll be flagged appropriately.
+    if (newCommand->instruction[0] == comment) {
+        newCommand->isComment = true;
+    }
+    else { newCommand->isComment = false; }
     return newCommand;
 }
 

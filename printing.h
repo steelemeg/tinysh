@@ -3,7 +3,7 @@
 * Prints a specified string to the terminal
 * Be sure you flush out the output buffers each time you print!
 */
-void printText(const char* printTarget) {
+void printShout(const char* printTarget) {
     printf("%s", printTarget);
     fflush(NULL);
 
@@ -16,7 +16,7 @@ void printText(const char* printTarget) {
 */
 void printStartTerminal() {
     char* colon = ": ";
-    printText(colon);
+    printShout(colon);
 
     return;
 }
