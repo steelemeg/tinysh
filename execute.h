@@ -10,7 +10,7 @@ void execExit() {
     // Walk through the array of child PIDs. Kill them if they are running.
 
     // Call the build in shell exit with the status flag
-
+    exit(EXIT_SUCCESS);
 }
 
 /*
