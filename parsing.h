@@ -90,7 +90,7 @@ char* expansion(char* rawInput) {
         // wait -- realloc?
     expandedSize = strlen(token) + strlen(currPid);
     expandedInput = realloc(expandedInput, expandedSize);
-    strcpy(expandedInput, token);
+    strcat(expandedInput, token);
     strcat(expandedInput, currPid);
         //token = strtok_r(rawInput, doubleDollar, &saveptr);        
     //}
