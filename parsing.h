@@ -27,35 +27,10 @@ struct child* createChild(struct child** first, int pid) {
     struct child* newChild = malloc(sizeof(struct child));
     newChild->next = *first;
     newChild->childPid = pid;
-    *first = newChild;
-
-    
+    *first = newChild;   
 }
 
-/*
-*  Removes a child struct from the linked list.
-*  Accepts one input, the integer pid.
-*  Returns a bool indicating success or failure of the removal.
-*/
-bool removeChild(int pid) {
-    // Track the previous and next nodes to snip out the target
-    currChild = firstChild;
-    prevChild = NULL;
-    nextChild = firstChild->next;
 
-    while (currChild != NULL)
-    {
-        nextChild = currChild->next;
-        if (currChild->childPid == pid){
-            if (currChild == firstChild) { firstChild = currChild->next; }
-            // Reroute the previous node linkage to the next node 
-            if (prevChild != NULL) { prevChild->next = currChild->next; }
-            
-        }
-        prevChild = currChild;
-        currChild = currChild->next;
-    }
-}
 
 /*
 * Print the linked list of all child processes. Included for testing purposes. Copied from Assignment 1.
