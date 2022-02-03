@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
     
     while (keepGoing > 0) {
         // Mimicing the formatting of the screenshots, start each line with ":"
-        pprintShout(colon);
+        printShout(colon);
 
         char* protoCommand = getExpandedInput();
         // Build a command struct from the expanded input.
