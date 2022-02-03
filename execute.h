@@ -23,7 +23,7 @@ void execCommand(struct command* currCommand) {
         //pass
     }
     // actual commands
-    else if (strcmp(currCommand->instruction, "exit" == 0)) { execExit(); }
+    else if (strcmp(currCommand->instruction, "exit") == 0) { execExit(); }
     
     else{ printShout(currCommand->instruction); }
 
