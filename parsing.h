@@ -60,7 +60,7 @@ struct command* createCommand(char* userInput) {
     // Attempt to grab the next token if there is one, then keep going until the end of the input.
     token = strtok_r(NULL, DELIMITER, &saveptr);
     while (token != NULL) {
-        printShout("ok so here's the clean copy maybe %s\n", copyInput);
+        printf("ok so here's the clean copy maybe %s\n", copyInput);
         token = strtok_r(NULL, DELIMITER, &saveptr);
     }
     return newCommand;
