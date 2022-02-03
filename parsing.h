@@ -1,32 +1,3 @@
-/* Author:					Megan Steele
-* Last Modified:			02/05/2022
-* OSU email address:		marshmeg@oregonstate.edu
-* Course number/section:    CS344 Section 405
-* Project Number:			3 (smallsh)
-* Due Date:					02/07/2022
-* Description:				This program reads in a specified csv, creates a subfolder, and populates it with files based on the contents
-*                           of the specified csv. Note: Submitted second copy in revision period. Appropriate comment left on Canvas.
-*/
-
-// Basic template copied from students.c Please see readme for full citations.
-// If you are not compiling with the gcc option --std=gnu99, then
-// uncomment the following line or you might get a compiler warning
-//#define _GNU_SOURCE
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <time.h>
-#include <dirent.h>
-#include <unistd.h>
-#include <signal.h>
-#include <fcntl.h>
-#include <errno.h>
-
 // Defining some items for frequent use.
 #define DELIMITER " "
 // Your shell must support command lines with a maximum length of 2048 characters, and a maximum of 512 arguments.
@@ -57,11 +28,10 @@ struct command* createCommand(char* userInput) {
     token = strtok_r(userInput, DELIMITER, &saveptr);
     // Handle bad inputs. Inner calloc/strcpy lifted from Project 1, if statements protect from blanks and comments.
     if (token != NULL) {
-        // Ignore comments
-        if (token[0] != comment) {
-            newCommand->instruction = calloc(strlen(token) + 1, sizeof(char));
-            strcpy(newCommand->instruction, token);
-        }
+        // Originally ignored comments entirely, but this caused problems with printing the start-of-line colon. 
+        newCommand->instruction = calloc(strlen(token) + 1, sizeof(char));
+        strcpy(newCommand->instruction, token);
+        
     }
     return newCommand;
 }
