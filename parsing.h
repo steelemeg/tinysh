@@ -126,5 +126,6 @@ char* getExpandedInput() {
         }
     }
     free(rawInput);
+    printf("done with getting\n");
     return expandedOutput;
 }
