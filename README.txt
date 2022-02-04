@@ -6,6 +6,8 @@ Stack Overflow(January 24, 2022) Removing trailing newline character from fgets(
 
 Stack Overflow (February 2, 2022) Maximum PID in Linux [Documentation] https://stackoverflow.com/questions/6294133/maximum-pid-in-linux 
 
+Klitzke, Evan (February 2, 2022) Path MAX is tricky [Documentation] https://eklitzke.org/path-max-is-tricky
+
 OSU CS344 (February 2, 2022) Exploration: Signal Handling (Example Code Handlers for SIGINT, SIGUSR2, and Ignoring SIGTERM, etc. [Example Source Code] https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api
 
 Malmstein, Robert (February 2, 2022) This is the Story of a Shell [Theory and example source code] https://medium.com/@romalms10/this-is-the-story-of-a-shell-73686729a650
@@ -23,3 +25,5 @@ TODO text citations page 363-364 The Current Working Directory of a Process
 Delft Stack [February 2, 2022] C Initialize Array to 0 [Example source code] https://www.delftstack.com/howto/c/c-initialize-array-to-0/
 
 Geeks for Geeks [February 2, 2022] Linked List Set 3 Deleting Node [Exampel source code] https://www.geeksforgeeks.org/linked-list-set-3-deleting-node/
+
+Code Vault [February 1, 2022] Redirecting Standard Output in C [Example source code] https://www.youtube.com/watch?v=5fnVr-zH-SE

@@ -1,8 +1,3 @@
-// Defining some items for frequent use.
-#define DELIMITER " "
-// Your shell must support command lines with a maximum length of 2048 characters, and a maximum of 512 arguments.
-#define MAX_COMMAND 2048
-#define MAX_ARG 512
 
 // As recommended in the assignment, creating a struct to hold commands and their possible parameters.
 struct command {
