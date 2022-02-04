@@ -32,15 +32,17 @@ int statusFlag = 0;
 struct child* firstChild = NULL;
 int childNum = 0;
 
-#include "./printing.h"
-#include "./parsing.h"
-#include "./execute.h"
-
 // Defining some items for frequent use.
 #define DELIMITER " "
 // Your shell must support command lines with a maximum length of 2048 characters, and a maximum of 512 arguments.
 #define MAX_COMMAND 2048
 #define MAX_ARG 512
+
+#include "./printing.h"
+#include "./parsing.h"
+#include "./execute.h"
+
+
 
 // Basic template copied from students.c Please see readme for full citations.
 // If you are not compiling with the gcc option --std=gnu99, then
