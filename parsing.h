@@ -130,6 +130,7 @@ struct command* createCommand(char* userInput) {
     token = strtok_r(NULL, DELIMITER, &saveptr);
     while (token != NULL) {
         isOperand = true;
+        printf("open op check %d\n", operandCounter);
         int countdown = operandCounter;
         tokenLength = strlen(token);
         // Look for special characters that indicate &, redirection, or adjacent commands
@@ -148,7 +149,7 @@ struct command* createCommand(char* userInput) {
         token = strtok_r(NULL, DELIMITER, &saveptr);
         // Count down the number of args processed
         operandCounter--;
-        printf("op check %d\n", operandCounter);
+        printf("close op check %d\n", operandCounter);
     }
     return newCommand;
 }
