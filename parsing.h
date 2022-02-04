@@ -142,6 +142,7 @@ struct command* createCommand(char* userInput) {
         if (token == AMPERSAND && operandCounter==newCommand->operandCount){
             jobControl = true;
             newCommand->backgroundJob = true;
+            printf("YES");
         }
 
         token = strtok_r(NULL, DELIMITER, &saveptr);
