@@ -42,9 +42,9 @@ bool backgroundFlag = false;
 #define RIGHT_ARROW ">"
 #define AMPERSAND "&"
 
-
 #include "./printing.h"
 #include "./parsing.h"
+#include "./utility.h"
 #include "./execute.h"
 
 

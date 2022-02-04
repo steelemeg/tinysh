@@ -7,11 +7,15 @@ struct command {
     int tokenCount;
     int operandCount;
     char** operands;
+    bool redirectInput;
+    bool redirectOutput;
     char* inputSource;
     char* outputTarget;
 };
 
-// Opting to track child processes in a linked list.
+// Opting to track child processes in a linked list. Completed this section before finding 
+// out from Ed post #396 that we could assume a max of 200 processes. Sticking with linked list
+// since it seems to be working and potentially more flexible than an array.
 struct child {
     int childPid;
     struct child* next;
@@ -20,7 +24,8 @@ struct child {
 /*
 *  Creates a new child struct.
 *  Accepts one input, the integer pid.
-*  Returns the new struct.
+*  Initializes the struct, sets first and next accordingly.
+*  Returns no values.
 */
 void createChild(struct child** first, int pid) {
     struct child* newChild = (struct child*)malloc(sizeof(struct child));
@@ -63,7 +68,8 @@ bool removeChild(struct child** first, int pid) {
 }
 
 /*
-* Print the linked list of all child processes. Included for testing purposes. Copied from Assignment 1.
+* Print the linked list of all child processes. Included for testing purposes. 
+* Structure of function copied from Assignment 1.
 * Accepts a child node that is used as the head.
 * Returns no values.
 */
@@ -80,6 +86,7 @@ void childList(struct child* currChild)
 /*
 * Accepts user input, creates a new command struct based on its contents
 * Accepts blanks and comments based on the spec, but flags them for later ignoring.
+* Returns a pointer to command struct that stores the parsed command information
 * Structure originally based on project 1 createMovie, draws heavily from strtok and strcpy usage there.
 * Per the specs, quoting is not supported and arguments with spaces inside them are not possible.
 * Therefore, using space as the delimiter. 
@@ -106,6 +113,9 @@ struct command* createCommand(char* userInput) {
    
     // Set up a blank array to hold the inputs. We know there will be a maximum of 512 arguments.
     newCommand->operands = calloc(MAX_ARG, sizeof(char*));
+    // Initialize the redirection flags as false, until proven otherwise.
+    newCommand->redirectInput = false;
+    newCommand->redirectOutput = false;
 
     // The first token should be the instruction. It should also tell us if this is a blank or comment.
     token = strtok_r(userInput, DELIMITER, &saveptr);
@@ -143,13 +153,17 @@ struct command* createCommand(char* userInput) {
   
         tokenLength = strlen(token);
         // Look for special characters that indicate &, redirection, or adjacent commands
-        // If these happen once, persist the boolean values using OR
+        // Persist the boolean values using OR
         inputRedirect = (inputRedirect || (token[0] == *LEFT_ARROW));
         outputRedirect = (outputRedirect || (token[0] == *RIGHT_ARROW));
         redirection = (redirection || (inputRedirect || outputRedirect));
         if (token[0] == *LEFT_ARROW || token[0] == *RIGHT_ARROW || (strcmp(token, AMPERSAND) == 0 && (tokenCounter == 0))) {
             isAlphaNum = false;
         }
+
+        // Set the command's redirect flags if <>s were found
+        if (inputRedirect) { newCommand->redirectInput = true; }
+        if (outputRedirect) { newCommand->redirectOutput = true; }
         
         // If the last operand is & then it's a background job
         if (strcmp(token, AMPERSAND) == 0 && (tokenCounter==0)){
@@ -188,11 +202,12 @@ struct command* createCommand(char* userInput) {
 }
 
 /*
-* Get input from the user.
-* Check if it is a comment or a blank line.
+* Get input from the user. 
+* Accepts no parameters, gets text from command line.
+* Checks if user input it is a comment or a blank line.
 * If not, per the project guide, expand any instance of "$$" in a command into the process ID of the smallsh itself.
 * No other variable expansion is performed.
-* Returns user input, expanded if appropriate, for parsing into a command.
+* Returns pointer to user input, expanded if appropriate, for parsing into a command.
 */
 char* getExpandedInput() {
     // Get the user's input. Per the assignment, we know that 

@@ -1,6 +1,28 @@
 
+Run Instructions
+	Locate the program files on os1. Run the following to compile:
+		
+		gcc --std=gnu99 -o smallsh smallsh.c
 
+	Run the following to execute with the test script:
+		./p3testscript 2>&1 | more
+
+	Run the following to execute manually if needed:
+		./smallsh
+
+		
+
+Notes for my grader: 
+	I noticed that the test script did not show line breaks that were always present when executing manually. Per TA advice in office hours, 
+	this seems to be normal.
+
+	I tried to develop in logical modules to make work a little easier, and to avoid the massive file I had by the end of Assignment 2.
+	If there is a better way to do this I would love any pointers!
+
+Sources Used
 Brewster, Benjamin (January 31, 2022) 3.1 Process [Video lecture] https://www.youtube.com/watch?v=1R9h-H2UnLs
+
+Reddit [January 30, 2022] 344 smallsh project [Advice on breaking down the program into workable problems; see Ok_Park4538's post] https://www.reddit.com/r/OSUOnlineCS/comments/lb0jg2/344_smallsh_project/
 
 Stack Overflow(January 24, 2022) Removing trailing newline character from fgets() input[Example source code] https://stackoverflow.com/questions/2693776/removing-trailing-newline-character-from-fgets-input
 
@@ -31,3 +53,5 @@ Code Vault [February 1, 2022] Redirecting Standard Output in C [Example source c
 Delft Stack (February 1, 2022) Kill Child Process in C [Example source code] https://www.delftstack.com/howto/c/kill-child-process-in-c/
 
 OSU CS344 (February 1, 2022) Module 5 Exploration:Process API - Creating and Terminating Process [Example source code] https://canvas.oregonstate.edu/courses/1884946/pages/exploration-process-api-creating-and-terminating-processes?module_item_id=21835972
+
+Stack Overflow (February 3, 2022) How to Use Execvp [Example source code] https://stackoverflow.com/questions/27541910/how-to-use-execvp

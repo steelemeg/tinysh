@@ -1,4 +1,6 @@
 // Functions for executing specific commands
+#include "./printing.h"
+#include "./utility.h"
 
 /* 
 *  Accepts no arguments. 
@@ -84,7 +86,13 @@ void execLibrary(struct command* currCommand) {
     // Per the assignment, fork a child process for non-built-in-commands.
     // Create a fresh pid (based on module code, full citation in readme)
     pid_t newPid = -5;
+    // Viable options for executing library commands: 
+    // execvp (wants an array), execlp (will take just strings but the last one should be null)
+    // I want to use one of these two because they will look in the PATH for the command
+    // Trying execvp because arguments are already in an array in my command struct
+    execvp(currCommand->instruction, NULL);
 
+    /* WOrry about basic exec first then do the background foreground madness TODO 
     newPid = fork();
     switch (newPid) {
     case -1: {
@@ -103,7 +111,7 @@ void execLibrary(struct command* currCommand) {
     default:
         // Parent will execute the code in this branch
         break;
-    }
+    } */
 }
 
 
@@ -130,7 +138,7 @@ void execCommand(struct command* currCommand) {
     
     else if (strcmp(currCommand->instruction, "cd") == 0) { execCd(currCommand); }
     else if (strcmp(currCommand->instruction, "status") == 0) { execStatus(currCommand); }
-    else{ printShout(currCommand->instruction); }
+    else{ execLibrary(currCommand); }
 
     return;
 }
