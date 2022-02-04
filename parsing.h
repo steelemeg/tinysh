@@ -89,6 +89,8 @@ struct command* createCommand(char* userInput) {
     strcpy(copyInput, userInput);
     const char comment = '#';
     bool redirection = false;
+    bool inputRedirect = false;
+    bool outputRedirect = false;
 
     int tokenLength = 0;
     // Set up a blank array to hold the inputs. We know there will be a maximum of 512 arguments.
@@ -125,8 +127,12 @@ struct command* createCommand(char* userInput) {
     while (token != NULL) {
         tokenLength = strlen(token);
         // Look for special characters that indicate &, redirection, or adjacent commands
-        if (token[0] == *AMPERSAND)
-        if (token[0] == *LEFT_ARROW || token[0] == *RIGHT_ARROW) { redirection = true; }
+        inputRedirect = (token[0] == *LEFT_ARROW);
+        outputRedirect = (token[0] == *RIGHT_ARROW);
+        redirection = (inputRedirect || outputRedirect);
+        
+        //if (token[0] == *AMPERSAND)
+
         token = strtok_r(NULL, DELIMITER, &saveptr);
     }
     return newCommand;
