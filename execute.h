@@ -41,9 +41,10 @@ void execCd(struct command* currCommand) {
 *  Returns no values.
 */
 void execStatus(struct command* currCommand) {
-    char* output;
-    sprintf(output, "exit value %d", statusFlag);
+    char* output = calloc(20, sizeof(char));
+    sprintf(output, "exit value %d\n", statusFlag);
     printShout(output);
+    free(output);
     return;
 }
 
