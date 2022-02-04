@@ -33,9 +33,9 @@ int killChildProcesses() {
 *  Does not modify status flag.
 */
 void execCd(struct command* currCommand) {
-    // handle the command with no argument
+    // Handle the command with no further arguments and go to the user's home dir
     if (currCommand->operandCount == 1 || !currCommand->operands[1]) {
-        // Functions pulled from Linux Programming Interface text, page 363-364; full citation in readme.
+        // Function pulled from Linux Programming Interface text, page 363-364; full citation in readme.
         chdir(getenv("HOME"));
     }
     else {
@@ -55,7 +55,7 @@ void execCd(struct command* currCommand) {
             // Then see if the path exists.
             if (chdir(cwdResults) == -1) { printShout("No such file or directory."); }
             // If it exists, chdir into it.
-            else { chdir(currCommand->operands[0]); }
+            else { chdir(newDir); }
         }
         free(cwdResults);
     }
