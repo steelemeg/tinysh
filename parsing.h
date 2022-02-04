@@ -1,11 +1,14 @@
 
 // As recommended in the assignment, creating a struct to hold commands and their possible parameters.
 struct command {
-    char* instruction;
     bool isCommentOrBlank;
+    char* instruction;
     bool backgroundJob;
+    int tokenCount;
     int operandCount;
     char** operands;
+    char* inputSource;
+    char* outputTarget;
 };
 
 // Opting to track child processes in a linked list.
@@ -84,7 +87,8 @@ void childList(struct child* currChild)
 struct command* createCommand(char* userInput) {
     char* saveptr;
     char* token;
-    int operandCounter = 0;
+    int tokenLength = 0;
+    int tokenCounter = 0;
     struct command* newCommand = malloc(sizeof(struct command));
     char* copyInput = calloc(strlen(userInput) + 1, sizeof(char));
     strcpy(copyInput, userInput);
@@ -94,9 +98,12 @@ struct command* createCommand(char* userInput) {
     bool outputRedirect = false;
     bool jobControl = false;
     bool isOperand = true;
+    int operandArrayCounter = 0;
+    // Adding a way to track if operands are done and we've moved into redirection or BG control
+    bool addingArgs = true;
+    // Adding tracker for if this particular token is normal text or a control char
+    bool isAlphaNum = true;
    
-
-    int tokenLength = 0;
     // Set up a blank array to hold the inputs. We know there will be a maximum of 512 arguments.
     newCommand->operands = calloc(MAX_ARG, sizeof(char*));
 
@@ -104,7 +111,7 @@ struct command* createCommand(char* userInput) {
     token = strtok_r(userInput, DELIMITER, &saveptr);
 
     // Start the argument counter at zero
-    newCommand->operandCount = operandCounter;
+    newCommand->tokenCount = tokenCounter;
 
     // Handle blank or commented inputs.   
     if (token == NULL || token[0] == comment) {
@@ -122,16 +129,17 @@ struct command* createCommand(char* userInput) {
     // for the number of arguments. Idea from https://www.geeksforgeeks.org/program-count-occurrence-given-character-string ,
     // formal citation in the readme
     for (int n = 0; copyInput[n]; n++) {
-        if (copyInput[n] == *DELIMITER) { operandCounter++; }
+        if (copyInput[n] == *DELIMITER) { tokenCounter++; }
     }
-    newCommand->operandCount += operandCounter;
+    newCommand->tokenCount += tokenCounter;
 
     // Attempt to grab the next token if there is one, then keep going until the end of the input.
+    // Logic structure based on language processing loop in Project 1/2.
     token = strtok_r(NULL, DELIMITER, &saveptr);
     while (token != NULL) {
-        isOperand = true;
+        isAlphaNum = true;
         // Count down the number of args processed
-        operandCounter--;
+        tokenCounter--;
   
         tokenLength = strlen(token);
         // Look for special characters that indicate &, redirection, or adjacent commands
@@ -139,16 +147,43 @@ struct command* createCommand(char* userInput) {
         inputRedirect = (inputRedirect || (token[0] == *LEFT_ARROW));
         outputRedirect = (outputRedirect || (token[0] == *RIGHT_ARROW));
         redirection = (redirection || (inputRedirect || outputRedirect));
+        if (token[0] == *LEFT_ARROW || token[0] == *RIGHT_ARROW || (strcmp(token, AMPERSAND) == 0 && (tokenCounter == 0))) {
+            isAlphaNum = false;
+        }
         
         // If the last operand is & then it's a background job
-        if (strcmp(token, AMPERSAND) == 0 && (operandCounter==0)){
+        if (strcmp(token, AMPERSAND) == 0 && (tokenCounter==0)){
             jobControl = true;
             newCommand->backgroundJob = true;
         }
+        addingArgs = !(redirection || jobControl);
 
+        // Use the booleans to extract info about input and output redirect targets.
+        // If this is just a plain operand, put it in the array.
+        if (!inputRedirect && !outputRedirect && isAlphaNum) {
+            newCommand->operands[operandArrayCounter] = calloc(tokenLength + 1, sizeof(char));
+            strcpy(newCommand->operands[operandArrayCounter], token);
+            operandArrayCounter++;
+        }
+        // If the outputRedirect flag is true, and if the token isAlphaNum, then this is the redirect target
+        // Save the token as the outputTarget, and reset inputRedirect so we can keep processing without continously overwriting outputTarget
+        else if (outputRedirect && isAlphaNum) {
+            newCommand->outputTarget = calloc(tokenLength + 1, sizeof(char));
+            strcpy(newCommand->outputTarget, token);
+            outputRedirect = false;
+        }
+        // If the inputRedirect flag is true, and if the token isAlphaNum, then it's our redirect source
+        // Save the token as the inputSource, and reset inputRedirect so we can keep processing without continously overwriting inputSource
+        else if (inputRedirect && isAlphaNum) {
+            newCommand->inputSource = calloc(tokenLength + 1, sizeof(char));
+            strcpy(newCommand->inputSource, token);
+            inputRedirect = false;
+        }
         token = strtok_r(NULL, DELIMITER, &saveptr);
       
     }
+
+    newCommand->operandCount = operandArrayCounter;
     return newCommand;
 }
 
