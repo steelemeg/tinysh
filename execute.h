@@ -91,7 +91,7 @@ void execLibrary(struct command* currCommand) {
     //TODO 
     //char* arguments[currCommand->operandCount];
     //execvp(currCommand->instruction, arguments);
-    execlp(currCommand->instruction, NULL);
+    execlp(currCommand->instruction, currCommand->instruction, NULL);
 
     /* WOrry about basic exec first then do the background foreground madness TODO 
     newPid = fork();
