@@ -34,7 +34,7 @@ int killChildProcesses() {
 */
 void execCd(struct command* currCommand) {
     // handle the command with no argument
-    if (currCommand->operandCount == 0) {
+    if (currCommand->operandCount == 1 || !currCommand->operands[1]) {
         // Functions pulled from Linux Programming Interface text, page 363-364; full citation in readme.
         chdir(getenv("HOME"));
     }
