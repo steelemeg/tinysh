@@ -10,9 +10,9 @@
 int killChildProcesses() {
     // Per Ed #351 (formal citation in the readme)
     // Walk through the linked list of child PIDs. Kill them if they are running.
+    struct child* currChild = firstChild;
+    char* output = calloc(50, sizeof(char));
     if (childNum > 0){
-        struct child* currChild = firstChild;
-        char* output = calloc(50, sizeof(char));
         while (currChild != NULL)
         {
             kill(currChild->childPid, SIGKILL);
