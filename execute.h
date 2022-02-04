@@ -91,7 +91,7 @@ void execLibrary(struct command* currCommand) {
     char* arguments[currCommand->operandCount];
     // Need a pointer to step through the array
     int buildArgs = 0;
-    execvp(currCommand->instruction, arguments);
+    execvp(currCommand->instruction, currCommand->operands);
     //execlp(currCommand->instruction, currCommand->instruction, NULL);
 
     /* WOrry about basic exec first then do the background foreground madness TODO 
