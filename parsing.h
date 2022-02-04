@@ -204,7 +204,7 @@ struct command* createCommand(char* userInput) {
       
     }
     //TODO 
-    printArray(newCommand->operands);
+    printArray(newCommand->operands, operandArrayCounter);
     newCommand->operandCount = operandArrayCounter;
     return newCommand;
 }
