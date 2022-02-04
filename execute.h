@@ -1,6 +1,4 @@
 // Functions for executing specific commands
-#include "./printing.h"
-#include "./utility.h"
 
 /* 
 *  Accepts no arguments. 
