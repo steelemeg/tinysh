@@ -44,21 +44,23 @@ bool removeChild(struct child** first, int pid) {
         *first = currChild->next;
         found = true;
         free(currChild);
-        free(prevChild);
         return found;
     }
-    while (currChild != NULL && !found)
+    while (currChild != NULL && currChild->childPid != pid)
     {
-        if (currChild->childPid == pid){
-            // Reroute the previous node linkage to the next node 
-            prevChild->next = currChild->next;
-            found = true;
-        }
         prevChild = currChild;
         currChild = currChild->next;
     }
+    if (currChild == NULL) { found = false; }
+    
+    // Reroute the previous node linkage to the next node 
+    else {
+        prevChild->next = currChild->next;
+        found = true;
+    }
+
+    }
     free(currChild);
-    free(prevChild);
     return found;
 }
 
