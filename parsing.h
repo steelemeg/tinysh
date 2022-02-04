@@ -130,6 +130,7 @@ struct command* createCommand(char* userInput) {
     token = strtok_r(NULL, DELIMITER, &saveptr);
     while (token != NULL) {
         isOperand = true;
+        int countdown = operandCounter;
         tokenLength = strlen(token);
         // Look for special characters that indicate &, redirection, or adjacent commands
         // If these happen once, persist the boolean values using OR
@@ -141,7 +142,7 @@ struct command* createCommand(char* userInput) {
         if (strcmp(token, AMPERSAND) == 0 && (operandCounter==newCommand->operandCount)){
             jobControl = true;
             newCommand->backgroundJob = true;
-            printf("YES %d %d\n", operandCounter, newCommand->operandCount);
+            printf("YES %d %d %d\n", operandCounter, newCommand->operandCount, countdown);
         }
 
         token = strtok_r(NULL, DELIMITER, &saveptr);
