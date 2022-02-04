@@ -42,7 +42,7 @@ void execCd(struct command* currCommand) {
 */
 void execStatus(struct command* currCommand) {
     char* output;
-    sprintf(output, "exit value %d\n", statusFlag);
+    sprintf(output, "exit value %d", statusFlag);
     printShout(output);
     return;
 }
