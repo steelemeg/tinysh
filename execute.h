@@ -96,7 +96,7 @@ void execLibrary(struct command* currCommand) {
     case 0: {
         // Child process creation successful. This code will be executed only by the child.
         // TODO SIGTSTP
-        execvp(currCommand->operands[0]);
+        execvp(currCommand->instruction, currCommand->operands[0]);
         break;
     }
     default:
