@@ -42,8 +42,9 @@ bool removeChild(struct child** first, int pid) {
 
     if (currChild != NULL && currChild->childPid == pid) {
         *first = currChild->next;
+        found = true;
         free(currChild);
-        return;
+        return found;
     }
     while (currChild != NULL && !found)
     {
