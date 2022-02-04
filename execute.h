@@ -36,9 +36,15 @@ void execCd(struct command* currCommand) {
 }
 
 /*
-*  TODO
+*  Displays the current value of the exit status flag.
+*  Accepts a command struct containing parameters.
+*  Returns no values.
 */
 void execStatus(struct command* currCommand) {
+    char* output;
+    sprintf(output, "exit value %d", statusFlag);
+    printShout(output);
+    return;
 }
 
 /*
@@ -69,6 +75,7 @@ void execCommand(struct command* currCommand) {
     }
     
     else if (strcmp(currCommand->instruction, "cd") == 0) { execCd(currCommand); }
+    else if (strcmp(currCommand->instruction, "status") == 0) { execStatus(currCommand); }
     else{ printShout(currCommand->instruction); }
 
     return;

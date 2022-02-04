@@ -25,16 +25,16 @@
 #include <signal.h>
 #include <fcntl.h>
 #include <errno.h>
-    // Using a limited number of file-scope vars to keep tabs on child processes. 
-    // Status should start as zero, and is modified by foreground process changes
+
+// Using a limited number of file-scope vars to keep tabs on child processes. 
+// Status should start as zero, and is modified by foreground process changes
 int statusFlag = 0;
 struct child* firstChild = NULL;
 int childNum = 0;
+
 #include "./printing.h"
 #include "./parsing.h"
 #include "./execute.h"
-
-
 
 // Basic template copied from students.c Please see readme for full citations.
 // If you are not compiling with the gcc option --std=gnu99, then
@@ -53,26 +53,6 @@ int main(int argc, char* argv[]) {
     int keepGoing = 3;
     char* colon = ": ";
 
-
-    
-    createChild(&firstChild, 2);
-    createChild(&firstChild, 3);
-    createChild(&firstChild, 5);
-    createChild(&firstChild, 7);
-    createChild(&firstChild, 10);
-    printShout("list made:");
-    childList(firstChild);
-    
-    printShout("remove middle:");
-    removeChild(&firstChild, 3);
-    childList(firstChild);
-
-    printShout("remove first:");
-    removeChild(&firstChild, 10);
-    childList(firstChild);
-    printShout("remove last:");
-    removeChild(&firstChild, 2);
-    childList(firstChild);
     while (keepGoing > 0) {
         // Mimicing the formatting of the screenshots, start each line with ":"
         printShout(colon);
