@@ -52,7 +52,7 @@ bool removeChild(struct child** first, int pid) {
     {
         if (currChild->childPid == pid){
             // Reroute the previous node linkage to the next node 
-            prevChild->next = *currChild->next;
+            prevChild->next = currChild->next;
             found = true;
         }
         prevChild = currChild;
