@@ -47,6 +47,7 @@ void execCd(struct command* currCommand) {
         // in the readme.
         char* cwdResults = calloc(MAX_COMMAND * 2, sizeof(char));
         getcwd(cwdResults, sizeof(cwdResults));
+        printf(cwdResults);
         
         // First make sure the path isn't blank, which it really shouldn't be, but be safe
         if (newDir) {
