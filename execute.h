@@ -81,7 +81,31 @@ void execStatus(struct command* currCommand) {
 *  
 */
 void execLibrary(struct command* currCommand) {
+    // Per the assignment, fork a child process for non-built-in-commands.
+    // Create a fresh pid (based on module code, full citation in readme)
+    pid_t newPid = -5;
+
+    newPid = fork();
+    switch (newPid) {
+    case -1: {
+        // Child process creation failed
+        printShout("fork() failed! No child process was created.");
+        exit(1);
+        break;
+    }
+    case 0: {
+        // Child process creation successful. This code will be executed only by the child.
+        // TODO SIGTSTP
+        execvp(currCommand->operands[0]);
+        break;
+    }
+    default:
+        // Parent will execute the code in this branch
+        break;
+    }
 }
+
+
 /*
 * Executes instruction with arguments in the shell. 
 * Accepts a command struct containing parameters

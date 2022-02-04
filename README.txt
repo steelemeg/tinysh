@@ -29,3 +29,5 @@ Geeks for Geeks [February 2, 2022] Linked List Set 3 Deleting Node [Exampel sour
 Code Vault [February 1, 2022] Redirecting Standard Output in C [Example source code] https://www.youtube.com/watch?v=5fnVr-zH-SE
 
 Delft Stack (February 1, 2022) Kill Child Process in C [Example source code] https://www.delftstack.com/howto/c/kill-child-process-in-c/
+
+OSU CS344 (February 1, 2022) Module 5 Exploration:Process API - Creating and Terminating Process [Example source code] https://canvas.oregonstate.edu/courses/1884946/pages/exploration-process-api-creating-and-terminating-processes?module_item_id=21835972
