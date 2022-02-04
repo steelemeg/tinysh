@@ -3,6 +3,7 @@
 struct command {
     char* instruction;
     bool isCommentOrBlank;
+    bool backgroundJob;
     int operandCount;
     char** operands;
 };
@@ -91,6 +92,9 @@ struct command* createCommand(char* userInput) {
     bool redirection = false;
     bool inputRedirect = false;
     bool outputRedirect = false;
+    bool jobControl = false;
+    bool isOperand = true;
+   
 
     int tokenLength = 0;
     // Set up a blank array to hold the inputs. We know there will be a maximum of 512 arguments.
@@ -125,16 +129,24 @@ struct command* createCommand(char* userInput) {
     // Attempt to grab the next token if there is one, then keep going until the end of the input.
     token = strtok_r(NULL, DELIMITER, &saveptr);
     while (token != NULL) {
+        isOperand = true;
         tokenLength = strlen(token);
         // Look for special characters that indicate &, redirection, or adjacent commands
+        // If these happen once, persist the boolean values using OR
         inputRedirect = (inputRedirect || (token[0] == *LEFT_ARROW));
         outputRedirect = (outputRedirect || (token[0] == *RIGHT_ARROW));
         redirection = (redirection || (inputRedirect || outputRedirect));
         printf("%d %d %d\n", inputRedirect, outputRedirect, redirection);
         
-        //if (token[0] == *AMPERSAND)
+        // If the last operand is & then it's a background job
+        if (token == AMPERSAND && operandCounter==newCommand->operandCount){
+            jobControl = true;
+            newCommand->backgroundJob = true;
+        }
 
         token = strtok_r(NULL, DELIMITER, &saveptr);
+        // Count down the number of args processed
+        operandCounter--;
     }
     return newCommand;
 }
