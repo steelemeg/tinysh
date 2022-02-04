@@ -51,7 +51,7 @@ void execCd(struct command* currCommand) {
         // First make sure the path isn't blank, which it really shouldn't be, but be safe
         if (newDir) {
             sprintf(cwdResults, "%s%s%s", cwdResults, "/", newDir);
-
+            printf(cwdResults);
             // Then see if the path exists.
             if (chdir(cwdResults) == -1) { printShout("No such file or directory."); }
             // If it exists, chdir into it.
