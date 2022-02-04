@@ -30,7 +30,34 @@ struct child* createChild(struct child** first, int pid) {
     *first = newChild;   
 }
 
+/*
+*  Removes a child struct from the linked list.
+*  Accepts one input, the integer pid.
+*  Returns a bool indicating success or failure of the removal.
+*/
+bool removeChild(struct child** first, int pid) {
+    // Track the previous and next nodes to snip out the target
+    struct child* currChild = *first, *prev;
+    bool found = false;
 
+    if (currChild != NULL && currChild->childPid == pid) {
+        *first = currChild->next;
+        free(currChild);
+        return;
+    }
+    while (currChild != NULL && !found)
+    {
+        if (currChild->childPid == pid){
+            // Reroute the previous node linkage to the next node 
+            prev->next = currChild->next;
+            found = true;
+        }
+        prev = currChild;
+        currChild = currChild->next;
+    }
+    free(currChild);
+    return found;
+}
 
 /*
 * Print the linked list of all child processes. Included for testing purposes. Copied from Assignment 1.

@@ -59,6 +59,11 @@ int main(int argc, char* argv[]) {
     createChild(&firstChild, 3);
     createChild(&firstChild, 5);
     createChild(&firstChild, 10);
+    removeChild(&firstChild, 3);
+    childList(firstChild);
+    removeChild(&firstChild, 10);
+    childList(firstChild);
+    removeChild(&firstChild, 2);
     childList(firstChild);
     while (keepGoing > 0) {
         // Mimicing the formatting of the screenshots, start each line with ":"
