@@ -4,11 +4,25 @@
 *  Accepts no arguments. 
 *  Kills any child processes or jobs.
 *  Used as part of the exit function execution.
+*  Does not modify status flag.
 *  Returns the current exit success parameter value.
 */
 int killChildProcesses() {
     // Per Ed #351 (formal citation in the readme)
-    // TODO Walk through the array of child PIDs. Kill them if they are running.
+    // Walk through the linked list of child PIDs. Kill them if they are running.
+    if (childNum > 0){
+        struct child* currChild = firstChild;
+        char* output = calloc(50, sizeof(char));
+        while (currChild != NULL)
+        {
+            kill(currChild->childPid, SIGKILL);
+            sprintf(output, "Background process with pid %d terminated", currChild->childPid);
+            printShout(output);
+            currChild = currChild->next;
+        }
+    }
+    free(output);
+    free(currChild);
     return EXIT_SUCCESS;
 }
 
@@ -16,6 +30,7 @@ int killChildProcesses() {
 *  Used to change the current working directory 
 *  Accepts one parameter, a command struct, which allows us to get the relevant operands.
 *  If no target directory is provided, goes to user home.
+*  Does not modify status flag.
 *  Based on my admittedly limited understanding of chdir, it supports relative and absolute paths natively.
 */
 void execCd(struct command* currCommand) {
@@ -38,6 +53,7 @@ void execCd(struct command* currCommand) {
 /*
 *  Displays the current value of the exit status flag.
 *  Accepts a command struct containing parameters.
+*  Does not modify status flag.
 *  Returns no values.
 */
 void execStatus(struct command* currCommand) {
