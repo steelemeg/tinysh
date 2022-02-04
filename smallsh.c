@@ -58,6 +58,7 @@ int main(int argc, char* argv[]) {
     createChild(&firstChild, 2);
     createChild(&firstChild, 3);
     createChild(&firstChild, 5);
+    createChild(&firstChild, 7);
     createChild(&firstChild, 10);
     printShout("list made:");
     childList(firstChild);
