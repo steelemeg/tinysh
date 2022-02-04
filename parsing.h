@@ -113,7 +113,7 @@ struct command* createCommand(char* userInput) {
     bool isAlphaNum = true;
    
     // Set up a blank array to hold the inputs. We know there will be a maximum of 512 arguments.
-    newCommand->operands = calloc(MAX_ARG, sizeof(char*));
+    // TODO newCommand->operands = calloc(MAX_ARG, sizeof(char*));
     // Initialize the redirection flags as false, until proven otherwise.
     newCommand->redirectInput = false;
     newCommand->redirectOutput = false;
