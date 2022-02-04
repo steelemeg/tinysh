@@ -21,5 +21,6 @@ void printShout(const char* printTarget) {
 void printArray(char* arrayInput[], int entries) {
     for (int i = 0; i < entries; i++) {
         printShout(arrayInput[i]);
+        printShout("");
     }
 }
