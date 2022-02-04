@@ -33,6 +33,7 @@ int killChildProcesses() {
 *  Does not modify status flag.
 */
 void execCd(struct command* currCommand) {
+    printf("LAA");
     // handle the command with no argument
     if (currCommand->operandCount == 0) {
         // Functions pulled from Linux Programming Interface text, page 363-364; full citation in readme.
