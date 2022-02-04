@@ -137,6 +137,7 @@ struct command* createCommand(char* userInput) {
     // TODO 
     newCommand->operands[operandArrayCounter] = calloc(strlen(token) + 1, sizeof(char));
     // TODO 
+    // Structuring the operands array with the instruction at index 0 in an effort to make execvp easier
     strcpy(newCommand->operands[operandArrayCounter], token);
     strcpy(newCommand->instruction, token);
     // TODO

@@ -43,10 +43,11 @@ void execCd(struct command* currCommand) {
         char* newDir;
         // TODO 
         newDir = currCommand->operands[1];
+        // If I am understanding properly we aren't supposed to use getenv(PWD) but can use getcwd to check paths.
         // Per https://eklitzke.org/path-max-is-tricky, the theoretical max path length is 4096. Formal citation
         // in the readme.
         char* cwdResults = calloc(MAX_COMMAND * 2, sizeof(char));
-        getcwd(cwdResults, MAX_COMMAND * 2 + 1);
+        if (getcwd(cwdResults, MAX_COMMAND * 2 + 1) == NULL) { printError("Tried to get cwd, encountered error:"); }
         
         // First make sure the path isn't blank, which it really shouldn't be, but be safe
         if (newDir) {
@@ -83,14 +84,12 @@ void execStatus(struct command* currCommand) {
 void execLibrary(struct command* currCommand) {
     // Per the assignment, fork a child process for non-built-in-commands.
     // Create a fresh pid (based on module code, full citation in readme)
-    //TODO pid_t newPid = -5;
+    pid_t newPid = -5;
     // Viable options for executing library commands: 
     // execvp (wants an array), execlp (will take just strings but the last one should be null)
     // I want to use one of these two because they will look in the PATH for the command
     // Trying execvp because it seems easier to pass an array than each of the operands
     char* arguments[currCommand->operandCount];
-    // Need a pointer to step through the array
-    int buildArgs = 0;
     execvp(currCommand->instruction, currCommand->operands);
     //execlp(currCommand->instruction, currCommand->instruction, NULL);
 

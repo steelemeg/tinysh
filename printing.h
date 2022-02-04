@@ -13,6 +13,18 @@ void printShout(const char* printTarget) {
     return;
 }
 
+/* 
+* Specialized printing for error handling.
+* Accepts a pointer to the target string.
+* Prints it and fflush. 
+* Returns no values.
+*/
+void printError(const char* printTarget) {
+    perror(printTarget);
+    fflush(NULL);
+    return;
+}
+
 /*
 * Prints the values in a specifed array to the shell.
 * Accepts a pointer to the start of the array and an int specifying how many entries to print.
