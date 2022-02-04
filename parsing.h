@@ -130,7 +130,7 @@ struct command* createCommand(char* userInput) {
         inputRedirect = (token[0] == *LEFT_ARROW);
         outputRedirect = (token[0] == *RIGHT_ARROW);
         redirection = (inputRedirect || outputRedirect);
-        printf("%b %b %b\n", inputRedirect, outputRedirect, redirection);
+        printf("%d %d %d\n", inputRedirect, outputRedirect, redirection);
         
         //if (token[0] == *AMPERSAND)
 
