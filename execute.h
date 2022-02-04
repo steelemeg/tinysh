@@ -41,7 +41,8 @@ void execCd(struct command* currCommand) {
     else {
         // Try to change the current directory to the specified path
         char* newDir;
-        newDir = currCommand->operands[0];
+        // TODO 
+        newDir = currCommand->operands[1];
         // Per https://eklitzke.org/path-max-is-tricky, the theoretical max path length is 4096. Formal citation
         // in the readme.
         char* cwdResults = calloc(MAX_COMMAND * 2, sizeof(char));
