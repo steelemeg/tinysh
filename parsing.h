@@ -140,7 +140,7 @@ struct command* createCommand(char* userInput) {
         
         // If the last operand is & then it's a background job
         printf("token test %s\n", token);
-        printf("amp test %d\n", token == AMPERSAND);
+        printf("amp test %d\n", strcmp(token, AMPERSAND));
         if (token == AMPERSAND && operandCounter==newCommand->operandCount){
             jobControl = true;
             newCommand->backgroundJob = true;
