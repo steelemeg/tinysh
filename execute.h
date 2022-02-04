@@ -45,10 +45,8 @@ void execCd(struct command* currCommand) {
         newDir = currCommand->operands[1];
         // Per https://eklitzke.org/path-max-is-tricky, the theoretical max path length is 4096. Formal citation
         // in the readme.
-        printf("test %d", MAX_COMMAND * 2);
         char* cwdResults = calloc(MAX_COMMAND * 2, sizeof(char));
-        printf("precwd %d\n", sizeof(cwdResults));
-        getcwd(cwdResults, sizeof(cwdResults) + 1);
+        getcwd(cwdResults, MAX_COMMAND * 2 + 1);
         printf("actual getcwd %s \n", cwdResults);
         
         // First make sure the path isn't blank, which it really shouldn't be, but be safe
