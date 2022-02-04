@@ -147,7 +147,7 @@ struct command* createCommand(char* userInput) {
         token = strtok_r(NULL, DELIMITER, &saveptr);
         // Count down the number of args processed
         operandCounter--;
-        printf("op check %d\n", operandCounter)
+        printf("op check %d\n", operandCounter);
     }
     return newCommand;
 }
