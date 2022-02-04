@@ -71,14 +71,28 @@ int main()
     struct Node* head = NULL;
 
     push(&head, 7);
-    push(&head, 1);
+    push(&head, 6);
+    push(&head, 5);
+    push(&head, 4);
     push(&head, 3);
     push(&head, 2);
+    push(&head, 1);
+    
+    
 
     puts("Created Linked List: ");
     printList(head);
     deleteNode(&head, 1);
     puts("\nLinked List after Deletion of 1: ");
     printList(head);
+
+    deleteNode(&head, 5);
+    puts("\nLinked List after Deletion of 5: ");
+    printList(head);
+
+    deleteNode(&head, 7);
+    puts("\nLinked List after Deletion of 7: ");
+    printList(head);
+
     return 0;
 }
