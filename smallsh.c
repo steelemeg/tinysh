@@ -59,10 +59,17 @@ int main(int argc, char* argv[]) {
     createChild(&firstChild, 3);
     createChild(&firstChild, 5);
     createChild(&firstChild, 10);
+    printShout("list made:");
+    childList(firstChild);
+    
+    printShout("remove middle:");
     removeChild(&firstChild, 3);
     childList(firstChild);
+
+    printShout("remove first:");
     removeChild(&firstChild, 10);
     childList(firstChild);
+    printShout("remove last:");
     removeChild(&firstChild, 2);
     childList(firstChild);
     while (keepGoing > 0) {
