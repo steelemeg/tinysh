@@ -23,11 +23,11 @@ struct child {
 *  Accepts one input, the integer pid.
 *  Returns the new struct.
 */
-struct child* createChild(struct child** first, int pid) {
-    struct child* newChild = malloc(sizeof(struct child));
-    newChild->next = *first;
+void createChild(struct child** first, int pid) {
+    struct child* newChild = (struct child*)malloc(sizeof(struct child));
+    newChild->next = (*first);
     newChild->childPid = pid;
-    *first = newChild;   
+    (*first) = newChild;   
 }
 
 /*
@@ -37,8 +37,7 @@ struct child* createChild(struct child** first, int pid) {
 */
 bool removeChild(struct child** first, int pid) {
     // Track the previous and next nodes to snip out the target
-    struct child* currChild = *first;
-    struct child* prevChild = NULL;
+    struct child* currChild = *first, *prevChild;
     bool found = false;
 
     if (currChild != NULL && currChild->childPid == pid) {
