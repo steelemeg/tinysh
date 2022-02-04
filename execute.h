@@ -87,11 +87,12 @@ void execLibrary(struct command* currCommand) {
     // Viable options for executing library commands: 
     // execvp (wants an array), execlp (will take just strings but the last one should be null)
     // I want to use one of these two because they will look in the PATH for the command
-    // Trying execvp because arguments are already in an array in my command struct
-    //TODO 
-    //char* arguments[currCommand->operandCount];
-    //execvp(currCommand->instruction, arguments);
-    execlp(currCommand->instruction, currCommand->instruction, NULL);
+    // Trying execvp because it seems easier to pass an array than each of the operands
+    char* arguments[currCommand->operandCount];
+    // Need a pointer to step through the array
+    int buildArgs = 0;
+    execvp(currCommand->instruction, arguments);
+    //execlp(currCommand->instruction, currCommand->instruction, NULL);
 
     /* WOrry about basic exec first then do the background foreground madness TODO 
     newPid = fork();

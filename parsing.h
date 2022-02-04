@@ -6,7 +6,8 @@ struct command {
     bool backgroundJob;
     int tokenCount;
     int operandCount;
-    char** operands;
+    //char** operands;
+    char* operands[MAX_ARG];
     bool redirectInput;
     bool redirectOutput;
     char* inputSource;
@@ -133,7 +134,13 @@ struct command* createCommand(char* userInput) {
     // Inner calloc / strcpy based on Project 1, if statements protect from blanks and comments.
     // Originally ignored comments entirely, but this caused problems with printing the start-of-line colon reliably. 
     newCommand->instruction = calloc(strlen(token) + 1, sizeof(char));
+    // TODO 
+    newCommand->operands[operandArrayCounter] = calloc(strlen(token) + 1, sizeof(char));
+    // TODO 
+    strcpy(newCommand->operands[operandArrayCounter], token);
     strcpy(newCommand->instruction, token);
+    // TODO
+    operandArrayCounter++;
 
     // The output from getExpandedInput has been space-condensed. Therefore we can use spaces as a proxy 
     // for the number of arguments. Idea from https://www.geeksforgeeks.org/program-count-occurrence-given-character-string ,
