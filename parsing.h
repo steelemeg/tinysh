@@ -144,7 +144,6 @@ struct command* createCommand(char* userInput) {
         if (strcmp(token, AMPERSAND) == 0 && (operandCounter==0)){
             jobControl = true;
             newCommand->backgroundJob = true;
-            printf("YES %d %d \n", operandCounter, newCommand->operandCount);
         }
 
         token = strtok_r(NULL, DELIMITER, &saveptr);
