@@ -127,9 +127,9 @@ struct command* createCommand(char* userInput) {
     while (token != NULL) {
         tokenLength = strlen(token);
         // Look for special characters that indicate &, redirection, or adjacent commands
-        inputRedirect = (token[0] == *LEFT_ARROW);
-        outputRedirect = (token[0] == *RIGHT_ARROW);
-        redirection = (inputRedirect || outputRedirect);
+        inputRedirect = (inputRedirect || (token[0] == *LEFT_ARROW));
+        outputRedirect = (outputRedirect || (token[0] == *RIGHT_ARROW));
+        redirection = (redirection || (inputRedirect || outputRedirect));
         printf("%d %d %d\n", inputRedirect, outputRedirect, redirection);
         
         //if (token[0] == *AMPERSAND)
