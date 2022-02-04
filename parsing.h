@@ -37,26 +37,29 @@ struct child* createChild(struct child** first, int pid) {
 */
 bool removeChild(struct child** first, int pid) {
     // Track the previous and next nodes to snip out the target
-    struct child* currChild = *first, *prev;
+    struct child* currChild = *first;
+    struct child* prevChild = NULL;
     bool found = false;
 
     if (currChild != NULL && currChild->childPid == pid) {
         *first = currChild->next;
         found = true;
         free(currChild);
+        free(prevChild);
         return found;
     }
     while (currChild != NULL && !found)
     {
         if (currChild->childPid == pid){
             // Reroute the previous node linkage to the next node 
-            prev->next = currChild->next;
+            prevChild->next = currChild->next;
             found = true;
         }
-        prev = currChild;
+        prevChild = currChild;
         currChild = currChild->next;
     }
     free(currChild);
+    free(prevChild);
     return found;
 }
 
