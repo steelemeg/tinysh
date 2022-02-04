@@ -60,7 +60,8 @@ bool removeChild(struct child** first, int pid) {
 
 /*
 * Print the linked list of all child processes. Included for testing purposes. Copied from Assignment 1.
-* TODO turn this into remove all eventually
+* Accepts a child node that is used as the head.
+* Returns no values.
 */
 void childList(struct child* currChild)
 {
@@ -70,7 +71,6 @@ void childList(struct child* currChild)
         currChild = currChild->next;
     }
 }
-
 
 
 /*
@@ -88,6 +88,7 @@ struct command* createCommand(char* userInput) {
     char* copyInput = calloc(strlen(userInput) + 1, sizeof(char));
     strcpy(copyInput, userInput);
     const char comment = '#';
+
     int tokenLength = 0;
     // Set up a blank array to hold the inputs. We know there will be a maximum of 512 arguments.
     newCommand->operands = calloc(MAX_ARG, sizeof(char*));
@@ -122,8 +123,8 @@ struct command* createCommand(char* userInput) {
     token = strtok_r(NULL, DELIMITER, &saveptr);
     while (token != NULL) {
         tokenLength = strlen(token);
-        // 
-
+        // Look for special characters that indicate redirection, &, or adjacent commands
+        if (token[0] == &LEFT_ARROW) { }
         token = strtok_r(NULL, DELIMITER, &saveptr);
     }
     return newCommand;
