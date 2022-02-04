@@ -136,10 +136,9 @@ struct command* createCommand(char* userInput) {
         inputRedirect = (inputRedirect || (token[0] == *LEFT_ARROW));
         outputRedirect = (outputRedirect || (token[0] == *RIGHT_ARROW));
         redirection = (redirection || (inputRedirect || outputRedirect));
-        printf("%d %d %d\n", inputRedirect, outputRedirect, redirection);
         
         // If the last operand is & then it's a background job
-        if (strcmp(token, AMPERSAND) == 0 && operandCounter==newCommand->operandCount){
+        if (strcmp(token, AMPERSAND) == 0 && (operandCounter==newCommand->operandCount)){
             jobControl = true;
             newCommand->backgroundJob = true;
             printf("YES %d %d\n", operandCounter, newCommand->operandCount);
@@ -148,6 +147,7 @@ struct command* createCommand(char* userInput) {
         token = strtok_r(NULL, DELIMITER, &saveptr);
         // Count down the number of args processed
         operandCounter--;
+        printf("op check %d\n", operandCounter)
     }
     return newCommand;
 }
