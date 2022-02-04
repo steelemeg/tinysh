@@ -83,7 +83,7 @@ void execStatus(struct command* currCommand) {
 void execLibrary(struct command* currCommand) {
     // Per the assignment, fork a child process for non-built-in-commands.
     // Create a fresh pid (based on module code, full citation in readme)
-    pid_t newPid = -5;
+    //TODO pid_t newPid = -5;
     // Viable options for executing library commands: 
     // execvp (wants an array), execlp (will take just strings but the last one should be null)
     // I want to use one of these two because they will look in the PATH for the command
@@ -113,6 +113,7 @@ void execLibrary(struct command* currCommand) {
         // Parent will execute the code in this branch
         break;
     } */
+    return;
 }
 
 
