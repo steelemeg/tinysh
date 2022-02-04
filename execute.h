@@ -47,12 +47,10 @@ void execCd(struct command* currCommand) {
         // in the readme.
         char* cwdResults = calloc(MAX_COMMAND * 2, sizeof(char));
         getcwd(cwdResults, MAX_COMMAND * 2 + 1);
-        printf("actual getcwd %s \n", cwdResults);
         
         // First make sure the path isn't blank, which it really shouldn't be, but be safe
         if (newDir) {
             sprintf(cwdResults, "%s%s%s", cwdResults, "/", newDir);
-            printf("constructed path %s\n", cwdResults);
             // Then see if the path exists.
             if (chdir(cwdResults) == -1) { printShout("No such file or directory."); }
             // If it exists, chdir into it.

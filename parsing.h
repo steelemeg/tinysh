@@ -203,7 +203,8 @@ struct command* createCommand(char* userInput) {
         token = strtok_r(NULL, DELIMITER, &saveptr);
       
     }
-
+    //TODO 
+    printArray(newCommand->operands);
     newCommand->operandCount = operandArrayCounter;
     return newCommand;
 }
