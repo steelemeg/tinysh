@@ -59,7 +59,6 @@ bool removeChild(struct child** first, int pid) {
         found = true;
     }
 
-    }
     free(currChild);
     return found;
 }
