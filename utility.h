@@ -72,7 +72,7 @@ void killZombieChildren() {
 	while (currChild != NULL)
 	{
 		// todo oh oby
-
+		//todo seperaate logic for background that ends itself and sigterm
 		kill(currChild->childPid, SIGKILL);
 		sprintf(informativeMessage, "background pid %d is done: terminated by signal 15", currChild->childPid);
 		printShout(informativeMessage, true);
