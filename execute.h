@@ -153,7 +153,6 @@ void execLibrary(struct command* currCommand) {
         break;
     }
     default:
-        // todo should this be default? or outside switch? module makes it look like default
         // Parent will execute the code in this branch 
         // For background commands, the shell must not wait for completion
         if (allowBackgroundMode && currCommand->backgroundJob) {
@@ -167,7 +166,6 @@ void execLibrary(struct command* currCommand) {
 
         // The shell must wait for the completion of foreground commands 
         else {
-            printShout("TEST?", true);
             // Copied from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-shell-commands-related-to-processes
             newPid = waitpid(newPid, &childExitStatus, 0);
             // Based on https://linux.die.net/man/2/waitpid full citation in readme
@@ -178,6 +176,9 @@ void execLibrary(struct command* currCommand) {
             else if (WIFSIGNALED(childExitStatus)) { lastFGExitStatus = WTERMSIG(childExitStatus); }
             // Catchall for edge cases
             else { lastFGExitStatus = WTERMSIG(childExitStatus); }
+            printShout("TEST?", true);
+            printf("d\n", lastFGExitStatus);
+            fflush(NULL);
             
         }
     } 
