@@ -71,7 +71,6 @@ void execCd(struct command* currCommand) {
 */
 void execStatus(struct command* currCommand) {
     char* output = calloc(20, sizeof(char));
-    printShout("status time", true);
     sprintf(output, "exit value %d\n", statusFlag);
     printShout(output, true);
     free(output);
