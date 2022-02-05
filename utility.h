@@ -49,6 +49,7 @@ int redirector(char* targetFile, bool input, bool output) {
 * Creating a pass-through function so it can be provided in these scenarios.
 * Accepts one parameter to mimic the handler examples in module (https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api)
 * Returns no values.
+* TODO Might not need this?
 */
 void ignoreSignal(int signo) {
 	// pass
@@ -86,7 +87,7 @@ void killZombieChildren() {
 	return;
 }
 /* 
-* Handler for SIGINT
+* Handler for SIGINT. Per the spec, we must have a custom handler for SIGINT.
 * Accepts two parameters, the signal number and a boolean specifying if default (true) or ignore (false)
 * Based on module code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api?module_item_id=21835981
 * Returns no values.
@@ -95,7 +96,8 @@ void handleSIGINT(int signo, bool dfl) {
 	struct sigaction SIGINT_action = { 0 };
 	//SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
 	if (dfl) { SIGINT_action.sa_handler = SIG_DFL; }
-	else { SIGINT_action.sa_handler = ignoreSignal; }
+	// TODO can we use SIG_IGN? Module makes it sound like yes
+	else { SIGINT_action.sa_handler = SIG_IGN; }
 
 	// Block all catchable signals while handle_SIGINT is running
 	sigfillset(&SIGINT_action.sa_mask);
@@ -133,11 +135,12 @@ void customSIGTSTP(int signo) {
 		allowBackgroundMode = true;
 	}
 	fflush(NULL);
-	
+	free(backgroundNoMessage);
+	free(backgroundYesMessage);
 	return; }
 
 /*
-* Handler for SIGTSTP
+* Handler for SIGTSTP. Per the spec, we must have a custom handler for SIGTSTP.
 * Accepts two parameters, the signal number and a boolean specifying if default (true) or ignore (false)
 * Based on module code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api?module_item_id=21835981
 * Returns no values.
@@ -148,7 +151,8 @@ void handleSIGTSTP(int signo, bool dfl) {
 	struct sigaction SIGTSTP_action = { 0 };
 	//SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
 	if (dfl) { SIGTSTP_action.sa_handler = customSIGTSTP; }
-	else { SIGTSTP_action.sa_handler = ignoreSignal; }
+	else { SIGTSTP_action.sa_handler = SIG_IGN; }
+	// TODO see above re sig_ign
 
 	// Block all catchable signals while handle_SIGINT is running
 	sigfillset(&SIGTSTP_action.sa_mask);

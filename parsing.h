@@ -114,7 +114,8 @@ struct command* createCommand(char* userInput) {
     // Adding a way to track if operands are done and we've moved into redirection or BG control
     bool addingArgs = true;
     // Adding tracker for if this particular token is normal text or a control char
-    bool isAlphaNum = true;
+    // This will be important for figuring out how to handle stuff like "> output.txt"
+    bool isNotSpecial = true;
    
     // Set up a blank array to hold the inputs. We know there will be a maximum of 512 arguments.
     // TODO newCommand->operands = calloc(MAX_ARG, sizeof(char*));
@@ -159,7 +160,7 @@ struct command* createCommand(char* userInput) {
     // Logic structure based on language processing loop in Project 1/2.
     token = strtok_r(NULL, DELIMITER, &saveptr);
     while (token != NULL) {
-        isAlphaNum = true;
+        isNotSpecial = true;
         // Count down the number of args processed
         tokenCounter--;
   
@@ -170,7 +171,7 @@ struct command* createCommand(char* userInput) {
         outputRedirect = (outputRedirect || (token[0] == *RIGHT_ARROW));
         redirection = (redirection || (inputRedirect || outputRedirect));
         if (token[0] == *LEFT_ARROW || token[0] == *RIGHT_ARROW || (strcmp(token, AMPERSAND) == 0 && (tokenCounter == 0))) {
-            isAlphaNum = false;
+            isNotSpecial = false;
         }
 
         // Set the command's redirect flags if <>s were found
@@ -186,21 +187,21 @@ struct command* createCommand(char* userInput) {
 
         // Use the booleans to extract info about input and output redirect targets.
         // If this is just a plain operand, put it in the array.
-        if (!inputRedirect && !outputRedirect && isAlphaNum) {
+        if (!inputRedirect && !outputRedirect && isNotSpecial) {
             newCommand->operands[operandArrayCounter] = calloc(tokenLength + 1, sizeof(char));
             strcpy(newCommand->operands[operandArrayCounter], token);
             operandArrayCounter++;
         }
-        // If the outputRedirect flag is true, and if the token isAlphaNum, then this is the redirect target
+        // If the outputRedirect flag is true, and if the token isNotSpecial, then this is the redirect target
         // Save the token as the outputTarget, and reset inputRedirect so we can keep processing without continously overwriting outputTarget
-        else if (outputRedirect && isAlphaNum) {
+        else if (outputRedirect && isNotSpecial) {
             newCommand->outputTarget = calloc(tokenLength + 1, sizeof(char));
             strcpy(newCommand->outputTarget, token);
             outputRedirect = false;
         }
-        // If the inputRedirect flag is true, and if the token isAlphaNum, then it's our redirect source
+        // If the inputRedirect flag is true, and if the token isNotSpecial, then it's our redirect source
         // Save the token as the inputSource, and reset inputRedirect so we can keep processing without continously overwriting inputSource
-        else if (inputRedirect && isAlphaNum) {
+        else if (inputRedirect && isNotSpecial) {
             newCommand->inputSource = calloc(tokenLength + 1, sizeof(char));
             strcpy(newCommand->inputSource, token);
             inputRedirect = false;

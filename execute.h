@@ -5,7 +5,7 @@
 *  Kills any child processes or jobs.
 *  Used as part of the exit function execution.
 *  A simplified version of killZombieChildren as it just sigterms everything.
-*  Does not modify status flag.
+*  Does not modify status flag per spec requirements.
 *  Returns the current exit success parameter value.
 */
 int killChildProcesses() {
@@ -30,7 +30,7 @@ int killChildProcesses() {
 *  Used to change the current working directory 
 *  Accepts one parameter, a command struct, which allows us to get the relevant operands.
 *  If no target directory is provided, goes to user home.
-*  Does not modify status flag.
+*  Does not modify status flag per spec requirements.
 */
 void execCd(struct command* currCommand) {
     // Handle the command with no further arguments and go to the user's home dir
@@ -66,7 +66,7 @@ void execCd(struct command* currCommand) {
 /*
 *  Displays the current value of the exit status flag.
 *  Accepts a command struct containing parameters.
-*  Does not modify status flag.
+*  Does not modify status flag per spec requirements.
 *  Returns no values.
 */
 void execStatus(struct command* currCommand) {
