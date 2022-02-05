@@ -32,7 +32,7 @@ int redirector(char* targetFile, bool input, bool output) {
 		printError("Problem opening file: "); 
 		return 1;
 	}
-
+	printShout("Test wtf\n");
 	// If all is well, do the actual redirects
 	if (input) { 
 		result = dup2(fileD, 0);
