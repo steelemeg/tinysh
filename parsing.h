@@ -209,6 +209,9 @@ struct command* createCommand(char* userInput) {
     //printArray(newCommand->operands, operandArrayCounter);
     // printf("\nDONE\n");
     newCommand->operandCount = operandArrayCounter;
+    printf("TESTING\n");
+    redirector(newCommand->inputSource);
+    redirector(newCommand->outputTarget);
     return newCommand;
 }
 

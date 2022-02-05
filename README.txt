@@ -30,6 +30,8 @@ Stack Overflow(January 24, 2022) Removing trailing newline character from fgets(
 
 Stack Overflow (February 2, 2022) Maximum PID in Linux [Documentation] https://stackoverflow.com/questions/6294133/maximum-pid-in-linux 
 
+OSU CS344 (February 2, 2022) Exploration: Shell Commands Related to Processes [Example source code] https://canvas.oregonstate.edu/courses/1884946/pages/exploration-shell-commands-related-to-processes
+
 Klitzke, Evan (February 2, 2022) Path MAX is tricky [Documentation] https://eklitzke.org/path-max-is-tricky
 
 OSU CS344 (February 2, 2022) Exploration: Signal Handling (Example Code Handlers for SIGINT, SIGUSR2, and Ignoring SIGTERM, etc. [Example Source Code] https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api

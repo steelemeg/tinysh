@@ -88,13 +88,14 @@ void execLibrary(struct command* currCommand) {
     // Viable options for executing library commands: 
     // execvp (wants an array), execlp (will take just strings but the last one should be null)
     // I want to use one of these two because they will look in the PATH for the command
-    // Trying execvp because it seems easier to pass an array than each of the operands
-    char* arguments[currCommand->operandCount];
+    // Trying execvp because it seems easier to pass an existing array of char*s than each of the operands
     execvp(currCommand->instruction, currCommand->operands);
     //execlp(currCommand->instruction, currCommand->instruction, NULL);
 
     /* WOrry about basic exec first then do the background foreground madness TODO 
     newPid = fork();
+    // Code layout taken from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-shell-commands-related-to-processes
+    // Full citation in the readme
     switch (newPid) {
     case -1: {
         // Child process creation failed
@@ -136,8 +137,7 @@ void execCommand(struct command* currCommand) {
         // Kill parent process to break the calling function's while loop. 
         //https://www.tutorialspoint.com/c_standard_library/c_function_exit.htm formal citation in readme
         exit(success);
-    }
-    
+    }   
     else if (strcmp(currCommand->instruction, "cd") == 0) { execCd(currCommand); }
     else if (strcmp(currCommand->instruction, "status") == 0) { execStatus(currCommand); }
     else{ execLibrary(currCommand); }
