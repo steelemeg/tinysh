@@ -72,12 +72,11 @@ void killZombieChildren() {
 	while (currChild != NULL)
 	{
 		// todo oh oby
-		// Check if the pid is >0 because we defaulted it to -5
-		if (currChild->childPid > 0) {
-			kill(currChild->childPid, SIGKILL);
-			sprintf(informativeMessage, "background pid %d is done: terminated by signal 15", currChild->childPid);
-			printShout(informativeMessage, true);
-		}
+
+		kill(currChild->childPid, SIGKILL);
+		sprintf(informativeMessage, "background pid %d is done: terminated by signal 15", currChild->childPid);
+		printShout(informativeMessage, true);
+
 		// todo handle removing child
 		currChild = currChild->next;
 	}
@@ -108,16 +107,22 @@ void handleSIGINT(int signo, bool dfl) {
 }
 
 /*
+* TODO OBVIOUSLY
+*/
+void customSIGTSTP() { return; }
+
+/*
 * Handler for SIGTSTP
 * Accepts two parameters, the signal number and a boolean specifying if default (true) or ignore (false)
 * Based on module code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api?module_item_id=21835981
 * Returns no values.
 */
-// TODO this one is complicated
+// TODO this one is complicated, dfl is not an option...gotta write some custom noise. UGH TOMORROW UGH
+// TODO does sigtstop actually take a signo?
 void handleSIGTSTP(int signo, bool dfl) {
 	struct sigaction SIGTSTP_action = { 0 };
 	//SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
-	if (dfl) { SIGTSTP_action.sa_handler = SIG_DFL; }
+	if (dfl) { SIGTSTP_action.sa_handler = customSIGTSTP; }
 	else { SIGTSTP_action.sa_handler = ignoreSignal; }
 
 	// Block all catchable signals while handle_SIGINT is running
