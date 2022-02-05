@@ -61,7 +61,7 @@ void execCd(struct command* currCommand) {
         
     }
     getcwd(cwdResults, MAX_COMMAND * 2 + 1);
-    if (debugMessages) { printShout(cwdResults); }
+    if (debugMessages) { printShout(cwdResults, true); }
     free(cwdResults);
     return;
 }
