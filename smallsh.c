@@ -32,6 +32,7 @@ int statusFlag = 0;
 struct child* firstChild = NULL;
 int childNum = 0;
 bool allowBackgroundMode = false;
+// Switch for printing out messages useful for troubleshooting. 
 bool debugMessages = true;
 
 // Defining some items for frequent use.
