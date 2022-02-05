@@ -16,7 +16,7 @@ int redirector(char* targetFile, bool input, bool output) {
 	printShout("Test begins");
 	if (input && output) {
 		printError("Invalid use of function redirector");
-		return;
+		return 1;
 	}
 	if (targetFile != NULL) { filename = targetFile; }
 	else {
