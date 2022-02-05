@@ -69,10 +69,10 @@ int main(int argc, char* argv[]) {
     // TODO deal with SIGTST for parent
     char* colon = ": ";
 
-    // Mimicing the formatting of the screenshots, start each line with ":"
-    printShout(colon, false);
-
     while (1) {
+        // Mimicing the formatting of the screenshots, start each line with ":"
+        printShout(colon, false);
+
         char* protoCommand = getExpandedInput();
         // Build a command struct from the expanded input.
         struct command* newCommand = createCommand(protoCommand);
