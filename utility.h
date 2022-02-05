@@ -62,10 +62,6 @@ void ignoreSignal(int signo) {
 * TODO already called after instruction switch
 */
 void killZombieChildren() {
-	// The max possible PID is somewhere between 32768 and 2^22 per https://stackoverflow.com/questions/6294133/maximum-pid-in-linux 
-	// Formal citation in readme.
-	// Going with a max allowed of 11 to be on the safe side, adding 1 for null terminator
-	char* currPid = calloc(12, sizeof(char));
 	pid_t pid;
 	// Per the spec, we must display information messages when processes are terminated
 	// These messages must take the form of either "background pid #### is done: exit value #" or 
@@ -75,17 +71,61 @@ void killZombieChildren() {
 
 	while (currChild != NULL)
 	{
-		kill(currChild->childPid, SIGKILL);
-		sprintf(informativeMessage, "background pid %d is done: terminated by signal 15", currChild->childPid);
-		printShout(informativeMessage, true);
+		// todo oh oby
+		// Check if the pid is >0 because we defaulted it to -5
+		if (currChild->childPid > 0) {
+			kill(currChild->childPid, SIGKILL);
+			sprintf(informativeMessage, "background pid %d is done: terminated by signal 15", currChild->childPid);
+			printShout(informativeMessage, true);
+		}
+		// todo handle removing child
 		currChild = currChild->next;
 	}
 
-	
-	// Borrowing sprintf trick from Project 2
-	sprintf(currPid, "%d", pid);
-
-	free(currPid);
 	free(informativeMessage);
+	return;
+}
+/* 
+* Handler for SIGINT
+* Accepts two parameters, the signal number and a boolean specifying if default (true) or ignore (false)
+* Based on module code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api?module_item_id=21835981
+* Returns no values.
+*/
+void handleSIGINT(int signo, bool dfl) {
+	struct sigaction SIGINT_action = { 0 };
+	//SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
+	if (dfl) { SIGINT_action.sa_handler = SIG_DFL; }
+	else { SIGINT_action.sa_handler = ignoreSignal; }
+
+	// Block all catchable signals while handle_SIGINT is running
+	sigfillset(&SIGINT_action.sa_mask);
+	// No flags set
+	SIGINT_action.sa_flags = 0;
+
+	// Install our signal handler
+	sigaction(SIGINT, &SIGINT_action, NULL);
+	return;
+}
+
+/*
+* Handler for SIGTSTP
+* Accepts two parameters, the signal number and a boolean specifying if default (true) or ignore (false)
+* Based on module code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api?module_item_id=21835981
+* Returns no values.
+*/
+// TODO this one is complicated
+void handleSIGTSTP(int signo, bool dfl) {
+	struct sigaction SIGTSTP_action = { 0 };
+	//SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
+	if (dfl) { SIGTSTP_action.sa_handler = SIG_DFL; }
+	else { SIGTSTP_action.sa_handler = ignoreSignal; }
+
+	// Block all catchable signals while handle_SIGINT is running
+	sigfillset(&SIGTSTP_action.sa_mask);
+	// No flags set
+	SIGTSTP_action.sa_flags = 0;
+
+	// Install our signal handler
+	sigaction(SIGTSTP, &SIGTSTP_action, NULL);
 	return;
 }
