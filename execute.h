@@ -125,8 +125,8 @@ void execLibrary(struct command* currCommand) {
         break;
     }
     default:
-        // Parent will execute the code in this branch
-        sprintf(newPidStr, "%d", pidTODO);
+        // Parent will execute the code in this branch TODO what pid is pid ugh
+        sprintf(newPidStr, "%d", newPid);
         
         break;
     } 
