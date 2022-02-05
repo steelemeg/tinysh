@@ -33,6 +33,11 @@ int killChildProcesses() {
 *  Does not modify status flag per spec requirements.
 */
 void execCd(struct command* currCommand) {
+    // If I am understanding properly we aren't supposed to use getenv(PWD) but can use getcwd to check paths.
+    // Per https://eklitzke.org/path-max-is-tricky, the theoretical max path length is 4096. Formal citation
+    // in the readme.
+    char* cwdResults = calloc(MAX_COMMAND * 2, sizeof(char));
+
     // Handle the command with no further arguments and go to the user's home dir
     if (currCommand->operandCount == 1 || !currCommand->operands[1]) {
         // Function pulled from Linux Programming Interface text, page 363-364; full citation in readme.
@@ -43,10 +48,6 @@ void execCd(struct command* currCommand) {
         char* newDir;
         // TODO 
         newDir = currCommand->operands[1];
-        // If I am understanding properly we aren't supposed to use getenv(PWD) but can use getcwd to check paths.
-        // Per https://eklitzke.org/path-max-is-tricky, the theoretical max path length is 4096. Formal citation
-        // in the readme.
-        char* cwdResults = calloc(MAX_COMMAND * 2, sizeof(char));
         if (getcwd(cwdResults, MAX_COMMAND * 2 + 1) == NULL) { printError("Tried to get cwd, encountered error:"); }
         
         // First make sure the path isn't blank, which it really shouldn't be, but be safe
@@ -57,9 +58,11 @@ void execCd(struct command* currCommand) {
             // If it exists, chdir into it.
             else { chdir(newDir); }
         }
-        free(cwdResults);
+        
     }
-    
+    getcwd(cwdResults, MAX_COMMAND * 2 + 1);
+    if (debugMessages) { printShout(cwdResults); }
+    free(cwdResults);
     return;
 }
 
@@ -71,7 +74,7 @@ void execCd(struct command* currCommand) {
 */
 void execStatus(struct command* currCommand) {
     char* output = calloc(20, sizeof(char));
-    sprintf(output, "exit value %d\n", statusFlag);
+    sprintf(output, "exit value %d", statusFlag);
     printShout(output, true);
     free(output);
     return;

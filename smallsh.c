@@ -32,6 +32,7 @@ int statusFlag = 0;
 struct child* firstChild = NULL;
 int childNum = 0;
 bool allowBackgroundMode = false;
+bool debugMessages = true;
 
 // Defining some items for frequent use.
 #define DELIMITER " "
