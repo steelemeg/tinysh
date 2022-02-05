@@ -7,7 +7,7 @@
 * Returns no values.
 * Based on code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-processes-and-i-slash-o, full citation in readme
 */
-void redirector(char* targetFile, bool input, bool output) {
+int redirector(char* targetFile, bool input, bool output) {
 	// Modifying lecture code to account for the possibility of a blank filename. 
 	// Per assignment if filename is blank, use /dev/null
 	char* filename;
@@ -30,7 +30,7 @@ void redirector(char* targetFile, bool input, bool output) {
 	// Handle file opening errors
 	if (fileD == -1) { 
 		printError("Problem opening file: "); 
-		exit(1);
+		return 1;
 	}
 
 	// If all is well, do the actual redirects
@@ -43,7 +43,7 @@ void redirector(char* targetFile, bool input, bool output) {
 	// Handle dup2 errors 
 	if (result == -1) {
 		printError("Problem with redirection, dup2() execution generated an error");
-		exit(2);
+		return 1;
 	}
-	return;
+	return 0;
 }
