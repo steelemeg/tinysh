@@ -29,9 +29,10 @@ int redirector(char* targetFile, bool input, bool output) {
 	else if (output) { fileD = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644); }
 
 	// Handle file opening errors
-	if (fileD == -1) { 
-		printError("Problem opening file: "); 
+	if (fileD == -1) {
+		printError("Problem opening file: ");
 		return 1;
+	}
 	
 	// If all is well, do the actual redirects
 	result = dup2(fileD, dupFlag);
