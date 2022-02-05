@@ -76,12 +76,11 @@ int main(int argc, char* argv[]) {
         struct command* newCommand = createCommand(protoCommand);
         redirector(newCommand->outputTarget, false, true);
         // If the input wasn't blank, execute the instruction 
+        printShout("pre exec", true);
         if (newCommand->instruction) {
-            // TODO Step 1 : let's just print things ok
             execCommand(newCommand);
         }
         keepGoing--;
-    // TODO deal with child processes lurking about -- maybe in the exit
     }
 
     return EXIT_SUCCESS;

@@ -93,8 +93,9 @@ void execLibrary(struct command* currCommand) {
     char* newPidStr = calloc(12, sizeof(char));
     // Per the assignment, we must print a message when background processes conclude. 
     char* bgExitMessage = calloc(MAX_ARG, sizeof(char));
-
-    newPid = fork();
+    //TODO get rid of this
+    execvp(currCommand->instruction, currCommand->operands);
+    /*newPid = fork();
     // Base code taken from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-shell-commands-related-to-processes
     // Full citation in the readme
     switch (newPid) {
@@ -131,7 +132,7 @@ void execLibrary(struct command* currCommand) {
         sprintf(newPidStr, "%d", newPid);
         
         break;
-    } 
+    } */
     free(newPidStr);
     free(bgExitMessage);
     return;
