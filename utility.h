@@ -23,7 +23,6 @@ int redirector(char* targetFile, bool input, bool output) {
 	else {
 		filename = "/dev/null";
 	}
-	printShout(filename);
 	// If this is input, the file should already exist. If it's output, it might not.
 	if (input) { fileD = open(filename, O_RDONLY); }
 	else if (output) { fileD = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644); }
@@ -33,10 +32,10 @@ int redirector(char* targetFile, bool input, bool output) {
 		printError("Problem opening file: ");
 		return 1;
 	}
-	
+	printShout("pre\n");
 	// If all is well, do the actual redirects
 	result = dup2(fileD, dupFlag);
-
+	printShout("post\n");
 	// Handle dup2 errors 
 	if (result == -1) {
 		printError("Problem with redirection, dup2() execution generated an error");
