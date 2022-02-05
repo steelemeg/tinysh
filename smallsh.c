@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
         char* protoCommand = getExpandedInput();
         // Build a command struct from the expanded input.
         struct command* newCommand = createCommand(protoCommand);
-        redirector(NULL, true, false);
+        redirector(newCommand->outputTarget, false, true);
         // If the input wasn't blank, execute the instruction 
         if (newCommand->instruction) {
             // TODO Step 1 : let's just print things ok

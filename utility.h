@@ -20,7 +20,6 @@ void redirector(char* targetFile, bool input, bool output) {
 	if (targetFile != NULL) { filename = targetFile; }
 	else {
 		filename = "/dev/null";
-		printShout("NULL CHECK!");
 	}
 	printShout(filename);
 	// If this is input, the file should already exist. If it's output, it might not.
