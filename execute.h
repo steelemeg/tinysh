@@ -85,35 +85,47 @@ void execLibrary(struct command* currCommand) {
     // Per the assignment, fork a child process for non-built-in-commands.
     // Create a fresh pid (based on module code, full citation in readme)
     pid_t newPid = -5;
-    // Viable options for executing library commands: 
-    // execvp (wants an array), execlp (will take just strings but the last one should be null)
-    // I want to use one of these two because they will look in the PATH for the command
-    // Trying execvp because it seems easier to pass an existing array of char*s than each of the operands
-    execvp(currCommand->instruction, currCommand->operands);
-    //execlp(currCommand->instruction, currCommand->instruction, NULL);
+    // The max possible PID is somewhere between 32768 and 2^22 per https://stackoverflow.com/questions/6294133/maximum-pid-in-linux 
+    // Formal citation in readme.
+    // Going with a max allowed of 11 to be on the safe side, adding 1 for null terminator
+    char* newPidStr = calloc(12, sizeof(char));
+    // Per the assignment, we must print a message when background processes conclude. 
+    char* bgExitMessage = calloc(MAX_ARG, sizeof(char));
 
-    /* WOrry about basic exec first then do the background foreground madness TODO 
     newPid = fork();
-    // Code layout taken from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-shell-commands-related-to-processes
+    // Base code taken from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-shell-commands-related-to-processes
     // Full citation in the readme
     switch (newPid) {
     case -1: {
         // Child process creation failed
-        printShout("fork() failed! No child process was created.");
+        printError("fork() failed! No child process was created:");
         exit(1);
         break;
     }
     case 0: {
         // Child process creation successful. This code will be executed only by the child.
         // TODO SIGTSTP
-        // TODO ugh gonna need a new array
-        //execvp(currCommand->instruction, currCommand->operands[0]);
+        
+        // Are we redirecting input or output?
+        
+
+        // TODO background mode check
+        
+        // Viable options for executing library commands: 
+        // execvp (wants an array), execlp (will take just strings but the last one should be null)
+        // I want to use one of these two because they will look in the PATH for the command
+        // Trying execvp because it seems easier to pass an existing array of char*s than each of the operands
+        execvp(currCommand->instruction, currCommand->operands);
         break;
     }
     default:
         // Parent will execute the code in this branch
+        sprintf(newPidStr, "%d", pidTODO);
+        
         break;
-    } */
+    } 
+    free(newPid);
+    free(bgExitMessage);
     return;
 }
 

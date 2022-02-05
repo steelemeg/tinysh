@@ -1,4 +1,4 @@
-// Contains functions for signal handling, redirection, and anyting else that supports other function types.
+// Contains functions for signal handling, redirection, and anything else that supports other function types.
 
 /*
 * Use dup2 to redirect input or output.
@@ -32,15 +32,34 @@ int redirector(char* targetFile, bool input, bool output) {
 		printError("Problem opening file: ");
 		return 1;
 	}
-	printShout("pre\n");
-	// If all is well, do the actual redirects
+
+	// If all is well, do the actual redirect. Use dup2 to point to fileD, use the flag to determine if it's input or output
 	result = dup2(fileD, dupFlag);
-	printShout("post\n");
 	// Handle dup2 errors 
 	if (result == -1) {
 		printError("Problem with redirection, dup2() execution generated an error");
 		return 1;
 	}
-	printShout("Test ends");
 	return 0;
+}
+
+/*
+* Based on the assignment, we need to ignore some signals (i.e. a child running as a backgroupd process must ignore SIGTSTP).
+* Per the signal handling module, we also have to define a sa_handler for a given sigaction struct
+* Creating a pass-through function so it can be provided in these scenarios.
+* Accepts one parameter to mimic the handler examples in module (https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api)
+* Returns no values.
+*/
+void ignoreSignal(int signo) {
+	// pass
+	//TODO 
+	printShout("ignore time\n");
+	return;
+}
+
+/* 
+* TODO 
+*/
+void killZombieChildren() {
+	return;
 }
