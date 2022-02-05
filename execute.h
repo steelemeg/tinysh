@@ -130,7 +130,7 @@ void execLibrary(struct command* currCommand) {
         
         break;
     } 
-    free(newPid);
+    free(newPidStr);
     free(bgExitMessage);
     return;
 }
