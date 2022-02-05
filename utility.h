@@ -35,10 +35,10 @@ void redirector(char* targetFile, bool input, bool output) {
 
 	// If all is well, do the actual redirects
 	if (input) { 
-		result = dup2(filename, 0);
+		result = dup2(fileD, 0);
 	}
 	else if (output) {
-		result = dup2(filename, 1);
+		result = dup2(fileD, 1);
 	}
 	// Handle dup2 errors 
 	if (result == -1) {
