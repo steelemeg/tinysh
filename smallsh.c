@@ -72,12 +72,14 @@ int main(int argc, char* argv[]) {
     // Mimicing the formatting of the screenshots, start each line with ":"
     printShout(colon, false);
 
-    char* protoCommand = getExpandedInput();
-    // Build a command struct from the expanded input.
-    struct command* newCommand = createCommand(protoCommand);
-    // If the input wasn't blank, execute the instruction 
-    if (newCommand->instruction) {
-        execCommand(newCommand);
+    while (1) {
+        char* protoCommand = getExpandedInput();
+        // Build a command struct from the expanded input.
+        struct command* newCommand = createCommand(protoCommand);
+        // If the input wasn't blank, execute the instruction 
+        if (newCommand->instruction) {
+            execCommand(newCommand);
+        }
     }
 
     return EXIT_SUCCESS;
