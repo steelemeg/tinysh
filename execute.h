@@ -93,19 +93,20 @@ void execLibrary(struct command* currCommand) {
     pid_t newPid = -5;
     bool redirectedInput = false; 
     bool redirectedOutput = false;
+    bool childCreatedInBackground = false;
     // The max possible PID is somewhere between 32768 and 2^22 per https://stackoverflow.com/questions/6294133/maximum-pid-in-linux 
     // Formal citation in readme.
     // Going with a max allowed of 11 to be on the safe side, adding 1 for null terminator
     char* newPidStr = calloc(12, sizeof(char));
     // Per the assignment, we must print a message when background processes conclude. 
     char* bgExitMessage = calloc(MAX_ARG, sizeof(char));
-    //TODO get rid of this
-    execvp(currCommand->instruction, currCommand->operands);
-    newPid = fork();
     // Based on the sample program execution, this message will be required for bg children
     sprintf(bgExitMessage, "background pid is %d", newPid);
 
-    
+    //TODO get rid of this
+    execvp(currCommand->instruction, currCommand->operands);
+    newPid = fork();
+
     // Base code taken from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-shell-commands-related-to-processes
     // Full citation in the readme
     switch (newPid) {
@@ -117,7 +118,8 @@ void execLibrary(struct command* currCommand) {
     }
     case 0: {
         // Child process creation successful. This code will be executed only by the child.
-        // TODO SIGTSTP -WHAT
+        // Background and foreground children should ignore SIGTSTP. Since this case is child-only, set to ignore.
+        handleSIGTSTP(false);
 
         // Are we redirecting input or output?
         if (currCommand->redirectOutput) { 
@@ -129,17 +131,27 @@ void execLibrary(struct command* currCommand) {
             redirectedInput = true;
         }
         
-
         if (currCommand->backgroundJob && allowBackgroundMode) { 
+            // Track the child in the linked list
+            childCreatedInBackground = true;
+            createChild(&firstChild, newPid);
+            // Per the specs, any children running as background processes must ignore SIGINT.
+            handleSIGINT(false);
             // per the spec, if no input redirect for a background command, then standard input should be redirected to /dev/null
             if (!redirectedInput) { redirector(NULL, true, false); }
             // per the spec, if no output redirect for a background command, then standard output should be redirected to /dev/null
             if (!redirectedOutput) { redirector(NULL, false, true); }
         }
-        // Per the specs, any children running as background processes must ignore SIGINT, but a child running as a 
-        // foreground process must terminate itself when it receives SIGINT
-        // TODO implement this
+        // If the command is foreground, OR if background mode is disabled, set up to run as a fg process. 
+        // Per spec, child running as a foreground process must terminate itself when it receives SIGINT
+        // When this occurs the parent must print out a message, which will be handled later.
+        // TODO don't forget the message
+        else { 
+            childCreatedInBackground = false;
+            handleSIGINT(true); 
+        }
 
+        // Child process created and tracked, signal handlers configured. Execute the actual command.
         // Viable options for executing library commands: 
         // execvp (wants an array), execlp (will take just strings but the last one should be null)
         // I want to use one of these two because they will look in the PATH for the command
@@ -148,8 +160,11 @@ void execLibrary(struct command* currCommand) {
         break;
     }
     default:
-        // Parent will execute the code in this branch TODO what pid is pid ugh
+        // Parent will execute the code in this branch 
+        // toDO do i actually need this any more
         sprintf(newPidStr, "%d", newPid);
+        
+        // Time to clean up. Foreground commands 
         
         break;
     } 

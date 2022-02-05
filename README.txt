@@ -52,7 +52,7 @@ TODO text citations page 363-364 The Current Working Directory of a Process
 
 Delft Stack [February 2, 2022] C Initialize Array to 0 [Example source code] https://www.delftstack.com/howto/c/c-initialize-array-to-0/
 
-Geeks for Geeks [February 2, 2022] Linked List Set 3 Deleting Node [Exampel source code] https://www.geeksforgeeks.org/linked-list-set-3-deleting-node/
+Geeks for Geeks [February 2, 2022] Linked List Set 3 Deleting Node [Example source code] https://www.geeksforgeeks.org/linked-list-set-3-deleting-node/
 
 Code Vault [February 1, 2022] Redirecting Standard Output in C [Example source code] https://www.youtube.com/watch?v=5fnVr-zH-SE
 

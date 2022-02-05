@@ -88,15 +88,15 @@ void killZombieChildren() {
 }
 /* 
 * Handler for SIGINT. Per the spec, we must have a custom handler for SIGINT.
-* Accepts two parameters, the signal number and a boolean specifying if default (true) or ignore (false)
+* Accepts a boolean specifying if default (true) or ignore (false)
 * Based on module code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api?module_item_id=21835981
 * Returns no values.
 */
-void handleSIGINT(int signo, bool dfl) {
+void handleSIGINT(bool dfl) {
 	struct sigaction SIGINT_action = { 0 };
-	//SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
+	// SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
 	if (dfl) { SIGINT_action.sa_handler = SIG_DFL; }
-	// TODO can we use SIG_IGN? Module makes it sound like yes
+	// Can we use SIG_IGN? Module makes it sound like yes
 	else { SIGINT_action.sa_handler = SIG_IGN; }
 
 	// Block all catchable signals while handle_SIGINT is running
@@ -145,12 +145,12 @@ void customSIGTSTP(int signo) {
 
 /*
 * Handler for SIGTSTP. Per the spec, we must have a custom handler for SIGTSTP.
-* Accepts two parameters, the signal number and a boolean specifying if default (true) or ignore (false)
+* Accepts a boolean specifying if default (true) or ignore (false)
 * Based on module code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api?module_item_id=21835981
+* Since the sa_handler wants a function, this is effectively broken into two parts, handleSIGTSTP and custom
 * Returns no values.
 */
-// TODO does sigtstop actually take a signo?
-void handleSIGTSTP(int signo, bool dfl) {
+void handleSIGTSTP(bool dfl) {
 	struct sigaction SIGTSTP_action = { 0 };
 	//SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
 	if (dfl) { SIGTSTP_action.sa_handler = customSIGTSTP; }
