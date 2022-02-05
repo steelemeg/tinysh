@@ -6,7 +6,9 @@ struct command {
     bool backgroundJob;
     int tokenCount;
     int operandCount;
+    // TODO 
     //char** operands;
+    // Trying to structure my operands array to be compatible with execvp
     // Add one to allow for a null to support execvp, just in case there are actually 512 args
     char* operands[MAX_ARG + 1];
     bool redirectInput;
