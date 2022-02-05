@@ -114,6 +114,7 @@ void execLibrary(struct command* currCommand) {
     case 0: {
         // Child process creation successful. This code will be executed only by the child.
         // Background and foreground children should ignore SIGTSTP. Since this case is child-only, set to ignore.
+        printShout("TEST?", true);
         handleSIGTSTP(false);
 
         // Are we redirecting input or output?
