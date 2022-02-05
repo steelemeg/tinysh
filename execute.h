@@ -60,8 +60,11 @@ void execCd(struct command* currCommand) {
         }
         
     }
-    getcwd(cwdResults, MAX_COMMAND * 2 + 1);
-    if (debugMessages) { printShout(cwdResults, true); }
+    // If debugging, show the resulting path after executing the cd.
+    if (debugMessages) { 
+        getcwd(cwdResults, MAX_COMMAND * 2 + 1);
+        printShout(cwdResults, true); 
+    }
     free(cwdResults);
     return;
 }
@@ -82,22 +85,27 @@ void execStatus(struct command* currCommand) {
 
 /*
 *  TODO
-*  
+*  The shell will print the process id of a background process when it begins.
 */
 void execLibrary(struct command* currCommand) {
     // Per the assignment, fork a child process for non-built-in-commands.
     // Create a fresh pid (based on module code, full citation in readme)
     pid_t newPid = -5;
+    bool redirectedInput = false; 
+    bool redirectedOutput = false;
     // The max possible PID is somewhere between 32768 and 2^22 per https://stackoverflow.com/questions/6294133/maximum-pid-in-linux 
     // Formal citation in readme.
     // Going with a max allowed of 11 to be on the safe side, adding 1 for null terminator
-    // TODO do we need this here? It's not like expansion
     char* newPidStr = calloc(12, sizeof(char));
     // Per the assignment, we must print a message when background processes conclude. 
     char* bgExitMessage = calloc(MAX_ARG, sizeof(char));
     //TODO get rid of this
     execvp(currCommand->instruction, currCommand->operands);
-    /*newPid = fork();
+    newPid = fork();
+    // Based on the sample program execution, this message will be required for bg children
+    sprintf(bgExitMessage, "background pid is %d", newPid);
+
+    
     // Base code taken from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-shell-commands-related-to-processes
     // Full citation in the readme
     switch (newPid) {
@@ -109,19 +117,29 @@ void execLibrary(struct command* currCommand) {
     }
     case 0: {
         // Child process creation successful. This code will be executed only by the child.
-        // TODO SIGTSTP
-        
+        // TODO SIGTSTP -WHAT
+
         // Are we redirecting input or output?
-        if (currCommand->redirectOutput) { redirector(currCommand->outputTarget, false, true); }
-        else if (currCommand->redirectInput) { redirector(currCommand->inputSource, true, false); }
+        if (currCommand->redirectOutput) { 
+            redirector(currCommand->outputTarget, false, true); 
+            redirectedOutput = true;
+        }
+        if (currCommand->redirectInput) { 
+            redirector(currCommand->inputSource, true, false); 
+            redirectedInput = true;
+        }
         
-        // TODO background mode check
-        if (currCommand->backgroundJob && allowBackgroundMode) {  }
+
+        if (currCommand->backgroundJob && allowBackgroundMode) { 
+            // per the spec, if no input redirect for a background command, then standard input should be redirected to /dev/null
+            if (!redirectedInput) { redirector(NULL, true, false); }
+            // per the spec, if no output redirect for a background command, then standard output should be redirected to /dev/null
+            if (!redirectedOutput) { redirector(NULL, false, true); }
+        }
         // Per the specs, any children running as background processes must ignore SIGINT, but a child running as a 
         // foreground process must terminate itself when it receives SIGINT
         // TODO implement this
-        else {}
-        // TODO if the child shoudl run in the background and is permitted to do so, redirect to dir/null
+
         // Viable options for executing library commands: 
         // execvp (wants an array), execlp (will take just strings but the last one should be null)
         // I want to use one of these two because they will look in the PATH for the command
@@ -134,7 +152,7 @@ void execLibrary(struct command* currCommand) {
         sprintf(newPidStr, "%d", newPid);
         
         break;
-    } */
+    } 
     free(newPidStr);
     free(bgExitMessage);
     return;

@@ -125,7 +125,11 @@ void customSIGTSTP(int signo) {
 	char* backgroundYesMessage = calloc(29, sizeof(char));
 	sprintf(backgroundYesMessage, "Exiting foreground-only mode\n");
 
-	// Using write per the module. 
+	// Using write per the module--printShout depends on printf, which is not re-entrant. 
+	// Per the spec, if the parent process receives SIGTSTP, we must show a custom message
+	// and disable background processing. If SIGTSTP is received again, another message must
+	// be displayed and background processing should be re-enabled. Using the background mode
+	// global flag to determine which behavior should be executed.
 	if (allowBackgroundMode) { 
 		write(STDOUT_FILENO, backgroundNoMessage, 49);
 		allowBackgroundMode = false;
@@ -145,7 +149,6 @@ void customSIGTSTP(int signo) {
 * Based on module code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api?module_item_id=21835981
 * Returns no values.
 */
-// TODO this one is complicated, dfl is not an option...gotta write some custom noise. UGH TOMORROW UGH
 // TODO does sigtstop actually take a signo?
 void handleSIGTSTP(int signo, bool dfl) {
 	struct sigaction SIGTSTP_action = { 0 };

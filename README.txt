@@ -61,3 +61,5 @@ Delft Stack (February 1, 2022) Kill Child Process in C [Example source code] htt
 OSU CS344 (February 1, 2022) Module 5 Exploration:Process API - Creating and Terminating Process [Example source code] https://canvas.oregonstate.edu/courses/1884946/pages/exploration-process-api-creating-and-terminating-processes?module_item_id=21835972
 
 Stack Overflow (February 3, 2022) How to Use Execvp [Example source code] https://stackoverflow.com/questions/27541910/how-to-use-execvp
+
+Ruttan, Arden (Febraury 5, 2022) Introduction To Unix Signals Programming [Example source code] http://www.cs.kent.edu/~ruttan/sysprog/lectures/signals.html
