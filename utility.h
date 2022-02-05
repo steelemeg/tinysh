@@ -13,6 +13,7 @@ void redirector(char* targetFile, bool input, bool output) {
 	char* filename;
 	int fileD = 0;
 	int result = 0;
+	printShout("Test begins");
 	if (input && output) {
 		printError("Invalid use of function redirector");
 		return;
