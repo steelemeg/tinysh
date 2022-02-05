@@ -13,6 +13,7 @@ int redirector(char* targetFile, bool input, bool output) {
 	char* filename;
 	int fileD = 0;
 	int result = 0;
+	int dupFlag = input ? 0 : 1;
 
 	if (input && output) {
 		printError("Invalid use of function redirector");
@@ -31,15 +32,10 @@ int redirector(char* targetFile, bool input, bool output) {
 	if (fileD == -1) { 
 		printError("Problem opening file: "); 
 		return 1;
-	}
-	printShout("Test wtf\n");
+	
 	// If all is well, do the actual redirects
-	if (input) { 
-		result = dup2(fileD, 0);
-	}
-	else if (output) {
-		result = dup2(fileD, 1);
-	}
+	result = dup2(fileD, dupFlag);
+
 	// Handle dup2 errors 
 	if (result == -1) {
 		printError("Problem with redirection, dup2() execution generated an error");
