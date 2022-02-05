@@ -7,7 +7,8 @@ struct command {
     int tokenCount;
     int operandCount;
     //char** operands;
-    char* operands[MAX_ARG];
+    // Add one to allow for a null to support execvp, just in case there are actually 512 args
+    char* operands[MAX_ARG + 1];
     bool redirectInput;
     bool redirectOutput;
     char* inputSource;
@@ -79,6 +80,7 @@ void childList(struct child* currChild)
     while (currChild != NULL)
     {
         printf("child id %d\n", currChild->childPid);
+        fflush(NULL);
         currChild = currChild->next;
     }
 }
@@ -208,6 +210,8 @@ struct command* createCommand(char* userInput) {
     //printf("PRINTING\n");
     //printArray(newCommand->operands, operandArrayCounter);
     // printf("\nDONE\n");
+    // execvp will want the array to be null terminated. add this now for ease of use later.
+
     newCommand->operandCount = operandArrayCounter;
     return newCommand;
 }

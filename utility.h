@@ -53,13 +53,39 @@ int redirector(char* targetFile, bool input, bool output) {
 void ignoreSignal(int signo) {
 	// pass
 	//TODO 
-	printShout("ignore time\n");
+	printShout("ignore time", true);
 	return;
 }
 
 /* 
-* TODO 
+* TODO clean up the mess after an instruction executes
+* TODO already called after instruction switch
 */
 void killZombieChildren() {
+	// The max possible PID is somewhere between 32768 and 2^22 per https://stackoverflow.com/questions/6294133/maximum-pid-in-linux 
+	// Formal citation in readme.
+	// Going with a max allowed of 11 to be on the safe side, adding 1 for null terminator
+	char* currPid = calloc(12, sizeof(char));
+	pid_t pid;
+	// Per the spec, we must display information messages when processes are terminated
+	// These messages must take the form of either "background pid #### is done: exit value #" or 
+	// "background pid #### is done: terminated by signal ##"
+	char* informativeMessage = calloc(MAX_ARG, sizeof(char));
+	struct child* currChild = firstChild;
+
+	while (currChild != NULL)
+	{
+		kill(currChild->childPid, SIGKILL);
+		sprintf(informativeMessage, "background pid %d is done: terminated by signal 15", currChild->childPid);
+		printShout(informativeMessage, true);
+		currChild = currChild->next;
+	}
+
+	
+	// Borrowing sprintf trick from Project 2
+	sprintf(currPid, "%d", pid);
+
+	free(currPid);
+	free(informativeMessage);
 	return;
 }

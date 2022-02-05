@@ -4,6 +4,7 @@
 *  Accepts no arguments. 
 *  Kills any child processes or jobs.
 *  Used as part of the exit function execution.
+*  A simplified version of killZombieChildren as it just sigterms everything.
 *  Does not modify status flag.
 *  Returns the current exit success parameter value.
 */
@@ -12,14 +13,13 @@ int killChildProcesses() {
     // Walk through the linked list of child PIDs. Kill them if they are running.
     struct child* currChild = firstChild;
     char* output = calloc(50, sizeof(char));
-    if (childNum > 0){
-        while (currChild != NULL)
-        {
-            kill(currChild->childPid, SIGKILL);
-            sprintf(output, "Background process with pid %d terminated", currChild->childPid);
-            printShout(output);
-            currChild = currChild->next;
-        }
+
+    while (currChild != NULL)
+    {
+        kill(currChild->childPid, SIGKILL);
+        sprintf(output, "background pid %d is done: terminated by signal 15", currChild->childPid);
+        printShout(output, true);
+        currChild = currChild->next;
     }
     free(output);
     free(currChild);
@@ -53,7 +53,7 @@ void execCd(struct command* currCommand) {
         if (newDir) {
             sprintf(cwdResults, "%s%s%s", cwdResults, "/", newDir);
             // Then see if the path exists.
-            if (chdir(cwdResults) == -1) { printShout("No such file or directory."); }
+            if (chdir(cwdResults) == -1) { printShout("No such file or directory.", true); }
             // If it exists, chdir into it.
             else { chdir(newDir); }
         }
@@ -72,7 +72,7 @@ void execCd(struct command* currCommand) {
 void execStatus(struct command* currCommand) {
     char* output = calloc(20, sizeof(char));
     sprintf(output, "exit value %d\n", statusFlag);
-    printShout(output);
+    printShout(output, true);
     free(output);
     return;
 }
@@ -107,10 +107,16 @@ void execLibrary(struct command* currCommand) {
         // TODO SIGTSTP
         
         // Are we redirecting input or output?
+        if (currCommand->redirectOutput) { redirector(currCommand->outputTarget, false, true); }
+        else if (currCommand->redirectInput) { redirector(currCommand->inputSource, true, false); }
         
-
         // TODO background mode check
-        
+        if (currCommand->backgroundJob && allowBackgroundMode) {  }
+        // Per the specs, any children running as background processes must ignore SIGINT, but a child running as a 
+        // foreground process must terminate itself when it receives SIGINT
+        // TODO implement this
+        else {}
+        // TODO if the child shoudl run in the background and is permitted to do so, redirect to dir/null
         // Viable options for executing library commands: 
         // execvp (wants an array), execlp (will take just strings but the last one should be null)
         // I want to use one of these two because they will look in the PATH for the command
@@ -153,6 +159,7 @@ void execCommand(struct command* currCommand) {
     else if (strcmp(currCommand->instruction, "cd") == 0) { execCd(currCommand); }
     else if (strcmp(currCommand->instruction, "status") == 0) { execStatus(currCommand); }
     else{ execLibrary(currCommand); }
+    killZombieChildren();
 
     return;
 }
