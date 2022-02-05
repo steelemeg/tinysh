@@ -140,7 +140,6 @@ void execLibrary(struct command* currCommand) {
         // When this occurs the parent must print out a message, which will be handled later.
         // TODO don't forget the message
         else { 
-            printShout("TEST?", true);
             childCreatedInBackground = false;
             handleSIGINT(true); 
         }
@@ -156,7 +155,7 @@ void execLibrary(struct command* currCommand) {
     default:
         // todo should this be default? or outside switch? module makes it look like default
         // Parent will execute the code in this branch 
-        
+        printShout("TEST?", true);
         // For background commands, the shell must not wait for completion
         if (allowBackgroundMode && currCommand->backgroundJob) {
             // Track the child in the linked list
