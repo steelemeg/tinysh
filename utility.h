@@ -93,7 +93,8 @@ void killZombieChildren() {
 * Returns no values.
 */
 void handleSIGINT(bool dfl) {
-	struct sigaction SIGINT_action = { 0 };
+	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
+	struct sigaction SIGINT_action = { { 0 } };
 	// SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
 	if (dfl) { SIGINT_action.sa_handler = SIG_DFL; }
 	// Can we use SIG_IGN? Module makes it sound like yes
@@ -151,7 +152,8 @@ void customSIGTSTP(int signo) {
 * Returns no values.
 */
 void handleSIGTSTP(bool dfl) {
-	struct sigaction SIGTSTP_action = { 0 };
+	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
+	struct sigaction SIGTSTP_action = { { 0 } };
 	//SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
 	if (dfl) { SIGTSTP_action.sa_handler = customSIGTSTP; }
 	else { SIGTSTP_action.sa_handler = SIG_IGN; }

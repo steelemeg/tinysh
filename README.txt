@@ -63,3 +63,7 @@ OSU CS344 (February 1, 2022) Module 5 Exploration:Process API - Creating and Ter
 Stack Overflow (February 3, 2022) How to Use Execvp [Example source code] https://stackoverflow.com/questions/27541910/how-to-use-execvp
 
 Ruttan, Arden (Febraury 5, 2022) Introduction To Unix Signals Programming [Example source code] http://www.cs.kent.edu/~ruttan/sysprog/lectures/signals.html
+
+CS344 ED Discussion (February 5, 2022) sigaction struct initialization [Example source code] https://edstem.org/us/courses/16718/discussion/1077481
+
+Linux die.net (February 4, 2022) waitpid man page [Documentation] https://linux.die.net/man/2/waitpid

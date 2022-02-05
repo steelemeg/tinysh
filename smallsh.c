@@ -32,6 +32,8 @@ int statusFlag = 0;
 struct child* firstChild = NULL;
 int childNum = 0;
 bool allowBackgroundMode = false;
+// Track the terminating signal of the last foreground process ran by your shell.
+int lastFGExitStatus = 0;
 // Switch for printing out messages useful for troubleshooting. 
 bool debugMessages = true;
 
@@ -63,24 +65,19 @@ bool debugMessages = true;
 *       gcc --std=gnu99 -o smallsh main.c
 */
 int main(int argc, char* argv[]) {
-    // TODO deal with SIGINT
-    // TODO deal with SIGTST
-    // TODO get rid of this--go three times for starters
-    int keepGoing = 3;
+    // TODO deal with SIGINT for parent
+    // TODO deal with SIGTST for parent
     char* colon = ": ";
 
-    while (keepGoing > 0) {
-        // Mimicing the formatting of the screenshots, start each line with ":"
-        printShout(colon, false);
+    // Mimicing the formatting of the screenshots, start each line with ":"
+    printShout(colon, false);
 
-        char* protoCommand = getExpandedInput();
-        // Build a command struct from the expanded input.
-        struct command* newCommand = createCommand(protoCommand);
-        // If the input wasn't blank, execute the instruction 
-        if (newCommand->instruction) {
-            execCommand(newCommand);
-        }
-        keepGoing--;
+    char* protoCommand = getExpandedInput();
+    // Build a command struct from the expanded input.
+    struct command* newCommand = createCommand(protoCommand);
+    // If the input wasn't blank, execute the instruction 
+    if (newCommand->instruction) {
+        execCommand(newCommand);
     }
 
     return EXIT_SUCCESS;
