@@ -72,6 +72,7 @@ void killZombieChildren() {
 	while (currChild != NULL)
 	{
 		// todo oh oby
+		// todo reread https://canvas.oregonstate.edu/courses/1884946/pages/exploration-process-api-monitoring-child-processes
 		//todo seperaate logic for background that ends itself and sigterm
 		kill(currChild->childPid, SIGKILL);
 		sprintf(informativeMessage, "background pid %d is done: terminated by signal 15", currChild->childPid);
@@ -108,8 +109,32 @@ void handleSIGINT(int signo, bool dfl) {
 
 /*
 * TODO OBVIOUSLY
+* Custom handler for SIGTSTP. 
+* Accepts one parameter, the signal number 
+* Based on code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api
+* Prints required messaging, toggles background mode flga
+* Returns no values
 */
-void customSIGTSTP() { return; }
+void customSIGTSTP(int signo) { 
+	// Per the spec, need to print messages of the format "Entering foreground-only mode (& is now ignored)"
+	// or "Exiting foreground-only mode"
+	char* backgroundNoMessage = calloc(49, sizeof(char));
+	sprintf(backgroundNoMessage, "Entering foreground-only mode (& is now ignored)\n");
+	char* backgroundYesMessage = calloc(29, sizeof(char));
+	sprintf(backgroundYesMessage, "Exiting foreground-only mode\n");
+
+	// Using write per the module. 
+	if (allowBackgroundMode) { 
+		write(STDOUT_FILENO, backgroundNoMessage, 49);
+		allowBackgroundMode = false;
+	}
+	else if (!allowBackgroundMode) {
+		write(STDOUT_FILENO, backgroundYesMessage, 29);
+		allowBackgroundMode = true;
+	}
+	fflush(NULL);
+	
+	return; }
 
 /*
 * Handler for SIGTSTP
