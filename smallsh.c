@@ -74,10 +74,7 @@ int main(int argc, char* argv[]) {
         char* protoCommand = getExpandedInput();
         // Build a command struct from the expanded input.
         struct command* newCommand = createCommand(protoCommand);
-        printf("TESTING\n");
-        redirector(newCommand->inputSource);
-        printf("\noutput\n");
-        redirector(newCommand->outputTarget);
+        redirector(NULL, true, false);
         // If the input wasn't blank, execute the instruction 
         if (newCommand->instruction) {
             // TODO Step 1 : let's just print things ok

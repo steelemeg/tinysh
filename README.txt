@@ -32,6 +32,8 @@ Stack Overflow (February 2, 2022) Maximum PID in Linux [Documentation] https://s
 
 OSU CS344 (February 2, 2022) Exploration: Shell Commands Related to Processes [Example source code] https://canvas.oregonstate.edu/courses/1884946/pages/exploration-shell-commands-related-to-processes
 
+OSU CS344 (February 3, 2022) Exploration: Processes and I/O [Example source code] https://canvas.oregonstate.edu/courses/1884946/pages/exploration-processes-and-i-slash-o?
+
 Klitzke, Evan (February 2, 2022) Path MAX is tricky [Documentation] https://eklitzke.org/path-max-is-tricky
 
 OSU CS344 (February 2, 2022) Exploration: Signal Handling (Example Code Handlers for SIGINT, SIGUSR2, and Ignoring SIGTERM, etc. [Example Source Code] https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api
