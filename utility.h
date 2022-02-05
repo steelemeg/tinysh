@@ -21,9 +21,8 @@ void redirector(char* targetFile, bool input, bool output) {
 	else {
 		filename = "/dev/null";
 		printShout("NULL CHECK!");
-		printShout(filename);
 	}
-	
+	printShout(filename);
 	// If this is input, the file should already exist. If it's output, it might not.
 	if (input) { fileD = open(filename, O_RDONLY); }
 	else if (output) { fileD = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644); }
