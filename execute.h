@@ -175,11 +175,7 @@ void execLibrary(struct command* currCommand) {
             // child process to terminate.
             else if (WIFSIGNALED(childExitStatus)) { lastFGExitStatus = WTERMSIG(childExitStatus); }
             // Catchall for edge cases
-            else { lastFGExitStatus = WTERMSIG(childExitStatus); }
-            printShout("TEST?", true);
-            printf("d\n", lastFGExitStatus);
-            fflush(NULL);
-            
+            else { lastFGExitStatus = WTERMSIG(childExitStatus); }            
         }
     } 
     free(bgExitMessage);
@@ -210,7 +206,8 @@ void execCommand(struct command* currCommand) {
     else if (strcmp(currCommand->instruction, "cd") == 0) { execCd(currCommand); }
     else if (strcmp(currCommand->instruction, "status") == 0) { execStatus(currCommand); }
     else{ execLibrary(currCommand); }
-    killZombieChildren();
+    // TODO 
+    //killZombieChildren();
 
     return;
 }
