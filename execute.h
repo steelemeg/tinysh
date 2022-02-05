@@ -71,6 +71,7 @@ void execCd(struct command* currCommand) {
 */
 void execStatus(struct command* currCommand) {
     char* output = calloc(20, sizeof(char));
+    printShout("status time", true);
     sprintf(output, "exit value %d\n", statusFlag);
     printShout(output, true);
     free(output);
@@ -88,6 +89,7 @@ void execLibrary(struct command* currCommand) {
     // The max possible PID is somewhere between 32768 and 2^22 per https://stackoverflow.com/questions/6294133/maximum-pid-in-linux 
     // Formal citation in readme.
     // Going with a max allowed of 11 to be on the safe side, adding 1 for null terminator
+    // TODO do we need this here? It's not like expansion
     char* newPidStr = calloc(12, sizeof(char));
     // Per the assignment, we must print a message when background processes conclude. 
     char* bgExitMessage = calloc(MAX_ARG, sizeof(char));
