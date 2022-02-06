@@ -91,7 +91,7 @@ void killZombieChildren() {
 		// If WNOHANG was specified and one or more child(ren) specified by pid exist, but have not yet changed state, then 0 is returned.
 		// If there is an error, -1 is returned.
 		else {
-			sprintf(informativeMessage, "background pid %d is done: terminated by signal %d", currentPid, WTERMSIGN(statusFlag));
+			sprintf(informativeMessage, "background pid %d is done: terminated by signal %d", currentPid, WTERMSIG(statusFlag));
 			printShout(informativeMessage, true);
 		}
 
