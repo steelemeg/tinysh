@@ -98,12 +98,12 @@ void handleSIGINT(bool dfl) {
 	struct sigaction SIGINT_action = { { 0 } };
 	// SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
 	if (dfl) { 
-		if (debugMessages) {printShout("Handing sigint, default behavior", true); }
+		if (debugMessages) {write("Handing sigint, default behavior\n", 30); }
 		SIGINT_action.sa_handler = SIG_DFL; 
 	}
 	// Can we use SIG_IGN? Module makes it sound like yes
 	else { 
-		if (debugMessages) { printShout("Handing sigint, ignore behavior", true); }
+		if (debugMessages) { write("Handing sigint, ignore behavior\n", 30); }
 		SIGINT_action.sa_handler = SIG_IGN; 
 	}
 
@@ -146,7 +146,6 @@ void customSIGTSTP(int signo) {
 		write(STDOUT_FILENO, backgroundYesMessage, 29);
 		allowBackgroundMode = true;
 	}
-	fflush(NULL);
 	free(backgroundNoMessage);
 	free(backgroundYesMessage);
 	return; }
@@ -162,9 +161,14 @@ void handleSIGTSTP(bool dfl) {
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGTSTP_action = { { 0 } };
 	//SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
-	if (dfl) { SIGTSTP_action.sa_handler = customSIGTSTP; }
-	else { SIGTSTP_action.sa_handler = SIG_IGN; }
-	// TODO see above re sig_ign
+	if (dfl) { 
+		if (debugMessages) { write(STDOUT_FILENO, "Setting SIGTSTP to default\n", 30); }
+		SIGTSTP_action.sa_handler = customSIGTSTP; 
+	}
+	else { 
+		if (debugMessages) { write(STDOUT_FILENO, "Setting SIGTSTP to ignore\n", 30); }
+		SIGTSTP_action.sa_handler = SIG_IGN; 
+	}
 
 	// Block all catchable signals while handle_SIGINT is running
 	sigfillset(&SIGTSTP_action.sa_mask);
