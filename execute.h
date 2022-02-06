@@ -127,6 +127,7 @@ void execLibrary(struct command* currCommand) {
         }
         
         if (currCommand->backgroundJob && allowBackgroundMode) { 
+            if (debugMessages) { printShout("Background job setup begins", true); }
             childCreatedInBackground = true;
             // Per the specs, any children running as background processes must ignore SIGINT.
             handleSIGINT(false);
@@ -140,6 +141,7 @@ void execLibrary(struct command* currCommand) {
         // When this occurs the parent must print out a message, which will be handled later.
         // TODO don't forget the message
         else { 
+            if (debugMessages) { printShout("Foreground job setup begins", true); }
             childCreatedInBackground = false;
             handleSIGINT(true); 
         }
@@ -156,6 +158,7 @@ void execLibrary(struct command* currCommand) {
         // Parent will execute the code in this branch 
         // For background commands, the shell must not wait for completion
         if (allowBackgroundMode && currCommand->backgroundJob) {
+            if (debugMessages) { printShout("Background job parent messaging begins", true); }
             // Track the child in the linked list
             createChild(&firstChild, newPid);
             // The shell will print the process id of a background process when it begins,
@@ -166,6 +169,7 @@ void execLibrary(struct command* currCommand) {
 
         // The shell must wait for the completion of foreground commands 
         else {
+            if (debugMessages) { printShout("Foreground job parent messaging begins", true); }
             // Copied from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-shell-commands-related-to-processes
             newPid = waitpid(newPid, &childExitStatus, 0);
             // Based on https://linux.die.net/man/2/waitpid full citation in readme

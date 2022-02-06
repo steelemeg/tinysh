@@ -13,7 +13,7 @@ Run Instructions
 		
 
 Notes for my grader: 
-	I noticed that the test script did not show line breaks that were always present when executing manually. Per TA advice in office hours, 
+	I noticed that the test script did not show all line breaks and sometimes had some weird formatting. Per TA advice in office hours, 
 	this seems to be normal.
 
 	I tried to develop in logical modules to make work a little easier, and to avoid the massive file I had by the end of Assignment 2.
