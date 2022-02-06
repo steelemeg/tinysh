@@ -182,6 +182,7 @@ void execLibrary(struct command* currCommand) {
             else { lastFGExitStatus = WTERMSIG(childExitStatus); }            
         }
     } 
+    if (debugMessages) { printShout("Execution task concludes", true); }
     free(bgExitMessage);
     return;
 }
