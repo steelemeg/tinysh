@@ -102,7 +102,6 @@ void execLibrary(struct command* currCommand) {
     // Based on the sample program execution, this message will be required for bg children
     sprintf(bgExitMessage, "background pid is %d", newPid);
 
-    if (debugMessages) { commandDisplay(currCommand); }
 
     // Base code taken from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-shell-commands-related-to-processes
     // Full citation in the readme
@@ -128,7 +127,8 @@ void execLibrary(struct command* currCommand) {
             redirector(currCommand->inputSource, true, false); 
             redirectedInput = true;
         }
-        
+        printf("background mode: %d allowBackground: %d\n", currCommand->backgroundJob, allowBackgroundMode);
+        fflush(NULL);
         if (currCommand->backgroundJob && allowBackgroundMode) { 
             if (debugMessages) { printShout("Background job setup begins", true); }
             childCreatedInBackground = true;

@@ -220,17 +220,6 @@ struct command* createCommand(char* userInput) {
 }
 
 
-/* Prints properties of a struct.
-*  Included for debugging purposes.
-*/
-void commandDisplay(struct command* currCommand) {
-    printf("Is background: %d\n", currCommand->backgroundJob);
-
-    fflush(NULL);
-    
-    return;
-} 
-
 /*
 * Get input from the user. 
 * Accepts no parameters, gets text from command line.
