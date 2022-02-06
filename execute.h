@@ -171,6 +171,9 @@ void execLibrary(struct command* currCommand) {
         // The shell must wait for the completion of foreground commands 
         else {
             if (debugMessages) { printShout("Foreground job parent messaging begins", true); }
+            // TODO 
+            printf("child pid was %d\n", newPid);
+            fflush(stdout);
             // Copied from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-shell-commands-related-to-processes
             newPid = waitpid(newPid, &childExitStatus, 0);
             if (debugMessages) { printShout("Foregroudn job parent, waitpid concludes", true); }
