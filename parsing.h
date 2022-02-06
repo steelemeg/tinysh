@@ -242,7 +242,10 @@ void displayCommand(struct command* currCommand) {
 
     printShout("Arguments:", true);
     int n = 0;
-    while (currCommand->operands[n] != NULL) { printShout(currCommand->operands[n], true); }
+    while (currCommand->operands[n] != NULL) { 
+        printShout(currCommand->operands[n], true); 
+        n++;
+    }
     
     printShout("Conclude display", true);
     

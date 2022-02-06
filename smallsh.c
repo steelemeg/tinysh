@@ -42,7 +42,7 @@ bool debugMessages = true;
 // Your shell must support command lines with a maximum length of 2048 characters,
 // and a maximum of 512 arguments.
 #define MAX_COMMAND 2048
-#define MAX_ARG 5  //12
+#define MAX_ARG 512
 #define LEFT_ARROW "<"
 #define RIGHT_ARROW ">"
 #define AMPERSAND "&"
