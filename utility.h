@@ -87,19 +87,16 @@ void killZombieChildren() {
 				sprintf(informativeMessage, "background pid %d is done: exit value %d", currentPid, *statusFlag);
 			}
 			printShout(informativeMessage, true);
+			removeChild(&firstChild, currentPid);
 		}
 		// If WNOHANG was specified and one or more child(ren) specified by pid exist, but have not yet changed state, then 0 is returned.
 		// If there is an error, -1 is returned.
 		else {
 			sprintf(informativeMessage, "background pid %d is done: terminated by signal %d", currentPid, WTERMSIG(*statusFlag));
 			printShout(informativeMessage, true);
+			removeChild(&firstChild, currentPid);
 		}
 
-		kill(currChild->childPid, SIGKILL);
-		sprintf(informativeMessage, "background pid %d is done: terminated by signal 15", currChild->childPid);
-		printShout(informativeMessage, true);
-
-		// todo handle removing child
 		currChild = currChild->next;
 	}
 
