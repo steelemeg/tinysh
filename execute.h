@@ -155,6 +155,7 @@ void execLibrary(struct command* currCommand) {
         // I want to use one of these two because they will look in the PATH for the command
         // Trying execvp because it seems easier to pass an existing array of char*s than each of the operands
         if (debugMessages) { printShout("Executing instruction with operands", true); }
+        // todo get the vallue of this for status
         execvp(currCommand->instruction, currCommand->operands);
         break;
     }
