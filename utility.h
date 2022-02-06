@@ -65,17 +65,36 @@ void ignoreSignal(int signo) {
 */
 void killZombieChildren() {
 	pid_t pid;
+	int currentPid;
 	// Per the spec, we must display information messages when processes are terminated
 	// These messages must take the form of either "background pid #### is done: exit value #" or 
 	// "background pid #### is done: terminated by signal ##"
 	char* informativeMessage = calloc(MAX_ARG, sizeof(char));
 	struct child* currChild = firstChild;
+	int statusFlag;
 
 	while (currChild != NULL)
 	{
-		// todo oh oby
 		// todo reread https://canvas.oregonstate.edu/courses/1884946/pages/exploration-process-api-monitoring-child-processes
 		//todo seperaate logic for background that ends itself and sigterm
+		// Per the module, use the WNOHANG option to see if any child process has just ended
+		currentPid = currChild->childPid;
+		currentPid = waitpid(currentPid, statusFlag, WNOHANG);
+
+		// on success, waitpid returns the pid of the child who state has changed
+		if (currentPid > 0) {
+			if (WIFEXITED(statusFlag)) {
+				sprintf(informativeMessage, "background pid %d is done: exit value %d", currentPid, statusFlag);
+			}
+			printShout(informativeMessage, true);
+		}
+		// If WNOHANG was specified and one or more child(ren) specified by pid exist, but have not yet changed state, then 0 is returned.
+		// If there is an error, -1 is returned.
+		else {
+			sprintf(informativeMessage, "background pid %d is done: terminated by signal %d", currentPid, WTERMSIGN(statusFlag));
+			printShout(informativeMessage, true);
+		}
+
 		kill(currChild->childPid, SIGKILL);
 		sprintf(informativeMessage, "background pid %d is done: terminated by signal 15", currChild->childPid);
 		printShout(informativeMessage, true);

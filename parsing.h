@@ -220,7 +220,7 @@ void displayCommand(struct command* currCommand) {
     
     printShout("Background: ", false);
     if (currCommand->backgroundJob) { printShout("True, run in background mode", true); }
-    else { printShout("False, run in foreground", false); }
+    else { printShout("False, run in foreground", true); }
 
     printShout("Redirection: ", false);
     if (currCommand->redirectInput) { 

@@ -224,7 +224,7 @@ void execCommand(struct command* currCommand) {
     else if (strcmp(currCommand->instruction, "status") == 0) { execStatus(currCommand); }
     else{ execLibrary(currCommand); }
     // TODO 
-    //killZombieChildren();
+    killZombieChildren();
 
     return;
 }
