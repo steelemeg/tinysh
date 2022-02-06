@@ -6,8 +6,6 @@ struct command {
     bool backgroundJob;
     int tokenCount;
     int operandCount;
-    // TODO 
-    //char** operands;
     // Trying to structure my operands array to be compatible with execvp
     // Add one to allow for a null to support execvp, just in case there are actually 512 args
     char* operands[MAX_ARG + 1];
@@ -116,9 +114,7 @@ struct command* createCommand(char* userInput) {
     // Adding tracker for if this particular token is normal text or a control char
     // This will be important for figuring out how to handle stuff like "> output.txt"
     bool isNotSpecial = true;
-   
-    // Set up a blank array to hold the inputs. We know there will be a maximum of 512 arguments.
-    // TODO newCommand->operands = calloc(MAX_ARG, sizeof(char*));
+
     // Initialize the redirection flags as false, until proven otherwise.
     newCommand->redirectInput = false;
     newCommand->redirectOutput = false;
@@ -139,13 +135,12 @@ struct command* createCommand(char* userInput) {
     // Inner calloc / strcpy based on Project 1, if statements protect from blanks and comments.
     // Originally ignored comments entirely, but this caused problems with printing the start-of-line colon reliably. 
     newCommand->instruction = calloc(strlen(token) + 1, sizeof(char));
-    // TODO 
+    
     newCommand->operands[operandArrayCounter] = calloc(strlen(token) + 1, sizeof(char));
-    // TODO 
     // Structuring the operands array with the instruction at index 0 in an effort to make execvp easier
     strcpy(newCommand->operands[operandArrayCounter], token);
     strcpy(newCommand->instruction, token);
-    // TODO
+    
     operandArrayCounter++;
 
     // The output from getExpandedInput has been space-condensed. Therefore we can use spaces as a proxy 
@@ -209,15 +204,50 @@ struct command* createCommand(char* userInput) {
         token = strtok_r(NULL, DELIMITER, &saveptr);
       
     }
-    //TODO 
-    //printf("PRINTING\n");
-    //printArray(newCommand->operands, operandArrayCounter);
-    // printf("\nDONE\n");
-    // execvp will want the array to be null terminated. add this now for ease of use later.
 
     newCommand->operandCount = operandArrayCounter;
     return newCommand;
 }
+
+/* Used for debugging purposes.
+* Displays various properties of a command struct.
+* Accepts one parameter, the struct in question.
+* Returns no values.
+*/
+void displayCommand(struct command* currCommand) { 
+    printShout("Instruction: ", false);
+    printShout(currCommand->instruction, true);
+    
+    printShout("Background: ", false);
+    if (currCommand->backgroundJob) { printShout("True, run in background mode", true); }
+    else { printShout("False, run in foreground", false); }
+
+    printShout("Redirection: ", false);
+    if (currCommand->redirectInput) { 
+        printShout("Input only to ", false); 
+        printShout(currCommand->inputSource, true);
+    }
+    else if (currCommand->redirectOutput) { 
+        printShout("Output only to ", false); 
+        printShout(currCommand->outputTarget, true);
+    }
+    else if (currCommand->redirectInput && currCommand->redirectOutput) {
+        printShout("Both, input to ", false);
+        printShout(currCommand->inputSource, false);
+        printShout(", and output to ", false);
+        printShout(currCommand->outputTarget, true);
+    
+    }
+    else { printShout("Neither", true); }
+
+    printShout("Arguments:", true);
+    int n = 0;
+    while (currCommand->operands[n] != NULL) { printShout(currCommand->operands[n], true); }
+    
+    printShout("Conclude display", true);
+    
+    return; }
+
 
 
 /*
