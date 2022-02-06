@@ -32,7 +32,8 @@ int redirector(char* targetFile, bool input, bool output) {
 		printError("Problem opening file: ");
 		return 1;
 	}
-
+	// Per module example, close file descriptor on execution
+	fcntl(fileD, F_SETFD, FD_CLOEXEC);
 	// If all is well, do the actual redirect. Use dup2 to point to fileD, use the flag to determine if it's input or output
 	result = dup2(fileD, dupFlag);
 	// Handle dup2 errors 

@@ -114,6 +114,7 @@ void execLibrary(struct command* currCommand) {
     case 0: {
         // Child process creation successful. This code will be executed only by the child.
         // Background and foreground children should ignore SIGTSTP. Since this case is child-only, set to ignore.
+        // TODO something is wrong here
         handleSIGTSTP(false);
 
         // Are we redirecting input or output?
@@ -160,6 +161,7 @@ void execLibrary(struct command* currCommand) {
         // For background commands, the shell must not wait for completion
         if (allowBackgroundMode && currCommand->backgroundJob) {
             if (debugMessages) { printShout("Background job parent messaging begins", true); }
+            
             // Track the child in the linked list
             createChild(&firstChild, newPid);
             // The shell will print the process id of a background process when it begins,
@@ -171,15 +173,17 @@ void execLibrary(struct command* currCommand) {
         // The shell must wait for the completion of foreground commands 
         else {
             if (debugMessages) { printShout("Foreground job parent messaging begins", true); }
-            // TODO 
-            printf("child pid was %d\n", newPid);
-            fflush(stdout);
+           
             // Copied from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-shell-commands-related-to-processes
             newPid = waitpid(newPid, &childExitStatus, 0);
             if (debugMessages) { printShout("Foregroudn job parent, waitpid concludes", true); }
             // Based on https://linux.die.net/man/2/waitpid full citation in readme
             // waitpid should return WIFEXITED true if normal termination and and the actual exit status in WIFEXITSTATUS
-            if (WIFEXITED(childExitStatus)) { lastFGExitStatus = WEXITSTATUS(childExitStatus); }
+            if (WIFEXITED(childExitStatus)) { 
+                removeChild(&firstChild, newPid);
+                lastFGExitStatus = WEXITSTATUS(childExitStatus); 
+            }
+
             // If WIFEXITED was false, then there was a problem. WTERMSIG will return the number of the signal that caused the 
             // child process to terminate.
             else if (WIFSIGNALED(childExitStatus)) { lastFGExitStatus = WTERMSIG(childExitStatus); }
