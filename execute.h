@@ -173,6 +173,7 @@ void execLibrary(struct command* currCommand) {
             if (debugMessages) { printShout("Foreground job parent messaging begins", true); }
             // Copied from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-shell-commands-related-to-processes
             newPid = waitpid(newPid, &childExitStatus, 0);
+            if (debugMessages) { printShout("Foregroudn job parent, waitpid concludes", true); }
             // Based on https://linux.die.net/man/2/waitpid full citation in readme
             // waitpid should return WIFEXITED true if normal termination and and the actual exit status in WIFEXITSTATUS
             if (WIFEXITED(childExitStatus)) { lastFGExitStatus = WEXITSTATUS(childExitStatus); }

@@ -96,9 +96,15 @@ void handleSIGINT(bool dfl) {
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGINT_action = { { 0 } };
 	// SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
-	if (dfl) { SIGINT_action.sa_handler = SIG_DFL; }
+	if (dfl) { 
+		if (debugMessages) {printShout("Handing sigint, default behavior", true); }
+		SIGINT_action.sa_handler = SIG_DFL; 
+	}
 	// Can we use SIG_IGN? Module makes it sound like yes
-	else { SIGINT_action.sa_handler = SIG_IGN; }
+	else { 
+		if (debugMessages) { printShout("Handing sigint, ignore behavior", true); }
+		SIGINT_action.sa_handler = SIG_IGN; 
+	}
 
 	// Block all catchable signals while handle_SIGINT is running
 	sigfillset(&SIGINT_action.sa_mask);
