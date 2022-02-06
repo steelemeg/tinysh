@@ -71,7 +71,7 @@ void killZombieChildren() {
 	// "background pid #### is done: terminated by signal ##"
 	char* informativeMessage = calloc(MAX_ARG, sizeof(char));
 	struct child* currChild = firstChild;
-	int statusFlag;
+	int* statusFlag = malloc(sizeof(int));
 
 	while (currChild != NULL)
 	{
@@ -83,15 +83,15 @@ void killZombieChildren() {
 
 		// on success, waitpid returns the pid of the child who state has changed
 		if (currentPid > 0) {
-			if (WIFEXITED(statusFlag)) {
-				sprintf(informativeMessage, "background pid %d is done: exit value %d", currentPid, statusFlag);
+			if (WIFEXITED(*statusFlag)) {
+				sprintf(informativeMessage, "background pid %d is done: exit value %d", currentPid, *statusFlag);
 			}
 			printShout(informativeMessage, true);
 		}
 		// If WNOHANG was specified and one or more child(ren) specified by pid exist, but have not yet changed state, then 0 is returned.
 		// If there is an error, -1 is returned.
 		else {
-			sprintf(informativeMessage, "background pid %d is done: terminated by signal %d", currentPid, WTERMSIG(statusFlag));
+			sprintf(informativeMessage, "background pid %d is done: terminated by signal %d", currentPid, WTERMSIG(*statusFlag));
 			printShout(informativeMessage, true);
 		}
 
