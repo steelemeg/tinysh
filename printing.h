@@ -36,3 +36,4 @@ void printArray(char* arrayInput[], int entries) {
         printShout(arrayInput[i], true);
     }
 }
+

@@ -102,6 +102,8 @@ void execLibrary(struct command* currCommand) {
     // Based on the sample program execution, this message will be required for bg children
     sprintf(bgExitMessage, "background pid is %d", newPid);
 
+    if (debugMessages) { commandDisplay(currCommand); }
+
     // Base code taken from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-shell-commands-related-to-processes
     // Full citation in the readme
     switch (newPid) {
