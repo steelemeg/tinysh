@@ -98,12 +98,12 @@ void handleSIGINT(bool dfl) {
 	struct sigaction SIGINT_action = { { 0 } };
 	// SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
 	if (dfl) { 
-		if (debugMessages) {write("Handing sigint, default behavior\n", 30); }
+		if (debugMessages) {write(STDOUT_FILENO, "Handing sigint, default behavior\n", 30); }
 		SIGINT_action.sa_handler = SIG_DFL; 
 	}
 	// Can we use SIG_IGN? Module makes it sound like yes
 	else { 
-		if (debugMessages) { write("Handing sigint, ignore behavior\n", 30); }
+		if (debugMessages) { write(STDOUT_FILENO, "Handing sigint, ignore behavior\n", 30); }
 		SIGINT_action.sa_handler = SIG_IGN; 
 	}
 
