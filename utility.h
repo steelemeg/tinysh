@@ -97,6 +97,11 @@ void killZombieChildren() {
 			removeChild(&firstChild, currentPid);
 		}
 
+		kill(currChild->childPid, SIGKILL);
+		sprintf(informativeMessage, "NOW background pid %d is done: terminated by signal 15", currChild->childPid);
+		printShout(informativeMessage, true);
+
+		// todo handle removing child
 		currChild = currChild->next;
 	}
 
