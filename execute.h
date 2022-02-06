@@ -151,6 +151,7 @@ void execLibrary(struct command* currCommand) {
         // execvp (wants an array), execlp (will take just strings but the last one should be null)
         // I want to use one of these two because they will look in the PATH for the command
         // Trying execvp because it seems easier to pass an existing array of char*s than each of the operands
+        if (debugMessages) { printShout("Executing instruction with operands", true); }
         execvp(currCommand->instruction, currCommand->operands);
         break;
     }
