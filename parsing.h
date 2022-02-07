@@ -167,8 +167,8 @@ struct command* createCommand(char* userInput) {
         outputRedirect = (outputRedirect || (token[0] == *RIGHT_ARROW));
         redirection = (redirection || (inputRedirect || outputRedirect));
         if (token[0] == *LEFT_ARROW || token[0] == *RIGHT_ARROW || (strcmp(token, AMPERSAND) == 0 && (tokenCounter == 0))) {
-            // tODO toekn counter coumparisno
             isNotSpecial = false;
+            printf("found special thing %s\n", token);
         }
 
         // Set the command's redirect flags if <>s were found
