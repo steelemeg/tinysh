@@ -79,7 +79,6 @@ void execCd(struct command* currCommand) {
 */
 void execStatus() {
     char* output = calloc(20, sizeof(char));
-    exploreValues();
     if (lastFGTerminate == 0) { sprintf(output, "exit value %d", lastFGExitStatus); }
     else { sprintf(output, "terminated by signal %d", lastFGExitStatus); }
     printShout(output, true);
@@ -200,8 +199,6 @@ void execLibrary(struct command* currCommand) {
                 removeChild(&firstChild, newPid);
                 lastFGExitStatus = WEXITSTATUS(childExitStatus);
                 lastFGTerminate = 0;
-                //TODO
-                exploreValues();
             }
 
             // If WIFEXITED was false, then there was a problem. WTERMSIG will return the number of the signal that caused the 
