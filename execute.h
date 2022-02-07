@@ -70,7 +70,7 @@ void execCd(struct command* currCommand) {
 }
 
 /*
-*  Displays the current value of the exit status flag.
+*  Displays the exit value of the last foreground process.
 *  Accepts a command struct containing parameters.
 *  Does not modify status flag per spec requirements.
 *  Returns no values.
