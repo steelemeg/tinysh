@@ -73,11 +73,11 @@ void execCd(struct command* currCommand) {
 
 /*
 *  Displays the exit value of the last foreground process.
-*  Accepts a command struct containing parameters.
+*  Accepts no parameters.
 *  Does not modify status flag per spec requirements.
 *  Returns no values.
 */
-void execStatus(struct command* currCommand) {
+void execStatus() {
     char* output = calloc(20, sizeof(char));
     if (lastFGTerminate) { sprintf(output, "exit value %d", lastFGExitStatus); }
     else { sprintf(output, "terminated by signal %d", lastFGExitStatus); }
@@ -241,7 +241,7 @@ void execCommand(struct command* currCommand) {
         exit(success);
     }   
     else if (strcmp(currCommand->instruction, "cd") == 0) { execCd(currCommand); }
-    else if (strcmp(currCommand->instruction, "status") == 0) { execStatus(currCommand); }
+    else if (strcmp(currCommand->instruction, "status") == 0) { execStatus(); }
     else{ execLibrary(currCommand); }
     // Check if any child processes have concluded
     killZombieChildren();

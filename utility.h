@@ -105,6 +105,7 @@ void killZombieChildren() {
 void customSIGINT(int signo) {
 	lastFGExitStatus = 2;
 	lastFGTerminate = true;
+	execStatus();
 	// Stop the process with signal 2. 
 	kill(signo, 2);
 	return;
