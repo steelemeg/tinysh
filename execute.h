@@ -168,6 +168,7 @@ void execLibrary(struct command* currCommand) {
         // leave the parent process in a weird state
         // Based on https://canvas.oregonstate.edu/courses/1884946/pages/exploration-processes-and-i-slash-o
         // and https://edstem.org/us/courses/16718/discussion/1102818
+        // Also per https://edstem.org/us/courses/16718/discussion/1105837 , the error messaging requirements are flexible.
         printError(currCommand->instruction);
         exit(errno);
         break;
