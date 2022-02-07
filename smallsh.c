@@ -36,7 +36,7 @@ int childNum = 0;
 bool allowBackgroundMode = true;
 
 // Switch for printing out messages useful for troubleshooting. 
-bool debugMessages = false;
+bool debugMessages = true;
 
 // Defining some items for frequent use.
 #define DELIMITER " "
@@ -79,8 +79,13 @@ int main(int argc, char* argv[]) {
         printShout(colon, false);
 
         char* protoCommand = getExpandedInput();     
+        if (debugMessages) {
+            printShout("Raw command string:", true);
+            printShout(protoCommand, true);
+        }
         // Build a command struct from the expanded input.
         struct command* newCommand = createCommand(protoCommand);
+        if (debugMessages) { displayCommand; }
 
         // Execute the instruction        
         execCommand(newCommand);        
