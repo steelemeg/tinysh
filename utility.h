@@ -107,11 +107,12 @@ void customSIGINT(int signo) {
 
 	// Stop the process with signal 2. TODO
 	printShout("WHATEVER", false);
-	kill(signo, 2);
+	
 	// Using write per the module--printShout depends on printf, which is not re-entrant. 
 	// Per Ed, do not use strlen in handler. Also don't use fflush per https://edstem.org/us/courses/16718/discussion/1075111
 	write(STDOUT_FILENO, sigintMessage, 49);
 	tcflush(1, TCIOFLUSH);
+	kill(signo, 2);
 	return;
 
 }
@@ -126,9 +127,7 @@ void observeSIGINT(bool dfl) {
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGINT_action = { { 0 } };
 	// SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
-	if (dfl) { SIGINT_action.sa_handler = customSIGINT;
-	printShout("WHATEVER", false);
-	}
+	if (dfl) { SIGINT_action.sa_handler = customSIGINT; }
 	else { SIGINT_action.sa_handler = SIG_IGN; }
 
 
