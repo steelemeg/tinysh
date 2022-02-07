@@ -136,8 +136,7 @@ void execLibrary(struct command* currCommand) {
             if (debugMessages) { printShout("Background job setup begins", true); }
             childCreatedInBackground = true;
             // Per the specs, any children running as background processes must ignore SIGINT.
-            //TODO             handleSIGINT(false);
-            ignoreSIGINT();
+            observeSIGINT(false);
             // per the spec, if no input redirect for a background command, then standard input should be redirected to /dev/null
             if (!redirectedInput) { redirector(NULL, true, false); }
             // per the spec, if no output redirect for a background command, then standard output should be redirected to /dev/null

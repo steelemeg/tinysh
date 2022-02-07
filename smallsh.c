@@ -66,8 +66,8 @@ bool debugMessages = false;
 */
 int main(int argc, char* argv[]) {
     // Your shell, i.e., the parent process, must ignore SIGINT
-    ignoreSIGINT();
-    // TODO deal with SIGTST for parent
+    observeSIGINT(false);
+    // TODO deal with SIGTST for parent?
     char* colon = ": ";
 
     while (1) {

@@ -134,36 +134,12 @@ void killZombieChildren() {
 * Returns no values.
 */
 
-
-void ignoreSIGINT() {
+void observeSIGINT(bool dfl) {
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGINT_action = { { 0 } };
 	// SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
-	if (debugMessages) {
-		write(STDOUT_FILENO, "Handing sigint, ignore behavior\n", 32);
-		fflush(NULL);
-	}
-	SIGINT_action.sa_handler = SIG_IGN;
-	
-
-	// Block all catchable signals while handle_SIGINT is running
-	sigfillset(&SIGINT_action.sa_mask);
-	// No flags set
-	SIGINT_action.sa_flags = 0;
-
-	// Install our signal handler
-	sigaction(SIGINT, &SIGINT_action, NULL);
-	return;
-}
-
-void observeSIGINT() {
-	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
-	struct sigaction SIGINT_action = { { 0 } };
-	// SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
-	if (debugMessages) {
-		write(STDOUT_FILENO, "Handing sigint, observe behavior\n", 32); 
-		fflush(NULL); }
-	SIGINT_action.sa_handler = SIG_DFL;
+	if (dfl) { SIGINT_action.sa_handler = SIG_DFL; }
+	else { SIGINT_action.sa_handler = SIG_IGN; }
 
 
 	// Block all catchable signals while handle_SIGINT is running
