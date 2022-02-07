@@ -129,12 +129,6 @@ struct command* createCommand(char* userInput) {
 
         newCommand->inputSource = calloc(1, sizeof(char));
         newCommand->outputTarget = calloc(1, sizeof(char));
-
-        char* instruction;
-        char* operands[MAX_ARG + 1];
-        char* inputSource;
-        char* outputTarget;
-
     }
 
     // The first token should be the instruction. It should also tell us if this is a blank or comment.
