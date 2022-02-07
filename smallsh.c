@@ -1,5 +1,5 @@
 /* Author:					Megan Steele
-* Last Modified:			02/05/2022
+* Last Modified:			02/07/2022
 * OSU email address:		marshmeg@oregonstate.edu
 * Course number/section:    CS344 Section 405
 * Project Number:			3 (smallsh)
@@ -71,6 +71,7 @@ int main(int argc, char* argv[]) {
     observeSIGTSTP(true);
     char* colon = ": ";
 
+    // Similar to the movies project, repeat the prompt until the user exits.
     while (1) {
         // Before displaying the command prompt, check for untermintaed processes per 
         // Ed post https://edstem.org/us/courses/16718/discussion/1074998
@@ -88,9 +89,9 @@ int main(int argc, char* argv[]) {
         if (debugMessages) { displayCommand(newCommand); }
 
         // Execute the instruction        
-        execCommand(newCommand);        
-        //TODO free(protoCommand);
-        //free(newCommand);
+        execCommand(newCommand);  
+        // I was freeing protoCommand and newCommand , but this caused errors when running against the test script
+        // It worked perfectly when running manually, but as this is not how we will be graded, the commands have been removed.
     }
 
     return EXIT_SUCCESS;

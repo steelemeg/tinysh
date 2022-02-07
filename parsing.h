@@ -1,5 +1,7 @@
 
-// As recommended in the assignment, creating a struct to hold commands and their possible parameters.
+/*
+*  As recommended in the assignment, creating a struct to hold commands and their possible parameters.
+*/
 struct command {
     bool isCommentOrBlank;
     char* instruction;
@@ -115,7 +117,7 @@ struct command* createCommand(char* userInput) {
     // This will be important for figuring out how to handle stuff like "> output.txt"
     bool isNotSpecial = true;
 
-    // Regardless of the actual content, clear the flags. There were issues with edge cases where arguments persisted.
+    // Regardless of the actual command, clear the flags. There were issues with edge cases where arguments persisted.
     {
         // Initialize the redirection flags as false, until proven otherwise.
         newCommand->redirectInput = false;
@@ -138,16 +140,16 @@ struct command* createCommand(char* userInput) {
     // Handle blank or commented inputs.   
     if (token == NULL || token[0] == comment) {
         newCommand->isCommentOrBlank = true;
+        free(copyInput);
         return newCommand;
     }
     else { newCommand->isCommentOrBlank = false; }
     
-    // Inner calloc / strcpy based on Project 1, if statements protect from blanks and comments.
-    // Originally ignored comments entirely, but this caused problems with printing the start-of-line colon reliably. 
+    // If there is a command present, add it to the struct
     newCommand->instruction = realloc(newCommand->instruction, (strlen(token) + 1) * sizeof(char));
     
-    newCommand->operands[operandArrayCounter] = calloc(strlen(token) + 1, sizeof(char));
     // Structuring the operands array with the instruction at index 0 in an effort to make execvp easier
+    newCommand->operands[operandArrayCounter] = calloc(strlen(token) + 1, sizeof(char));
     strcpy(newCommand->operands[operandArrayCounter], token);
     strcpy(newCommand->instruction, token);
     
@@ -184,7 +186,7 @@ struct command* createCommand(char* userInput) {
         if (outputRedirect) { newCommand->redirectOutput = true; }
         
         // If the last operand is & then it's a background job
-        if (strcmp(token, AMPERSAND) == 0 && (tokenCounter==0)){
+        if (strcmp(token, AMPERSAND) == 0 && (tokenCounter==0) && strlen(token) == 1){
             jobControl = true;
             newCommand->backgroundJob = true;
         }
@@ -214,6 +216,7 @@ struct command* createCommand(char* userInput) {
         token = strtok_r(NULL, DELIMITER, &saveptr);
       
     }
+    free(copyInput);
     newCommand->operandCount = operandArrayCounter;
     return newCommand;
 }
