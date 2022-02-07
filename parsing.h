@@ -158,6 +158,7 @@ struct command* createCommand(char* userInput) {
         isNotSpecial = true;
         // Count down the number of args processed
         tokenCounter--;
+        printf("token countdown %d processing %s", tokenCounter, token);
   
         tokenLength = strlen(token);
         // Look for special characters that indicate &, redirection, or adjacent commands
@@ -166,6 +167,7 @@ struct command* createCommand(char* userInput) {
         outputRedirect = (outputRedirect || (token[0] == *RIGHT_ARROW));
         redirection = (redirection || (inputRedirect || outputRedirect));
         if (token[0] == *LEFT_ARROW || token[0] == *RIGHT_ARROW || (strcmp(token, AMPERSAND) == 0 && (tokenCounter == 0))) {
+            // tODO toekn counter coumparisno
             isNotSpecial = false;
         }
 
