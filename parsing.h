@@ -158,7 +158,7 @@ struct command* createCommand(char* userInput) {
         isNotSpecial = true;
         // Count down the number of args processed
         tokenCounter--;
-        printf("token countdown %d processing %s", tokenCounter, token);
+        printf("token countdown %d processing %s\n", tokenCounter, token);
   
         tokenLength = strlen(token);
         // Look for special characters that indicate &, redirection, or adjacent commands
