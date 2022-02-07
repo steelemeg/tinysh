@@ -97,6 +97,7 @@ void killZombieChildren() {
 
 /* 
 * Sigaction for SIGINT. Per the spec, we must have a custom sigaction and handler pair for SIGINT.
+* I originally wrote a custom dfl handler, but in testing it was never executed.
 * Accepts a boolean specifying if signal should be observed (true) or ignored (false)
 * Based on module code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api?module_item_id=21835981
 * Returns no values.
