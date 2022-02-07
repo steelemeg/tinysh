@@ -129,6 +129,7 @@ struct command* createCommand(char* userInput) {
 
         newCommand->inputSource = calloc(1, sizeof(char));
         newCommand->outputTarget = calloc(1, sizeof(char));
+        newCommand->instruction = calloc(1, sizeof(char));
     }
 
     // The first token should be the instruction. It should also tell us if this is a blank or comment.
@@ -143,7 +144,7 @@ struct command* createCommand(char* userInput) {
     
     // Inner calloc / strcpy based on Project 1, if statements protect from blanks and comments.
     // Originally ignored comments entirely, but this caused problems with printing the start-of-line colon reliably. 
-    newCommand->instruction = calloc(strlen(token) + 1, sizeof(char));
+    newCommand->instruction = realloc(newCommand->instruction, (strlen(token) + 1) * sizeof(char));
     
     newCommand->operands[operandArrayCounter] = calloc(strlen(token) + 1, sizeof(char));
     // Structuring the operands array with the instruction at index 0 in an effort to make execvp easier
@@ -225,6 +226,10 @@ struct command* createCommand(char* userInput) {
 void displayCommand(struct command* currCommand) { 
     printShout("Instruction: ", false);
     printShout(currCommand->instruction, true);
+
+    printShout("Comment/blank: ", false);
+    printf("%d\n", currCommand->isCommentOrBlank);
+    fflush(NULL);
     
     printShout("Background: ", false);
     if (currCommand->backgroundJob) { printShout("True, run in background mode", true); }
