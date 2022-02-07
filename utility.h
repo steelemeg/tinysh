@@ -165,6 +165,7 @@ void customSIGTSTP(int signo) {
 	// Per Ed, do not use strlen in handler. Also don't use fflush. TODO https://edstem.org/us/courses/16718/discussion/1075111
 	if (allowBackgroundMode) { write(STDOUT_FILENO, backgroundTurningOff, 49); }
 	else { write(STDOUT_FILENO, backgroundTurningOn, 29); }
+	tcflush(1, TCIOFLUSH);
 		
 	// FLIP the allowBackgroundMode flag
 	if (allowBackgroundMode) { allowBackgroundMode = false; }
