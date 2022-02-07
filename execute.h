@@ -117,9 +117,7 @@ void execLibrary(struct command* currCommand) {
     case 0: {
         // Child process creation successful. This code will be executed only by the child.
         // Background and foreground children should ignore SIGTSTP. Since this case is child-only, set to ignore.
-        // TODO something is wrong here
-        //handleSIGTSTP(false);
-        ignoreSIGTSTP();
+        observeSIGTSTP(false);
 
         // Are we redirecting input or output?
         if (currCommand->redirectOutput) { 
@@ -130,7 +128,7 @@ void execLibrary(struct command* currCommand) {
             redirector(currCommand->inputSource, true, false); 
             redirectedInput = true;
         }
-
+        // Should the child try to run in the background?
         if (currCommand->backgroundJob && allowBackgroundMode) { 
             if (debugMessages) { printShout("Background job setup begins", true); }
             childCreatedInBackground = true;
@@ -148,7 +146,6 @@ void execLibrary(struct command* currCommand) {
         else { 
             if (debugMessages) { printShout("Foreground job setup begins", true); }
             childCreatedInBackground = false;
-            //TODO handleSIGINT(true); 
             observeSIGINT(true);
         }
 

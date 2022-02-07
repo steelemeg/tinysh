@@ -22,7 +22,6 @@ void printShout(const char* printTarget, bool lineBreak) {
 */
 void printError(const char* printTarget) {
     perror(printTarget);
-    printf("\n");
     fflush(NULL);
     return;
 }
@@ -38,3 +37,12 @@ void printArray(char* arrayInput[], int entries) {
     }
 }
 
+/* 
+* Used for debugging.
+* Displays key metrics about the program.
+* Accepts no parameters.
+* returns no values.
+*/
+void exploreValues() {
+    printf("Allow background mode: %d\n", allowBackgroundMode);
+}

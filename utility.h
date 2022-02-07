@@ -152,25 +152,6 @@ void observeSIGINT(bool dfl) {
 	return;
 }
 
-void ignoreSIGTSTP(){
-	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
-	struct sigaction SIGTSTP_action = { { 0 } };
-	
-	if (debugMessages) {
-		write(STDOUT_FILENO, "Setting SIGTSTP to ignore\n", 26);
-	}
-	SIGTSTP_action.sa_handler = ignoreSignal;
-	
-	// Block all catchable signals while handle_SIGINT is running
-	sigfillset(&SIGTSTP_action.sa_mask);
-	// No flags set
-	SIGTSTP_action.sa_flags = 0;
-
-	// Install our signal handler
-	sigaction(SIGTSTP, &SIGTSTP_action, NULL);
-	return;
-}
-
 void customSIGTSTP(int signo) {
 	char* informativeMessage;
 	if (allowBackgroundMode) { informativeMessage = "Entering foreground-only mode (& is now ignored)\n"; }
@@ -195,14 +176,15 @@ void customSIGTSTP(int signo) {
 
 }
 
-void observeSIGTSTP() {
+void observeSIGTSTP(bool dfl) {
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGTSTP_action = { { 0 } };
 
 	if (debugMessages) { 
-		write(STDOUT_FILENO, "Setting SIGTSTP to default\n", 27);
+		write(STDOUT_FILENO, "Setting SIGTSTP\n", 27);
 	}
-	SIGTSTP_action.sa_handler = customSIGTSTP;
+	if (dfl) { SIGTSTP_action.sa_handler = customSIGTSTP; }
+	else { SIGTSTP_action.sa_handler = ignoreSignal; }
 
 	// Block all catchable signals while handle_SIGINT is running
 	sigfillset(&SIGTSTP_action.sa_mask);
