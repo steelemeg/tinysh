@@ -208,13 +208,13 @@ void execLibrary(struct command* currCommand) {
             // child process to terminate.
             else if (WIFSIGNALED(childExitStatus)) {
                 lastFGExitStatus = WTERMSIG(childExitStatus);
-                lastFGTerminate = 0;
-                printShout("HEY", true);
+                lastFGTerminate = 1;
+                execStatus();
             }
             // Catchall for edge cases
             else {
                 lastFGExitStatus = WTERMSIG(childExitStatus);
-                lastFGTerminate = 0;
+                lastFGTerminate = 1;
             }
         }
     } 

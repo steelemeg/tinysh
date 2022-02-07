@@ -95,25 +95,6 @@ void killZombieChildren() {
 	return;
 }
 
-/*
-* Custom handler for SIGINT. Per the spec, we must have a custom sigaction and handler pair for SIGINT.
-* Accepts one parameter, the signal number
-* Based on code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api
-* Prints required messaging, the process is requested to terminate with signal 2.
-* Returns no values
-*/
-void customSIGINT(int signo) {
-	char customSigintMsg[25] = "terminated by signal 2\n\0";
-	lastFGExitStatus = 2;
-	lastFGTerminate = 1;
-	write(STDOUT_FILENO, customSigintMsg, 24);
-
-	tcflush(1, TCIOFLUSH);
-	// Stop the process with signal 2. 
-	kill(signo, 2);
-	return;
-}
-
 /* 
 * Sigaction for SIGINT. Per the spec, we must have a custom sigaction and handler pair for SIGINT.
 * Accepts a boolean specifying if signal should be observed (true) or ignored (false)
@@ -123,7 +104,7 @@ void customSIGINT(int signo) {
 void observeSIGINT(bool dfl) {
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGINT_action = { { 0 } };
-	if (dfl) { SIGINT_action.sa_handler = customSIGINT; }
+	if (dfl) { SIGINT_action.sa_handler = SIG_DFL; }
 	else { SIGINT_action.sa_handler = SIG_IGN; }
 
 	// Block all catchable signals while handle_SIGINT is running
