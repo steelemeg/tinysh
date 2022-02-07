@@ -105,7 +105,9 @@ void killZombieChildren() {
 void customSIGINT(int signo) {
 	lastFGExitStatus = 2;
 	lastFGTerminate = true;
-	execStatus();
+	write(STDOUT_FILENO, "TEST\n", 5);
+
+	tcflush(1, TCIOFLUSH);
 	// Stop the process with signal 2. 
 	kill(signo, 2);
 	return;
