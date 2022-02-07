@@ -186,7 +186,7 @@ void handleSIGTSTP(bool dfl) {
 	//SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
 	if (dfl) { 
 		if (debugMessages) { write(STDOUT_FILENO, "Setting SIGTSTP to default\n", 27); }
-		SIGTSTP_action.sa_handler = customSIGTSTP2; 
+		SIGTSTP_action.sa_handler = customSIGTSTP; 
 	}
 	else { 
 		if (debugMessages) { write(STDOUT_FILENO, "Setting SIGTSTP to ignore\n", 26); }

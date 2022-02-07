@@ -50,7 +50,6 @@ bool debugMessages = true;
 #include "./printing.h"
 #include "./parsing.h"
 #include "./utility.h"
-#include "./handlerTests.h"
 #include "./execute.h"
 
 
