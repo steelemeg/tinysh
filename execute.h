@@ -79,7 +79,8 @@ void execCd(struct command* currCommand) {
 */
 void execStatus(struct command* currCommand) {
     char* output = calloc(20, sizeof(char));
-    sprintf(output, "exit value %d", lastFGExitStatus);
+    if (lastFGTerminate) { sprintf(output, "exit value %d", lastFGExitStatus); }
+    else { sprintf(output, "terminated by signal %d", lastFGExitStatus); }
     printShout(output, true);
     free(output);
     return;
@@ -166,6 +167,7 @@ void execLibrary(struct command* currCommand) {
         // Adding code to handle bad commands, like "badfile". Without this, bad commands caused control problems and would
         // leave the parent process in a weird state
         // Based on https://canvas.oregonstate.edu/courses/1884946/pages/exploration-processes-and-i-slash-o
+        // and https://edstem.org/us/courses/16718/discussion/1102818
         printError(currCommand->instruction);
         exit(errno);
         break;
@@ -193,16 +195,23 @@ void execLibrary(struct command* currCommand) {
             if (debugMessages) { printShout("Foregroudn job parent, waitpid concludes", true); }
             // Based on https://linux.die.net/man/2/waitpid full citation in readme
             // waitpid should return WIFEXITED true if normal termination and and the actual exit status in WIFEXITSTATUS
-            if (WIFEXITED(childExitStatus)) { 
+            if (WIFEXITED(childExitStatus)) {
                 removeChild(&firstChild, newPid);
-                lastFGExitStatus = WEXITSTATUS(childExitStatus); 
+                lastFGExitStatus = WEXITSTATUS(childExitStatus);
+                lastFGTerminate = false;
             }
 
             // If WIFEXITED was false, then there was a problem. WTERMSIG will return the number of the signal that caused the 
             // child process to terminate.
-            else if (WIFSIGNALED(childExitStatus)) { lastFGExitStatus = WTERMSIG(childExitStatus); }
+            else if (WIFSIGNALED(childExitStatus)) {
+                lastFGExitStatus = WTERMSIG(childExitStatus);
+                lastFGTerminate = false;
+            }
             // Catchall for edge cases
-            else { lastFGExitStatus = WTERMSIG(childExitStatus); }            
+            else {
+                lastFGExitStatus = WTERMSIG(childExitStatus);
+                lastFGTerminate = false;
+            }
         }
     } 
     if (debugMessages) { printShout("Execution task concludes", true); }

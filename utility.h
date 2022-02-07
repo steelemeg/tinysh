@@ -103,18 +103,11 @@ void killZombieChildren() {
 * Returns no values
 */
 void customSIGINT(int signo) {
-	char sigintMessage[24] = "terminated by signal 2\n";		// length 23
-
-	// Stop the process with signal 2. TODO
-	printShout("WHATEVER", false);
-	
-	// Using write per the module--printShout depends on printf, which is not re-entrant. 
-	// Per Ed, do not use strlen in handler. Also don't use fflush per https://edstem.org/us/courses/16718/discussion/1075111
-	write(STDOUT_FILENO, sigintMessage, 49);
-	tcflush(1, TCIOFLUSH);
+	lastFGExitStatus = 2;
+	lastFGTerminate = true;
+	// Stop the process with signal 2. 
 	kill(signo, 2);
 	return;
-
 }
 
 /* 
