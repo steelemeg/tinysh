@@ -67,7 +67,7 @@ bool debugMessages = false;
 int main(int argc, char* argv[]) {
     // Your shell, i.e., the parent process, must ignore SIGINT
     observeSIGINT(false);
-    observeSIGSTP(true);
+    observeSIGTSTP(true);
     char* colon = ": ";
 
     while (1) {
