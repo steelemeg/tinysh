@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
         // Mimicing the formatting of the screenshots, start each line with ":"
         printShout(colon, false);
 
-        if (!debugMessages) { exploreValues(); }
+        if (debugMessages) { exploreValues(); }
 
         char* protoCommand = getExpandedInput();
         // Build a command struct from the expanded input.

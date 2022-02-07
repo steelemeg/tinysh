@@ -45,4 +45,6 @@ void printArray(char* arrayInput[], int entries) {
 */
 void exploreValues() {
     printf("Allow background mode: %d\n", allowBackgroundMode);
+    printf("\n");
+    fflush(NULL);
 }

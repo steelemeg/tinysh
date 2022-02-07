@@ -117,14 +117,7 @@ void killZombieChildren() {
 * Returns no values.
 */
 
-/*
-* TODO OBVIOUSLY
-* Custom handler for SIGTSTP. 
-* Accepts one parameter, the signal number 
-* Based on code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api
-* Prints required messaging, toggles background mode flga
-* Returns no values
-*/
+
 
 /*
 * Handler for SIGTSTP. Per the spec, we must have a custom handler for SIGTSTP.
@@ -152,6 +145,14 @@ void observeSIGINT(bool dfl) {
 	return;
 }
 
+/*
+* Custom handler for SIGTSTP.
+* Accepts one parameter, the signal number
+* Based on code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api
+* Prints required messaging, toggles background mode flag -- every time a SIGTSTP is received by a process
+*	using this handler, it won't kill but will toggle the flag.
+* Returns no values
+*/
 void customSIGTSTP(int signo) {
 	char* informativeMessage;
 	if (allowBackgroundMode) { informativeMessage = "Entering foreground-only mode (& is now ignored)\n"; }
@@ -171,7 +172,10 @@ void customSIGTSTP(int signo) {
 	while (&informativeMessage[strlen] != "\0") { strlen += 1; }
 
 	write(STDOUT_FILENO, informativeMessage, strlen);
-	allowBackgroundMode = !allowBackgroundMode;
+	
+	// FLIP the allowBackgroundMode flag
+	if (allowBackgroundMode) { allowBackgroundMode = false; }
+	else { allowBackgroundMode = true; }
 	return;
 
 }
