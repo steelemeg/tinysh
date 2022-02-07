@@ -48,6 +48,7 @@ int redirector(char* targetFile, bool input, bool output) {
 	return 0;
 }
 
+
 /* 
 * Checks for background children that have concluded and prints appropriate messaging.
 * Accepts no parameters. 
@@ -95,6 +96,7 @@ void killZombieChildren() {
 	return;
 }
 
+
 /* 
 * Sigaction for SIGINT. Per the spec, we must have a custom sigaction and handler pair for SIGINT.
 * I originally wrote a custom dfl handler, but in testing it was never executed.
@@ -117,6 +119,7 @@ void observeSIGINT(bool dfl) {
 	sigaction(SIGINT, &SIGINT_action, NULL);
 	return;
 }
+
 
 /*
 * Custom handler for SIGTSTP. Per the spec, we must have a custom sigaction and handler pair for SIGTSTP.
@@ -147,6 +150,7 @@ void customSIGTSTP(int signo) {
 	return;
 
 }
+
 
 /*
 * Sigaction for SIGTSTP. Per the spec, we must have a custom sigaction and handler pair for SIGTSTP.

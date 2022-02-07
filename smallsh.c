@@ -52,8 +52,6 @@ bool debugMessages = false;
 #define RIGHT_ARROW ">"
 #define AMPERSAND "&"
 
-// Experimenting with breaking up the code to avoid a massive file.
-// Made development a lot easier, hopefully this is correctly implemented. 
 #include "./printing.h"
 #include "./parsing.h"
 #include "./utility.h"

@@ -29,6 +29,7 @@ int killChildProcesses() {
     return EXIT_SUCCESS;
 }
 
+
 /*
 *  Used to change the current working directory 
 *  Accepts one parameter, a command struct, which allows us to get the relevant operands.
@@ -71,6 +72,7 @@ void execCd(struct command* currCommand) {
     return;
 }
 
+
 /*
 *  Displays the exit value of the last foreground process.
 *  Accepts no parameters.
@@ -85,6 +87,7 @@ void execStatus() {
     free(output);
     return;
 }
+
 
 /*
 *  We must execute any non-built-in commands using child processes and an exec function.

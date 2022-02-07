@@ -17,6 +17,7 @@ struct command {
     char* outputTarget;
 };
 
+
 // Opting to track child processes in a linked list. Completed this section before finding 
 // out from Ed post #396 that we could assume a max of 200 processes. Sticking with linked list
 // since it seems to be working and potentially more flexible than an array.
@@ -24,6 +25,7 @@ struct child {
     int childPid;
     struct child* next;
 };
+
 
 /*
 *  Creates a new child struct.
@@ -37,6 +39,7 @@ void createChild(struct child** first, int pid) {
     newChild->childPid = pid;
     (*first) = newChild;   
 }
+
 
 /*
 *  Removes a child struct from the linked list.
@@ -70,6 +73,7 @@ bool removeChild(struct child** first, int pid) {
     free(currChild);
     return found;
 }
+
 
 /*
 * Print the linked list of all child processes. Included for testing purposes. 
@@ -223,6 +227,7 @@ struct command* createCommand(char* userInput) {
     return newCommand;
 }
 
+
 /* Used for debugging purposes.
 * Displays various properties of a command struct.
 * Accepts one parameter, the struct in question.
@@ -268,7 +273,6 @@ void displayCommand(struct command* currCommand) {
     printShout("Conclude display", true);
     
     return; }
-
 
 
 /*
