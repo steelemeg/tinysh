@@ -100,10 +100,6 @@ void killZombieChildren() {
 				removeChild(&firstChild, currentPid);
 			}
 		}
-		//kill(currChild->childPid, SIGKILL);
-		//sprintf(informativeMessage, "NOW background pid %d is done: terminated by signal 15", currChild->childPid);
-		//printShout(informativeMessage, true);
-
 		// todo handle removing child
 		currChild = currChild->next;
 	}
@@ -155,9 +151,8 @@ void observeSIGINT(bool dfl) {
 * Returns no values
 */
 void customSIGTSTP(int signo) {
-	char* backgroundTurningOff = "Entering foreground-only mode (& is now ignored)\n";	// length 49
-	char* backgroundTurningOn = "Exiting foreground-only mode\n";						// length 29
-
+	const char* backgroundTurningOff = "Entering foreground-only mode (& is now ignored)\n";	// length 49
+	const char* backgroundTurningOn = "Exiting foreground-only mode\n";						// length 29
 
 	// Using write per the module--printShout depends on printf, which is not re-entrant. 
 	// Per the spec, if the parent process receives SIGTSTP, we must show a custom message

@@ -11,8 +11,9 @@
 int killChildProcesses() {
     // Per Ed #351 (formal citation in the readme)
     // Walk through the linked list of child PIDs. Kill them if they are running.
-    //TODO
-    /*struct child* currChild = firstChild;
+    killZombieChildren();
+    // Just in case anything else is persisting, kill it so we don't swamp os1
+    struct child* currChild = firstChild;
     char* output = calloc(50, sizeof(char));
 
     while (currChild != NULL)
@@ -23,8 +24,8 @@ int killChildProcesses() {
         currChild = currChild->next;
     }
     free(output);
-    free(currChild); */
-    killZombieChildren();
+    free(currChild); 
+    
     return EXIT_SUCCESS;
 }
 

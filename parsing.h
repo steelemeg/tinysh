@@ -184,7 +184,6 @@ struct command* createCommand(char* userInput) {
         
         // If the last operand is & then it's a background job
         if (strcmp(token, AMPERSAND) == 0 && (tokenCounter==0)){
-            printShout("Setting background", true);
             jobControl = true;
             newCommand->backgroundJob = true;
         }
