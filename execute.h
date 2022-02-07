@@ -187,7 +187,10 @@ void execLibrary(struct command* currCommand) {
             // Based on https://linux.die.net/man/2/waitpid full citation in readme
             // waitpid should return WIFEXITED true if normal termination and and the actual exit status in WIFEXITSTATUS
             if (WIFEXITED(childExitStatus)) { 
+                //TODO
                 printShout("some oerror message here", true);
+                printf("error no %d\n", errno);
+                fflush();
                 removeChild(&firstChild, newPid);
                 lastFGExitStatus = WEXITSTATUS(childExitStatus); 
             }
