@@ -80,9 +80,6 @@ int main(int argc, char* argv[]) {
         char* protoCommand = getExpandedInput();     
         // Build a command struct from the expanded input.
         struct command* newCommand = createCommand(protoCommand);
-        // todo
-        printShout("", true);
-        displayCommand(newCommand);
 
         // Execute the instruction        
         execCommand(newCommand);        
