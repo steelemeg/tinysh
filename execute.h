@@ -160,6 +160,7 @@ void execLibrary(struct command* currCommand) {
         execvp(currCommand->instruction, currCommand->operands);
         // Adding code to handle bad commands, like "badfile". Without this, bad commands caused control problems and would
         // leave the parent process in a weird state
+        printShout("TEST", true);
         exit(errno);
         break;
     }
@@ -187,10 +188,6 @@ void execLibrary(struct command* currCommand) {
             // Based on https://linux.die.net/man/2/waitpid full citation in readme
             // waitpid should return WIFEXITED true if normal termination and and the actual exit status in WIFEXITSTATUS
             if (WIFEXITED(childExitStatus)) { 
-                //TODO
-                printShout("some oerror message here", true);
-                printf("error no %d\n", errno);
-                fflush(NULL);
                 removeChild(&firstChild, newPid);
                 lastFGExitStatus = WEXITSTATUS(childExitStatus); 
             }
