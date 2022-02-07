@@ -103,7 +103,7 @@ void killZombieChildren() {
 * Returns no values
 */
 void customSIGINT(int signo) {
-	char customSigintMsg[25] = "terminated by signal 2\n\0"
+	char customSigintMsg[25] = "terminated by signal 2\n\0";
 	lastFGExitStatus = 2;
 	lastFGTerminate = true;
 	write(STDOUT_FILENO, customSigintMsg, 24);
