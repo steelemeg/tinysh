@@ -31,6 +31,7 @@ int redirector(char* targetFile, bool input, bool output) {
 	if (fileD == -1) {
 		printError("Problem opening file: ");
 		// Originally returned, which caused serious problems when the filename was not valid.
+		// Changing based on sample code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-processes-and-i-slash-o
 		exit(1);
 	}
 	// Per module example, close file descriptor on execution

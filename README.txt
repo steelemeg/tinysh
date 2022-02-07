@@ -50,6 +50,8 @@ Stack Overflow (February 2, 2022) Chdir to Home Directory [Example source code] 
 
 TODO text citations page 363-364 The Current Working Directory of a Process
 
+Geeks for Geeks [Februar 2, 2022] Dynamic Memory Allocation in C using malloc, calloc, free, and realloc [Example source code] https://www.geeksforgeeks.org/dynamic-memory-allocation-in-c-using-malloc-calloc-free-and-realloc/
+
 Delft Stack [February 2, 2022] C Initialize Array to 0 [Example source code] https://www.delftstack.com/howto/c/c-initialize-array-to-0/
 
 Geeks for Geeks [February 2, 2022] Linked List Set 3 Deleting Node [Example source code] https://www.geeksforgeeks.org/linked-list-set-3-deleting-node/

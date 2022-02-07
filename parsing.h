@@ -115,15 +115,30 @@ struct command* createCommand(char* userInput) {
     // This will be important for figuring out how to handle stuff like "> output.txt"
     bool isNotSpecial = true;
 
-    // Initialize the redirection flags as false, until proven otherwise.
-    newCommand->redirectInput = false;
-    newCommand->redirectOutput = false;
+    // Regardless of the actual content, clear the flags. There were issues with edge cases where arguments persisted.
+    {
+        // Initialize the redirection flags as false, until proven otherwise.
+        newCommand->redirectInput = false;
+        newCommand->redirectOutput = false;
+        // Start the counters at zero
+        newCommand->operandCount = 0;
+        newCommand->tokenCount = tokenCounter;
+
+        newCommand->isCommentOrBlank = false;
+        newCommand->backgroundJob = false;
+
+        newCommand->inputSource = calloc(1, sizeof(char));
+        newCommand->outputTarget = calloc(1, sizeof(char));
+
+        char* instruction;
+        char* operands[MAX_ARG + 1];
+        char* inputSource;
+        char* outputTarget;
+
+    }
 
     // The first token should be the instruction. It should also tell us if this is a blank or comment.
     token = strtok_r(userInput, DELIMITER, &saveptr);
-
-    // Start the argument counter at zero
-    newCommand->tokenCount = tokenCounter;
 
     // Handle blank or commented inputs.   
     if (token == NULL || token[0] == comment) {
@@ -191,21 +206,22 @@ struct command* createCommand(char* userInput) {
         // If the outputRedirect flag is true, and if the token isNotSpecial, then this is the redirect target
         // Save the token as the outputTarget, and reset inputRedirect so we can keep processing without continously overwriting outputTarget
         else if (outputRedirect && isNotSpecial) {
-            newCommand->outputTarget = calloc(tokenLength + 1, sizeof(char));
+            newCommand->outputTarget = realloc(newCommand->outputTarget, (tokenLength + 1) * sizeof(char));
             strcpy(newCommand->outputTarget, token);
             outputRedirect = false;
         }
         // If the inputRedirect flag is true, and if the token isNotSpecial, then it's our redirect source
         // Save the token as the inputSource, and reset inputRedirect so we can keep processing without continously overwriting inputSource
         else if (inputRedirect && isNotSpecial) {
-            newCommand->inputSource = calloc(tokenLength + 1, sizeof(char));
+            newCommand->inputSource = realloc(newCommand->inputSource, (tokenLength + 1) * sizeof(char));
             strcpy(newCommand->inputSource, token);
             inputRedirect = false;
         }
         token = strtok_r(NULL, DELIMITER, &saveptr);
       
     }
-
+    // Add a trailing null just in case--execvp requires this in the args array
+    newCommand->operands[operandArrayCounter] = calloc(1, sizeof(char));
     newCommand->operandCount = operandArrayCounter;
     return newCommand;
 }
