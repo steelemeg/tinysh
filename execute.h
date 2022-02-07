@@ -168,8 +168,6 @@ void execLibrary(struct command* currCommand) {
         // leave the parent process in a weird state
         // Based on https://canvas.oregonstate.edu/courses/1884946/pages/exploration-processes-and-i-slash-o
         // and https://edstem.org/us/courses/16718/discussion/1102818
-        printShout(currCommand->instruction, false);
-        printShout(": ", false);
         printError(currCommand->instruction);
         exit(errno);
         break;
