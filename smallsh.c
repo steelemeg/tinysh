@@ -36,7 +36,7 @@ int childNum = 0;
 bool allowBackgroundMode = true;
 
 // Switch for printing out messages useful for troubleshooting. 
-bool debugMessages = false;
+bool debugMessages = true;
 
 // Defining some items for frequent use.
 #define DELIMITER " "
