@@ -154,9 +154,8 @@ void observeSIGINT(bool dfl) {
 * Returns no values
 */
 void customSIGTSTP(int signo) {
-	char* informativeMessage;
-	if (allowBackgroundMode) { informativeMessage = "Entering foreground-only mode (& is now ignored)\n"; }
-	else { informativeMessage = "Exiting foreground-only mode\n";}
+	char* backgroundTurningOff = "Entering foreground - only mode(&is now ignored)\n";	// length 49
+	char* backgroundTurningOn = "Exiting foreground-only mode\n";						// length 29
 
 
 	// Using write per the module--printShout depends on printf, which is not re-entrant. 
@@ -166,13 +165,9 @@ void customSIGTSTP(int signo) {
 	// global flag to determine which behavior should be executed.
 
 	// Per Ed, do not use strlen in handler. Also don't use fflush. TODO https://edstem.org/us/courses/16718/discussion/1075111
-	// TODO cite https://stackoverflow.com/questions/3992192/string-length-without-len-function
-	// Code method from https://stackoverflow.com/questions/3992192/string-length-without-len-function
-	int strlen = 0;
-	while (&informativeMessage[strlen] != "\0") { strlen += 1; }
-
-	write(STDOUT_FILENO, informativeMessage, strlen);
-	
+	if (allowBackgroundMode) { write(STDOUT_FILENO, backgroundTurningOff, 49); }
+	else { write(STDOUT_FILENO, backgroundTurningOn, 29); }
+		
 	// FLIP the allowBackgroundMode flag
 	if (allowBackgroundMode) { allowBackgroundMode = false; }
 	else { allowBackgroundMode = true; }
