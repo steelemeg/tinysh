@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
         }
         // Build a command struct from the expanded input.
         struct command* newCommand = createCommand(protoCommand);
-        if (debugMessages) { displayCommand; }
+        if (debugMessages) { displayCommand(newCommand); }
 
         // Execute the instruction        
         execCommand(newCommand);        
