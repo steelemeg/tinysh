@@ -167,6 +167,8 @@ void customSIGTSTP(int signo) {
 	// FLIP the allowBackgroundMode flag
 	if (allowBackgroundMode) { allowBackgroundMode = false; }
 	else { allowBackgroundMode = true; }
+	free(backgroundTurningOn);
+	free(backgroundTurningOff);
 	return;
 
 }
