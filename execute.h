@@ -88,7 +88,7 @@ void execStatus(struct command* currCommand) {
 
 /*
 *  TODO
-*  The shell will print the process id of a background process when it begins.
+*  
 */
 void execLibrary(struct command* currCommand) {
     // Per the assignment, fork a child process for non-built-in-commands.
@@ -201,6 +201,7 @@ void execLibrary(struct command* currCommand) {
         }
     } 
     if (debugMessages) { printShout("Execution task concludes", true); }
+    printShout("free bg message", true);
     free(bgExitMessage);
     return;
 }
