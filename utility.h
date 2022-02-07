@@ -269,7 +269,7 @@ void superSpecialSIGTSTP(int signo) {
 	// TODO cite https://stackoverflow.com/questions/3992192/string-length-without-len-function
 	// Code method from https://stackoverflow.com/questions/3992192/string-length-without-len-function
 	int strlen = 0;
-	while (informativeMessage[strlen] != "\0") { strlen += 1; }
+	while (&informativeMessage[strlen] != "\0") { strlen += 1; }
 
 	write(STDOUT_FILENO, informativeMessage, strlen);
 	allowBackgroundMode = !allowBackgroundMode;
