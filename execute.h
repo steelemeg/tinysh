@@ -190,7 +190,7 @@ void execLibrary(struct command* currCommand) {
                 //TODO
                 printShout("some oerror message here", true);
                 printf("error no %d\n", errno);
-                fflush();
+                fflush(NULL);
                 removeChild(&firstChild, newPid);
                 lastFGExitStatus = WEXITSTATUS(childExitStatus); 
             }
