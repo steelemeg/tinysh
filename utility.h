@@ -30,7 +30,7 @@ int redirector(char* targetFile, bool input, bool output) {
 	// Handle file opening errors
 	if (fileD == -1) {
 		printError("Problem opening file: ");
-		// Originally return, which caused serious crashes when the filename was not valid.
+		// Originally returned, which caused serious problems when the filename was not valid.
 		exit(1);
 	}
 	// Per module example, close file descriptor on execution

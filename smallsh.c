@@ -28,12 +28,12 @@
 
 // Using a limited number of file-scope vars to keep tabs on child processes. 
 // Status should start as zero, and is modified by foreground process changes
-int statusFlag = 0;
+// Track the terminating signal of the last foreground process ran by your shell.
+int lastFGExitStatus = 0;
 struct child* firstChild = NULL;
 int childNum = 0;
 bool allowBackgroundMode = true;
-// Track the terminating signal of the last foreground process ran by your shell.
-int lastFGExitStatus = 0;
+
 // Switch for printing out messages useful for troubleshooting. 
 bool debugMessages = true;
 

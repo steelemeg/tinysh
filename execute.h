@@ -77,7 +77,8 @@ void execCd(struct command* currCommand) {
 */
 void execStatus(struct command* currCommand) {
     char* output = calloc(20, sizeof(char));
-    sprintf(output, "exit value %d", statusFlag);
+    // Note: Originally ysed 
+    sprintf(output, "exit value %d", lastFGExitStatus);
     printShout(output, true);
     free(output);
     return;
