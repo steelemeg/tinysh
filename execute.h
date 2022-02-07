@@ -160,7 +160,8 @@ void execLibrary(struct command* currCommand) {
         execvp(currCommand->instruction, currCommand->operands);
         // Adding code to handle bad commands, like "badfile". Without this, bad commands caused control problems and would
         // leave the parent process in a weird state
-        printShout("TEST", true);
+        printShout(currCommand->instruction, false);
+        printShout(": no such file or directory", true);
         exit(errno);
         break;
     }
