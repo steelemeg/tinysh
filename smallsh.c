@@ -83,7 +83,6 @@ int main(int argc, char* argv[]) {
             execCommand(newCommand);
         }
         free(newCommand);
-        printShout("TEST", true);
     }
 
     return EXIT_SUCCESS;
