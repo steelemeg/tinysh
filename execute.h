@@ -153,7 +153,6 @@ void execLibrary(struct command* currCommand) {
         else { 
             if (debugMessages) { printShout("Foreground job setup begins", true); }
             childCreatedInBackground = false;
-            printShout("SETTING THE DANG THING", true);
             observeSIGINT(true);
         }
 

@@ -103,9 +103,10 @@ void killZombieChildren() {
 * Returns no values
 */
 void customSIGINT(int signo) {
+	char customSigintMsg[25] = "terminated by signal 2\n\0"
 	lastFGExitStatus = 2;
 	lastFGTerminate = true;
-	write(STDOUT_FILENO, "TEST\n", 5);
+	write(STDOUT_FILENO, customSigintMsg, 24);
 
 	tcflush(1, TCIOFLUSH);
 	// Stop the process with signal 2. 
@@ -122,12 +123,8 @@ void customSIGINT(int signo) {
 void observeSIGINT(bool dfl) {
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGINT_action = { { 0 } };
-	if (dfl) {
-		SIGINT_action.sa_handler = customSIGINT;
-		printShout("WHY", true);
-	}
+	if (dfl) {	SIGINT_action.sa_handler = customSIGINT; }
 	else { SIGINT_action.sa_handler = SIG_IGN; }
-
 
 	// Block all catchable signals while handle_SIGINT is running
 	sigfillset(&SIGINT_action.sa_mask);
@@ -148,8 +145,8 @@ void observeSIGINT(bool dfl) {
 * Returns no values
 */
 void customSIGTSTP(int signo) {
-	char backgroundTurningOff[50] = "Entering foreground-only mode (& is now ignored)\n";		// length 49
-	char backgroundTurningOn[30] = "Exiting foreground-only mode\n";							// length 29
+	char backgroundTurningOff[50] = "Entering foreground-only mode (& is now ignored)\n\0";		// length 50
+	char backgroundTurningOn[30] = "Exiting foreground-only mode\n\0";							// length 30
 
 	// Using write per the module--printShout depends on printf, which is not re-entrant. 
 	// Per the spec, if the parent process receives SIGTSTP, we must show a custom message
