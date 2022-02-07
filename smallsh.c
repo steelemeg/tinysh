@@ -89,8 +89,8 @@ int main(int argc, char* argv[]) {
 
         // Execute the instruction        
         execCommand(newCommand);        
-        free(protoCommand);
-        free(newCommand);
+        //TODO free(protoCommand);
+        //free(newCommand);
     }
 
     return EXIT_SUCCESS;
