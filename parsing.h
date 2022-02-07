@@ -158,7 +158,6 @@ struct command* createCommand(char* userInput) {
         isNotSpecial = true;
         // Count down the number of args processed
         tokenCounter--;
-        printf("token countdown %d processing %s\n", tokenCounter, token);
   
         tokenLength = strlen(token);
         // Look for special characters that indicate &, redirection, or adjacent commands
@@ -176,6 +175,7 @@ struct command* createCommand(char* userInput) {
         
         // If the last operand is & then it's a background job
         if (strcmp(token, AMPERSAND) == 0 && (tokenCounter==0)){
+            printShout("Setting background", true);
             jobControl = true;
             newCommand->backgroundJob = true;
         }
