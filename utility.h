@@ -104,7 +104,7 @@ void killZombieChildren() {
 */
 void customSIGINT(int signo) {
 	char customSigintMsg[25] = "terminated by signal 2\n\0";
-	lastFGExitStatus = 200;
+	lastFGExitStatus = 2;
 	lastFGTerminate = 1;
 	write(STDOUT_FILENO, customSigintMsg, 24);
 
@@ -123,7 +123,7 @@ void customSIGINT(int signo) {
 void observeSIGINT(bool dfl) {
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGINT_action = { { 0 } };
-	if (dfl) {	SIGINT_action.sa_handler = customSIGINT; }
+	if (dfl) { SIGINT_action.sa_handler = customSIGINT; }
 	else { SIGINT_action.sa_handler = SIG_IGN; }
 
 	// Block all catchable signals while handle_SIGINT is running

@@ -209,6 +209,7 @@ void execLibrary(struct command* currCommand) {
             else if (WIFSIGNALED(childExitStatus)) {
                 lastFGExitStatus = WTERMSIG(childExitStatus);
                 lastFGTerminate = 0;
+                printShout("HEY", true);
             }
             // Catchall for edge cases
             else {
