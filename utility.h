@@ -105,7 +105,7 @@ void killZombieChildren() {
 void customSIGINT(int signo) {
 	char customSigintMsg[25] = "terminated by signal 2\n\0";
 	lastFGExitStatus = 2;
-	lastFGTerminate = true;
+	lastFGTerminate = 1;
 	write(STDOUT_FILENO, customSigintMsg, 24);
 
 	tcflush(1, TCIOFLUSH);

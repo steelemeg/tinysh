@@ -80,7 +80,7 @@ void execCd(struct command* currCommand) {
 void execStatus() {
     char* output = calloc(20, sizeof(char));
     exploreValues();
-    if (!lastFGTerminate) { sprintf(output, "exit value %d", lastFGExitStatus); }
+    if (lastFGTerminate == 0) { sprintf(output, "exit value %d", lastFGExitStatus); }
     else { sprintf(output, "terminated by signal %d", lastFGExitStatus); }
     printShout(output, true);
     free(output);
@@ -199,7 +199,7 @@ void execLibrary(struct command* currCommand) {
             if (WIFEXITED(childExitStatus)) {
                 removeChild(&firstChild, newPid);
                 lastFGExitStatus = WEXITSTATUS(childExitStatus);
-                lastFGTerminate = false;
+                lastFGTerminate = 0;
                 //TODO
                 exploreValues();
             }
@@ -208,12 +208,12 @@ void execLibrary(struct command* currCommand) {
             // child process to terminate.
             else if (WIFSIGNALED(childExitStatus)) {
                 lastFGExitStatus = WTERMSIG(childExitStatus);
-                lastFGTerminate = false;
+                lastFGTerminate = 0;
             }
             // Catchall for edge cases
             else {
                 lastFGExitStatus = WTERMSIG(childExitStatus);
-                lastFGTerminate = false;
+                lastFGTerminate = 0;
             }
         }
     } 

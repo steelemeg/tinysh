@@ -34,7 +34,7 @@
 // Status should start as zero, and is modified by foreground process changes
 // Track the terminating signal of the last foreground process ran by your shell.
 int lastFGExitStatus = 0;
-bool lastFGTerminate = false;
+int lastFGTerminate = 0;
 struct child* firstChild = NULL;
 int childNum = 0;
 bool allowBackgroundMode = true;
