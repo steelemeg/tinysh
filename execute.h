@@ -150,7 +150,7 @@ void execLibrary(struct command* currCommand) {
             if (debugMessages) { printShout("Foreground job setup begins", true); }
             childCreatedInBackground = false;
             //TODO handleSIGINT(true); 
-            observeSIGINT();
+            observeSIGINT(true);
         }
 
         // Child process created and tracked, signal handlers configured. Execute the actual command.
