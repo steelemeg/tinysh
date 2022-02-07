@@ -72,6 +72,7 @@ int main(int argc, char* argv[]) {
 
     while (1) {
         // Mimicing the formatting of the screenshots, start each line with ":"
+        killZombieChildren();
         printShout(colon, false);
 
         if (debugMessages) { exploreValues(); }

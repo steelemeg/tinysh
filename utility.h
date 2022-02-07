@@ -154,7 +154,7 @@ void observeSIGINT(bool dfl) {
 * Returns no values
 */
 void customSIGTSTP(int signo) {
-	char* backgroundTurningOff = "Entering foreground - only mode(&is now ignored)\n";	// length 49
+	char* backgroundTurningOff = "Entering foreground-only mode (& is now ignored)\n";	// length 49
 	char* backgroundTurningOn = "Exiting foreground-only mode\n";						// length 29
 
 
