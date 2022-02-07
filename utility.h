@@ -151,7 +151,7 @@ void observeSIGINT(bool dfl) {
 * Returns no values
 */
 void customSIGTSTP(int signo) {
-	char backgroundTurningOff[50] = "Entering foreground-only mode (& is now ignored)\n";	// length 49
+	char backgroundTurningOff[50] = "Entering foreground-only mode (& is now ignored)\n";		// length 49
 	char backgroundTurningOn[30] = "Exiting foreground-only mode\n";							// length 29
 
 	// Using write per the module--printShout depends on printf, which is not re-entrant. 
@@ -167,8 +167,6 @@ void customSIGTSTP(int signo) {
 	// FLIP the allowBackgroundMode flag
 	if (allowBackgroundMode) { allowBackgroundMode = false; }
 	else { allowBackgroundMode = true; }
-	free(backgroundTurningOn);
-	free(backgroundTurningOff);
 	return;
 
 }
