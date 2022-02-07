@@ -116,29 +116,6 @@ void killZombieChildren() {
 * Based on module code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api?module_item_id=21835981
 * Returns no values.
 */
-void handleSIGINT(bool dfl) {
-	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
-	struct sigaction SIGINT_action = { { 0 } };
-	// SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
-	if (dfl) { 
-		if (debugMessages) {write(STDOUT_FILENO, "Handing sigint, default behavior\n", 33); }
-		SIGINT_action.sa_handler = SIG_DFL; 
-	}
-	// Can we use SIG_IGN? Module makes it sound like yes
-	else { 
-		if (debugMessages) { write(STDOUT_FILENO, "Handing sigint, ignore behavior\n", 32); }
-		SIGINT_action.sa_handler = SIG_IGN; 
-	}
-
-	// Block all catchable signals while handle_SIGINT is running
-	sigfillset(&SIGINT_action.sa_mask);
-	// No flags set
-	SIGINT_action.sa_flags = 0;
-
-	// Install our signal handler
-	sigaction(SIGINT, &SIGINT_action, NULL);
-	return;
-}
 
 /*
 * TODO OBVIOUSLY
@@ -148,30 +125,6 @@ void handleSIGINT(bool dfl) {
 * Prints required messaging, toggles background mode flga
 * Returns no values
 */
-void customSIGTSTP(int signo) { 
-	// Per the spec, need to print messages of the format "Entering foreground-only mode (& is now ignored)"
-	// or "Exiting foreground-only mode"
-	char* backgroundNoMessage = calloc(49, sizeof(char));
-	sprintf(backgroundNoMessage, "Entering foreground-only mode (& is now ignored)\n");
-	char* backgroundYesMessage = calloc(29, sizeof(char));
-	sprintf(backgroundYesMessage, "Exiting foreground-only mode\n");
-
-	// Using write per the module--printShout depends on printf, which is not re-entrant. 
-	// Per the spec, if the parent process receives SIGTSTP, we must show a custom message
-	// and disable background processing. If SIGTSTP is received again, another message must
-	// be displayed and background processing should be re-enabled. Using the background mode
-	// global flag to determine which behavior should be executed.
-	if (allowBackgroundMode) { 
-		write(STDOUT_FILENO, backgroundNoMessage, 49);
-		allowBackgroundMode = false;
-	}
-	else if (!allowBackgroundMode) {
-		write(STDOUT_FILENO, backgroundYesMessage, 29);
-		allowBackgroundMode = true;
-	}
-	free(backgroundNoMessage);
-	free(backgroundYesMessage);
-	return; }
 
 /*
 * Handler for SIGTSTP. Per the spec, we must have a custom handler for SIGTSTP.
@@ -180,31 +133,6 @@ void customSIGTSTP(int signo) {
 * Since the sa_handler wants a function, this is effectively broken into two parts, handleSIGTSTP and custom
 * Returns no values.
 */
-void handleSIGTSTP(bool dfl) {
-	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
-	struct sigaction SIGTSTP_action = { { 0 } };
-	//SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
-	if (dfl) { 
-		if (debugMessages) { write(STDOUT_FILENO, "Setting SIGTSTP to default\n", 27); }
-		SIGTSTP_action.sa_handler = customSIGTSTP; 
-	}
-	else { 
-		if (debugMessages) { write(STDOUT_FILENO, "Setting SIGTSTP to ignore\n", 26); }
-		SIGTSTP_action.sa_handler = SIG_IGN; 
-	}
-
-	// Block all catchable signals while handle_SIGINT is running
-	sigfillset(&SIGTSTP_action.sa_mask);
-	// No flags set
-	SIGTSTP_action.sa_flags = 0;
-
-	// Install our signal handler
-	sigaction(SIGTSTP, &SIGTSTP_action, NULL);
-	return;
-}
-
-
-
 
 
 void ignoreSIGINT() {
@@ -254,7 +182,6 @@ void ignoreSIGTSTP(){
 	
 	if (debugMessages) {
 		write(STDOUT_FILENO, "Setting SIGTSTP to ignore\n", 26);
-		fflush(NULL);
 	}
 	SIGTSTP_action.sa_handler = ignoreSignal;
 	
@@ -273,6 +200,13 @@ void superSpecialSIGTSTP(int signo) {
 	if (allowBackgroundMode) { informativeMessage = "Entering foreground-only mode (& is now ignored)\n"; }
 	else { informativeMessage = "Exiting foreground-only mode\n";}
 
+
+	// Using write per the module--printShout depends on printf, which is not re-entrant. 
+	// Per the spec, if the parent process receives SIGTSTP, we must show a custom message
+	// and disable background processing. If SIGTSTP is received again, another message must
+	// be displayed and background processing should be re-enabled. Using the background mode
+	// global flag to determine which behavior should be executed.
+
 	// Per Ed TODO FIND WHERE I SAW THIS I KNOW I SAW THIS don't use magic numbers in handlers
 	// TODO cite https://stackoverflow.com/questions/3992192/string-length-without-len-function
 	// Code method from https://stackoverflow.com/questions/3992192/string-length-without-len-function
@@ -280,7 +214,6 @@ void superSpecialSIGTSTP(int signo) {
 	while (&informativeMessage[strlen] != "\0") { strlen += 1; }
 
 	write(STDOUT_FILENO, informativeMessage, strlen);
-	fflush(NULL);
 	allowBackgroundMode = !allowBackgroundMode;
 	return;
 
@@ -293,7 +226,6 @@ void observeSIGTSTP() {
 
 	if (debugMessages) { 
 		write(STDOUT_FILENO, "Setting SIGTSTP to default\n", 27);
-		fflush(NULL);
 	}
 	SIGTSTP_action.sa_handler = superSpecialSIGTSTP;
 

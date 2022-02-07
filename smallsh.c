@@ -35,7 +35,7 @@ int childNum = 0;
 bool allowBackgroundMode = true;
 
 // Switch for printing out messages useful for troubleshooting. 
-bool debugMessages = true;
+bool debugMessages = false;
 
 // Defining some items for frequent use.
 #define DELIMITER " "
@@ -66,7 +66,7 @@ bool debugMessages = true;
 */
 int main(int argc, char* argv[]) {
     // Your shell, i.e., the parent process, must ignore SIGINT
-    handleSIGINT(false);
+    ignoreSIGINT();
     // TODO deal with SIGTST for parent
     char* colon = ": ";
 
