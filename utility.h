@@ -125,7 +125,7 @@ void observeSIGINT(bool dfl) {
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGINT_action = { { 0 } };
 	// SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
-	if (dfl) { SIGINT_action.sa_handler = SIG_DFL; }
+	if (dfl) { SIGINT_action.sa_handler = customSIGINT; }
 	else { SIGINT_action.sa_handler = SIG_IGN; }
 
 
