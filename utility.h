@@ -5,7 +5,8 @@
 * Accepts three parameters, the name of the file, a bool indicating if this is an input redirect, and a bool indicating 
 * if this is an output redirect.
 * Returns no values.
-* Based on code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-processes-and-i-slash-o, full citation in readme
+* Based on code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-processes-and-i-slash-o, 
+* full citation in readme
 */
 int redirector(char* targetFile, bool input, bool output) {
 	// Modifying lecture code to account for the possibility of a blank filename. 
@@ -34,10 +35,11 @@ int redirector(char* targetFile, bool input, bool output) {
 		// Changing based on sample code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-processes-and-i-slash-o
 		exit(1);
 	}
-	// Per module example, close file descriptor on execution
-	fcntl(fileD, F_SETFD, FD_CLOEXEC);
+
 	// If all is well, do the actual redirect. Use dup2 to point to fileD, use the flag to determine if it's input or output
 	result = dup2(fileD, dupFlag);
+	// Per module example, close file descriptor on execution
+	fcntl(fileD, F_SETFD, FD_CLOEXEC);
 	// Handle dup2 errors 
 	if (result == -1) {
 		printError("Problem with redirection, dup2() execution generated an error");
@@ -179,7 +181,7 @@ void observeSIGTSTP(bool dfl) {
 		write(STDOUT_FILENO, "Setting SIGTSTP\n", 27);
 	}
 	if (dfl) { SIGTSTP_action.sa_handler = customSIGTSTP; }
-	else { SIGTSTP_action.sa_handler = ignoreSignal; }
+	else { SIGTSTP_action.sa_handler = SIG_IGN; }
 
 	// Block all catchable signals while handle_SIGINT is running
 	sigfillset(&SIGTSTP_action.sa_mask);
