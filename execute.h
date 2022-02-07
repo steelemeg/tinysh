@@ -80,7 +80,7 @@ void execCd(struct command* currCommand) {
 void execStatus() {
     char* output = calloc(20, sizeof(char));
     exploreValues();
-    if (lastFGTerminate) { sprintf(output, "exit value %d", lastFGExitStatus); }
+    if (!lastFGTerminate) { sprintf(output, "exit value %d", lastFGExitStatus); }
     else { sprintf(output, "terminated by signal %d", lastFGExitStatus); }
     printShout(output, true);
     free(output);
