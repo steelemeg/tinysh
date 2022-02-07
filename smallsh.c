@@ -20,6 +20,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <time.h>
+#include <termios.h>
 #include <dirent.h>
 #include <unistd.h>
 #include <signal.h>

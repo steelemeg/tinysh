@@ -50,6 +50,8 @@ Stack Overflow (February 2, 2022) Chdir to Home Directory [Example source code] 
 
 TODO text citations page 363-364 The Current Working Directory of a Process
 
+Reddy, Vineet (February 1, 2022) PWD vs GETCWD [Example source code] https://vineetreddy.wordpress.com/2017/05/17/pwd-vs-getcwd/
+
 Geeks for Geeks [Februar 2, 2022] Dynamic Memory Allocation in C using malloc, calloc, free, and realloc [Example source code] https://www.geeksforgeeks.org/dynamic-memory-allocation-in-c-using-malloc-calloc-free-and-realloc/
 
 Delft Stack [February 2, 2022] C Initialize Array to 0 [Example source code] https://www.delftstack.com/howto/c/c-initialize-array-to-0/
