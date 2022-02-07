@@ -65,7 +65,8 @@ bool debugMessages = true;
 *       gcc --std=gnu99 -o smallsh main.c
 */
 int main(int argc, char* argv[]) {
-    // TODO deal with SIGINT for parent
+    // Your shell, i.e., the parent process, must ignore SIGINT
+    handleSIGINT(false);
     // TODO deal with SIGTST for parent
     char* colon = ": ";
 
