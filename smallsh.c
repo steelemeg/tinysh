@@ -80,10 +80,11 @@ int main(int argc, char* argv[]) {
         if (debugMessages) { exploreValues(); }
 
         char* protoCommand = getExpandedInput();
-        // Build a command struct from the expanded input.
-        struct command* newCommand = createCommand(protoCommand);
         printShout("Raw command string: ", true);
         printShout(protoCommand, true);
+        // Build a command struct from the expanded input.
+        struct command* newCommand = createCommand(protoCommand);
+        
         printShout("", true);
         displayCommand(newCommand);
         free(protoCommand);

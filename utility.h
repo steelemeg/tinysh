@@ -152,7 +152,7 @@ void observeSIGINT(bool dfl) {
 */
 void customSIGTSTP(int signo) {
 	const char* backgroundTurningOff = "Entering foreground-only mode (& is now ignored)\n";	// length 49
-	const char* backgroundTurningOn = "Exiting foreground-only mode\n";						// length 29
+	const char* backgroundTurningOn = "Exiting foreground-only mode\n";							// length 29
 
 	// Using write per the module--printShout depends on printf, which is not re-entrant. 
 	// Per the spec, if the parent process receives SIGTSTP, we must show a custom message
