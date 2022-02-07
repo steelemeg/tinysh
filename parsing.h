@@ -168,7 +168,6 @@ struct command* createCommand(char* userInput) {
         redirection = (redirection || (inputRedirect || outputRedirect));
         if (token[0] == *LEFT_ARROW || token[0] == *RIGHT_ARROW || (strcmp(token, AMPERSAND) == 0 && (tokenCounter == 0))) {
             isNotSpecial = false;
-            printf("found special thing %s\n", token);
         }
 
         // Set the command's redirect flags if <>s were found
@@ -225,11 +224,11 @@ void displayCommand(struct command* currCommand) {
     else { printShout("False, run in foreground", true); }
 
     printShout("Redirection: ", false);
-    if (currCommand->redirectInput) { 
+    if (currCommand->redirectInput && !currCommand->redirectOutput) { 
         printShout("Input only to ", false); 
         printShout(currCommand->inputSource, true);
     }
-    else if (currCommand->redirectOutput) { 
+    else if (currCommand->redirectOutput && !currCommand->redirectInput) {
         printShout("Output only to ", false); 
         printShout(currCommand->outputTarget, true);
     }
