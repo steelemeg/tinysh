@@ -79,7 +79,7 @@ void execCd(struct command* currCommand) {
 */
 void execStatus() {
     char* output = calloc(20, sizeof(char));
-    if (lastFGTerminate == 0) { sprintf(output, "exit value %d", lastFGExitStatus); }
+    if (!lastFGTerminate) { sprintf(output, "exit value %d", lastFGExitStatus); }
     else { sprintf(output, "terminated by signal %d", lastFGExitStatus); }
     printShout(output, true);
     free(output);
@@ -168,6 +168,8 @@ void execLibrary(struct command* currCommand) {
         // leave the parent process in a weird state
         // Based on https://canvas.oregonstate.edu/courses/1884946/pages/exploration-processes-and-i-slash-o
         // and https://edstem.org/us/courses/16718/discussion/1102818
+        printShout(currCommand->instruction, false);
+        printShout(": ", false);
         printError(currCommand->instruction);
         exit(errno);
         break;
@@ -198,20 +200,20 @@ void execLibrary(struct command* currCommand) {
             if (WIFEXITED(childExitStatus)) {
                 removeChild(&firstChild, newPid);
                 lastFGExitStatus = WEXITSTATUS(childExitStatus);
-                lastFGTerminate = 0;
+                lastFGTerminate = false;
             }
 
             // If WIFEXITED was false, then there was a problem. WTERMSIG will return the number of the signal that caused the 
             // child process to terminate.
             else if (WIFSIGNALED(childExitStatus)) {
                 lastFGExitStatus = WTERMSIG(childExitStatus);
-                lastFGTerminate = 1;
+                lastFGTerminate = true;
                 execStatus();
             }
             // Catchall for edge cases
             else {
                 lastFGExitStatus = WTERMSIG(childExitStatus);
-                lastFGTerminate = 1;
+                lastFGTerminate = true;
             }
         }
     } 
