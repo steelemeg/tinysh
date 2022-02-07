@@ -47,4 +47,7 @@ void exploreValues() {
     printf("Allow background mode: %d\n", allowBackgroundMode);
     printf("\n");
     fflush(NULL);
+    printf("Last fg exit status: %d\n", lastFGExitStatus);
+    printf("Last fg exit terminate: %d\n", lastFGTerminate);
+    fflush(NULL);
 }

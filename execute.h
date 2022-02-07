@@ -199,6 +199,8 @@ void execLibrary(struct command* currCommand) {
                 removeChild(&firstChild, newPid);
                 lastFGExitStatus = WEXITSTATUS(childExitStatus);
                 lastFGTerminate = false;
+                //TODO
+                exploreValues();
             }
 
             // If WIFEXITED was false, then there was a problem. WTERMSIG will return the number of the signal that caused the 
