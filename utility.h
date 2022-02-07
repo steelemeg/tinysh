@@ -211,7 +211,10 @@ void ignoreSIGINT() {
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGINT_action = { { 0 } };
 	// SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
-	if (debugMessages) { write(STDOUT_FILENO, "Handing sigint, ignore behavior\n", 32); }
+	if (debugMessages) {
+		write(STDOUT_FILENO, "Handing sigint, ignore behavior\n", 32);
+		fflush(NULL);
+	}
 	SIGINT_action.sa_handler = SIG_IGN;
 	
 
@@ -229,7 +232,9 @@ void observeSIGINT() {
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGINT_action = { { 0 } };
 	// SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
-	if (debugMessages) { write(STDOUT_FILENO, "Handing sigint, observe behavior\n", 32); }
+	if (debugMessages) {
+		write(STDOUT_FILENO, "Handing sigint, observe behavior\n", 32); 
+		fflush(NULL); }
 	SIGINT_action.sa_handler = SIG_DFL;
 
 
@@ -247,7 +252,10 @@ void ignoreSIGTSTP(){
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGTSTP_action = { { 0 } };
 	
-	if (debugMessages) { write(STDOUT_FILENO, "Setting SIGTSTP to ignore\n", 26); }
+	if (debugMessages) {
+		write(STDOUT_FILENO, "Setting SIGTSTP to ignore\n", 26);
+		fflush(NULL);
+	}
 	SIGTSTP_action.sa_handler = ignoreSignal;
 	
 	// Block all catchable signals while handle_SIGINT is running
@@ -272,6 +280,7 @@ void superSpecialSIGTSTP(int signo) {
 	while (&informativeMessage[strlen] != "\0") { strlen += 1; }
 
 	write(STDOUT_FILENO, informativeMessage, strlen);
+	fflush(NULL);
 	allowBackgroundMode = !allowBackgroundMode;
 	return;
 
@@ -282,7 +291,10 @@ void observeSIGTSTP() {
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGTSTP_action = { { 0 } };
 
-	if (debugMessages) { write(STDOUT_FILENO, "Setting SIGTSTP to default\n", 27); }
+	if (debugMessages) { 
+		write(STDOUT_FILENO, "Setting SIGTSTP to default\n", 27);
+		fflush(NULL);
+	}
 	SIGTSTP_action.sa_handler = superSpecialSIGTSTP;
 
 	// Block all catchable signals while handle_SIGINT is running
