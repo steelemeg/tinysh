@@ -130,8 +130,7 @@ void execLibrary(struct command* currCommand) {
             redirector(currCommand->inputSource, true, false); 
             redirectedInput = true;
         }
-        printf("background mode: %d allowBackground: %d\n", currCommand->backgroundJob, allowBackgroundMode);
-        fflush(NULL);
+
         if (currCommand->backgroundJob && allowBackgroundMode) { 
             if (debugMessages) { printShout("Background job setup begins", true); }
             childCreatedInBackground = true;
@@ -163,8 +162,7 @@ void execLibrary(struct command* currCommand) {
         execvp(currCommand->instruction, currCommand->operands);
         // Adding code to handle bad commands, like "badfile". Without this, bad commands caused control problems and would
         // leave the parent process in a weird state
-        printShout(currCommand->instruction, false);
-        printShout(": no such file or directory", true);
+        printError("");
         exit(errno);
         break;
     }

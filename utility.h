@@ -171,7 +171,7 @@ void ignoreSIGTSTP(){
 	return;
 }
 
-void superSpecialSIGTSTP(int signo) {
+void customSIGTSTP(int signo) {
 	char* informativeMessage;
 	if (allowBackgroundMode) { informativeMessage = "Entering foreground-only mode (& is now ignored)\n"; }
 	else { informativeMessage = "Exiting foreground-only mode\n";}
@@ -183,7 +183,7 @@ void superSpecialSIGTSTP(int signo) {
 	// be displayed and background processing should be re-enabled. Using the background mode
 	// global flag to determine which behavior should be executed.
 
-	// Per Ed TODO FIND WHERE I SAW THIS I KNOW I SAW THIS don't use magic numbers in handlers
+	// Per Ed, do not use strlen in handler. Also don't use fflush. TODO https://edstem.org/us/courses/16718/discussion/1075111
 	// TODO cite https://stackoverflow.com/questions/3992192/string-length-without-len-function
 	// Code method from https://stackoverflow.com/questions/3992192/string-length-without-len-function
 	int strlen = 0;
@@ -192,7 +192,6 @@ void superSpecialSIGTSTP(int signo) {
 	write(STDOUT_FILENO, informativeMessage, strlen);
 	allowBackgroundMode = !allowBackgroundMode;
 	return;
-
 
 }
 
@@ -203,7 +202,7 @@ void observeSIGTSTP() {
 	if (debugMessages) { 
 		write(STDOUT_FILENO, "Setting SIGTSTP to default\n", 27);
 	}
-	SIGTSTP_action.sa_handler = superSpecialSIGTSTP;
+	SIGTSTP_action.sa_handler = customSIGTSTP;
 
 	// Block all catchable signals while handle_SIGINT is running
 	sigfillset(&SIGTSTP_action.sa_mask);

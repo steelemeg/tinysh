@@ -22,6 +22,7 @@ void printShout(const char* printTarget, bool lineBreak) {
 */
 void printError(const char* printTarget) {
     perror(printTarget);
+    printf("\n");
     fflush(NULL);
     return;
 }
