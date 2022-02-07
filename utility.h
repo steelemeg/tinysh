@@ -105,7 +105,8 @@ void killZombieChildren() {
 void customSIGINT(int signo) {
 	char sigintMessage[24] = "terminated by signal 2\n";		// length 23
 
-	// Stop the process with signal 2.
+	// Stop the process with signal 2. TODO
+	printShout("WHATEVER", false);
 	kill(signo, 2);
 	// Using write per the module--printShout depends on printf, which is not re-entrant. 
 	// Per Ed, do not use strlen in handler. Also don't use fflush per https://edstem.org/us/courses/16718/discussion/1075111
@@ -125,7 +126,9 @@ void observeSIGINT(bool dfl) {
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGINT_action = { { 0 } };
 	// SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
-	if (dfl) { SIGINT_action.sa_handler = customSIGINT; }
+	if (dfl) { SIGINT_action.sa_handler = customSIGINT;
+	printShout("WHATEVER", false);
+	}
 	else { SIGINT_action.sa_handler = SIG_IGN; }
 
 
