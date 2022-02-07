@@ -81,12 +81,12 @@ int main(int argc, char* argv[]) {
         // Build a command struct from the expanded input.
         struct command* newCommand = createCommand(protoCommand);
         displayCommand(newCommand);
-        free(protoCommand);
+        //free(protoCommand);
         // If the input wasn't blank, execute the instruction 
         if (newCommand->instruction) {
             execCommand(newCommand);
         }
-        free(newCommand);
+        //free(newCommand);
     }
 
     return EXIT_SUCCESS;
