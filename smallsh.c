@@ -71,8 +71,10 @@ int main(int argc, char* argv[]) {
     char* colon = ": ";
 
     while (1) {
-        // Mimicing the formatting of the screenshots, start each line with ":"
+        // Before displaying the command prompt, check for untermintaed processes per 
+        // Ed post https://edstem.org/us/courses/16718/discussion/1074998
         killZombieChildren();
+        // Mimicing the formatting of the screenshots, start each line with ":"
         printShout(colon, false);
 
         if (debugMessages) { exploreValues(); }
@@ -82,10 +84,8 @@ int main(int argc, char* argv[]) {
         struct command* newCommand = createCommand(protoCommand);
         displayCommand(newCommand);
         free(protoCommand);
-        // If the input wasn't blank, execute the instruction 
-        if (newCommand->instruction) {
-            execCommand(newCommand);
-        }
+        // Execute the instruction        
+        execCommand(newCommand);
         free(newCommand);
     }
 

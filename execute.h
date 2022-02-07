@@ -159,7 +159,8 @@ void execLibrary(struct command* currCommand) {
         execvp(currCommand->instruction, currCommand->operands);
         // Adding code to handle bad commands, like "badfile". Without this, bad commands caused control problems and would
         // leave the parent process in a weird state
-        printError("");
+        // Based on https://edstem.org/us/courses/16718/discussion/1103823
+        printError(currCommand->instruction);
         exit(errno);
         break;
     }
@@ -212,8 +213,8 @@ void execLibrary(struct command* currCommand) {
 */
 void execCommand(struct command* currCommand) {
 
-    // Comments mean we should do nothing! 
-    if (currCommand->isCommentOrBlank) {
+    // Comments and blanks mean we should do nothing! 
+    if (currCommand->isCommentOrBlank || !currCommand->instruction) {
         //pass
     }
     // actual commands
