@@ -17,7 +17,7 @@ void printShout(const char* printTarget, bool lineBreak) {
 /* 
 * Specialized printing for error handling.
 * Accepts a pointer to the target string.
-* Prints it and fflush. 
+* Prints it using perror and fflush. 
 * Returns no values.
 */
 void printError(const char* printTarget) {

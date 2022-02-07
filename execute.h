@@ -23,7 +23,7 @@ int killChildProcesses() {
         printShout(output, true);
         currChild = currChild->next;
     }
-    // TODO free(output);
+    free(output);
     free(currChild); 
     
     return EXIT_SUCCESS;
@@ -49,7 +49,6 @@ void execCd(struct command* currCommand) {
     else {
         // Try to change the current directory to the specified path
         char* newDir;
-        // TODO 
         newDir = currCommand->operands[1];
         if (getcwd(cwdResults, MAX_COMMAND * 2 + 1) == NULL) { printError("Tried to get cwd, encountered error:"); }
         
@@ -87,8 +86,16 @@ void execStatus(struct command* currCommand) {
 }
 
 /*
-*  TODO
-*  
+*  We must execute any non-built-in commands using child processes and an exec function.
+* Accepts one parameter, a command struct containing parameters.
+* Forks a child process, which may be foreground or background depending on settings.
+*  Handles redirection configuration, calls signal handlers, and configures background
+*   execution, all as appropriate for the provided command.
+* Executes the provided command and arguments using execvp.
+* May print required messaging or error messages, depending on configuration and results.
+* For foreground jobs, waits for the child process to conclude. 
+* For background jobs, does not wait and adds child to list of tracked children.
+* Returns no values.
 */
 void execLibrary(struct command* currCommand) {
     // Per the assignment, fork a child process for non-built-in-commands.
@@ -98,7 +105,6 @@ void execLibrary(struct command* currCommand) {
     bool redirectedInput = false; 
     bool redirectedOutput = false;
     bool childCreatedInBackground = false;
-    // Per the assignment, we must print a message when background processes conclude. 
     char* bgExitMessage = calloc(MAX_ARG, sizeof(char));
 
     newPid = fork();
@@ -142,8 +148,7 @@ void execLibrary(struct command* currCommand) {
         }
         // If the command is foreground, OR if background mode is disabled, set up to run as a fg process. 
         // Per spec, child running as a foreground process must terminate itself when it receives SIGINT
-        // When this occurs the parent must print out a message, which will be handled later.
-        // TODO don't forget the message
+        // When this occurs the parent must print out a message.
         else { 
             if (debugMessages) { printShout("Foreground job setup begins", true); }
             childCreatedInBackground = false;
@@ -223,13 +228,13 @@ void execCommand(struct command* currCommand) {
         int success = killChildProcesses();
         // Need to use the built-in shell exit command unlike previous projects where we just did a "return EXIT_SUCCESS"
         // Kill parent process to break the calling function's while loop. 
-        //https://www.tutorialspoint.com/c_standard_library/c_function_exit.htm formal citation in readme
+        // https://www.tutorialspoint.com/c_standard_library/c_function_exit.htm formal citation in readme
         exit(success);
     }   
     else if (strcmp(currCommand->instruction, "cd") == 0) { execCd(currCommand); }
     else if (strcmp(currCommand->instruction, "status") == 0) { execStatus(currCommand); }
     else{ execLibrary(currCommand); }
-    // TODO 
+    // Check if any child processes have concluded
     killZombieChildren();
 
     return;

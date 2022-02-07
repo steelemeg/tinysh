@@ -190,15 +190,16 @@ struct command* createCommand(char* userInput) {
             jobControl = true;
             newCommand->backgroundJob = true;
         }
+        // see if we're done adding arguments yet
         addingArgs = !(redirection || jobControl);
 
-        // Use the booleans to extract info about input and output redirect targets.
         // If this is just a plain operand, put it in the array.
         if (!inputRedirect && !outputRedirect && isNotSpecial) {
             newCommand->operands[operandArrayCounter] = calloc(tokenLength + 1, sizeof(char));
             strcpy(newCommand->operands[operandArrayCounter], token);
             operandArrayCounter++;
         }
+        
         // If the outputRedirect flag is true, and if the token isNotSpecial, then this is the redirect target
         // Save the token as the outputTarget, and reset inputRedirect so we can keep processing without continously overwriting outputTarget
         else if (outputRedirect && isNotSpecial) {
@@ -213,6 +214,7 @@ struct command* createCommand(char* userInput) {
             strcpy(newCommand->inputSource, token);
             inputRedirect = false;
         }
+        // Done processing! Get the next token and start over.
         token = strtok_r(NULL, DELIMITER, &saveptr);
       
     }
@@ -231,8 +233,8 @@ void displayCommand(struct command* currCommand) {
     printShout(currCommand->instruction, true);
 
     printShout("Comment/blank: ", false);
-    printf("%d\n", currCommand->isCommentOrBlank);
-    fflush(NULL);
+    if (currCommand->isCommentOrBlank) { printShout("True, comment or blank", true); }
+    else { printShout("False, actual command", true); }
     
     printShout("Background: ", false);
     if (currCommand->backgroundJob) { printShout("True, run in background mode", true); }

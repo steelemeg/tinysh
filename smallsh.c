@@ -4,7 +4,10 @@
 * Course number/section:    CS344 Section 405
 * Project Number:			3 (smallsh)
 * Due Date:					02/07/2022
-* Description:				TODO
+* Description:				Smallsh implements a subset of shell features. It provides a prompt for the user 
+*                           to enter commands, ignores blank/comment lines, expands $$ variables, has custom 
+*                           execution for [cd, exit, status], and uses exec functions to handle all other commands. 
+*                           It also supports I/O redirection and custom handling for SIGINT and SIGTSTP.
 */
 
 // Basic template copied from students.c Please see readme for full citations.
@@ -48,12 +51,12 @@ bool debugMessages = false;
 #define RIGHT_ARROW ">"
 #define AMPERSAND "&"
 
+// Experimenting with breaking up the code to avoid a massive file.
+// Made development a lot easier, hopefully this is correctly implemented. 
 #include "./printing.h"
 #include "./parsing.h"
 #include "./utility.h"
 #include "./execute.h"
-
-
 
 // Basic template copied from students.c Please see readme for full citations.
 // If you are not compiling with the gcc option --std=gnu99, then
@@ -62,14 +65,15 @@ bool debugMessages = false;
 
 /*
 *   Runs an interactive shell program
-*   Compile the program as follows:
-*       gcc --std=gnu99 -o smallsh main.c
+*   Compile the program as follows (full details in README):
+*       gcc --std=gnu99 -o smallsh smallsh.c
 */
 int main(int argc, char* argv[]) {
+    char* colon = ": ";
     // Your shell, i.e., the parent process, must ignore SIGINT
     observeSIGINT(false);
+    // The shell must have custom handling for SIGTSTP
     observeSIGTSTP(true);
-    char* colon = ": ";
 
     // Similar to the movies project, repeat the prompt until the user exits.
     while (1) {

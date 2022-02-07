@@ -1,7 +1,7 @@
 // Contains functions for signal handling, redirection, and anything else that supports other function types.
 
 /*
-* Use dup2 to redirect input or output.
+* Use dup2 to redirect input or output to/from the specified file.
 * Accepts three parameters, the name of the file, a bool indicating if this is an input redirect, and a bool indicating 
 * if this is an output redirect.
 * Returns no values.
@@ -10,7 +10,6 @@
 */
 int redirector(char* targetFile, bool input, bool output) {
 	// Modifying lecture code to account for the possibility of a blank filename. 
-	// Per assignment if filename is blank, use /dev/null
 	char* filename;
 	int fileD = 0;
 	int result = 0;
@@ -20,6 +19,7 @@ int redirector(char* targetFile, bool input, bool output) {
 		printError("Invalid use of function redirector");
 		return 1;
 	}
+	// Per assignment if filename is blank, use /dev/null
 	if (targetFile != NULL) { filename = targetFile; }
 	else {
 		filename = "/dev/null";
@@ -48,24 +48,10 @@ int redirector(char* targetFile, bool input, bool output) {
 	return 0;
 }
 
-/*
-* Based on the assignment, we need to ignore some signals (i.e. a child running as a backgroupd process must ignore SIGTSTP).
-* Per the signal handling module, we also have to define a sa_handler for a given sigaction struct
-* Creating a pass-through function so it can be provided in these scenarios.
-* Accepts one parameter to mimic the handler examples in module (https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api)
-* Returns no values.
-* TODO Might not need this?
-*/
-void ignoreSignal(int signo) {
-	// pass
-	//TODO 
-	printShout("ignore time", true);
-	return;
-}
-
 /* 
-* TODO clean up the mess after an instruction executes
-* TODO already called after instruction switch
+* Checks for background children that have concluded and prints appropriate messaging.
+* Accepts no parameters. 
+* Returns no values.
 */
 void killZombieChildren() {
 	pid_t pid;
@@ -79,13 +65,13 @@ void killZombieChildren() {
 
 	while (currChild != NULL)
 	{
-		// todo reread https://canvas.oregonstate.edu/courses/1884946/pages/exploration-process-api-monitoring-child-processes
-		//todo seperaate logic for background that ends itself and sigterm
+		// Based on https://canvas.oregonstate.edu/courses/1884946/pages/exploration-process-api-monitoring-child-processes
 		// Per the module, use the WNOHANG option to see if any child process has just ended
 		currentPid = currChild->childPid;
 		currentPid = waitpid(currentPid, statusFlag, WNOHANG);
 
 		// on success, waitpid returns the pid of the child who state has changed
+		// when a child is removed, take it out of the linked list
 		if (currentPid > 0) {
 			if (WIFEXITED(*statusFlag)) {
 				sprintf(informativeMessage, "background pid %d is done: exit value %d", currentPid, *statusFlag);
@@ -102,30 +88,39 @@ void killZombieChildren() {
 				removeChild(&firstChild, currentPid);
 			}
 		}
-		// todo handle removing child
 		currChild = currChild->next;
 	}
 
 	free(informativeMessage);
 	return;
 }
-/* 
-* Handler for SIGINT. Per the spec, we must have a custom handler for SIGINT.
-* Accepts a boolean specifying if default (true) or ignore (false)
-* Based on module code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api?module_item_id=21835981
-* Returns no values.
-*/
-
-
 
 /*
-* Handler for SIGTSTP. Per the spec, we must have a custom handler for SIGTSTP.
-* Accepts a boolean specifying if default (true) or ignore (false)
+* Custom handler for SIGINT. Per the spec, we must have a custom sigaction and handler pair for SIGINT.
+* Accepts one parameter, the signal number
+* Based on code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api
+* Prints required messaging, the process is requested to terminate with signal 2.
+* Returns no values
+*/
+void customSIGINT(int signo) {
+	char sigintMessage[24] = "terminated by signal 2\n";		// length 23
+
+	// Stop the process with signal 2.
+	kill(signo, 2);
+	// Using write per the module--printShout depends on printf, which is not re-entrant. 
+	// Per Ed, do not use strlen in handler. Also don't use fflush per https://edstem.org/us/courses/16718/discussion/1075111
+	write(STDOUT_FILENO, sigintMessage, 49);
+	tcflush(1, TCIOFLUSH);
+	return;
+
+}
+
+/* 
+* Sigaction for SIGINT. Per the spec, we must have a custom sigaction and handler pair for SIGINT.
+* Accepts a boolean specifying if signal should be observed (true) or ignored (false)
 * Based on module code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api?module_item_id=21835981
-* Since the sa_handler wants a function, this is effectively broken into two parts, handleSIGTSTP and custom
 * Returns no values.
 */
-
 void observeSIGINT(bool dfl) {
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGINT_action = { { 0 } };
@@ -145,7 +140,7 @@ void observeSIGINT(bool dfl) {
 }
 
 /*
-* Custom handler for SIGTSTP.
+* Custom handler for SIGTSTP. Per the spec, we must have a custom sigaction and handler pair for SIGTSTP.
 * Accepts one parameter, the signal number
 * Based on code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api
 * Prints required messaging, toggles background mode flag -- every time a SIGTSTP is received by a process
@@ -167,13 +162,19 @@ void customSIGTSTP(int signo) {
 	else { write(STDOUT_FILENO, backgroundTurningOn, 29); }
 	tcflush(1, TCIOFLUSH);
 		
-	// FLIP the allowBackgroundMode flag
+	// FLIP the allowBackgroundMode flag!
 	if (allowBackgroundMode) { allowBackgroundMode = false; }
 	else { allowBackgroundMode = true; }
 	return;
 
 }
 
+/*
+* Sigaction for SIGTSTP. Per the spec, we must have a custom sigaction and handler pair for SIGTSTP.
+* Accepts a boolean specifying if it should be observed (true) or ignored (false)
+* Based on module code from https://canvas.oregonstate.edu/courses/1884946/pages/exploration-signal-handling-api?module_item_id=21835981
+* Returns no values.
+*/
 void observeSIGTSTP(bool dfl) {
 	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
 	struct sigaction SIGTSTP_action = { { 0 } };
