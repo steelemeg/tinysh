@@ -50,6 +50,7 @@ bool debugMessages = true;
 #include "./printing.h"
 #include "./parsing.h"
 #include "./utility.h"
+#include "./handlerTests.h"
 #include "./execute.h"
 
 
@@ -76,7 +77,6 @@ int main(int argc, char* argv[]) {
         char* protoCommand = getExpandedInput();
         // Build a command struct from the expanded input.
         struct command* newCommand = createCommand(protoCommand);
-        if (debugMessages) { displayCommand(newCommand); }
         // If the input wasn't blank, execute the instruction 
         if (newCommand->instruction) {
             execCommand(newCommand);

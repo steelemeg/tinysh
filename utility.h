@@ -30,7 +30,8 @@ int redirector(char* targetFile, bool input, bool output) {
 	// Handle file opening errors
 	if (fileD == -1) {
 		printError("Problem opening file: ");
-		return 1;
+		// Originally return, which caused serious crashes when the filename was not valid.
+		exit(1);
 	}
 	// Per module example, close file descriptor on execution
 	fcntl(fileD, F_SETFD, FD_CLOEXEC);
@@ -39,7 +40,7 @@ int redirector(char* targetFile, bool input, bool output) {
 	// Handle dup2 errors 
 	if (result == -1) {
 		printError("Problem with redirection, dup2() execution generated an error");
-		return 1;
+		exit(2);
 	}
 	return 0;
 }
@@ -185,7 +186,7 @@ void handleSIGTSTP(bool dfl) {
 	//SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
 	if (dfl) { 
 		if (debugMessages) { write(STDOUT_FILENO, "Setting SIGTSTP to default\n", 27); }
-		SIGTSTP_action.sa_handler = customSIGTSTP; 
+		SIGTSTP_action.sa_handler = customSIGTSTP2; 
 	}
 	else { 
 		if (debugMessages) { write(STDOUT_FILENO, "Setting SIGTSTP to ignore\n", 26); }
