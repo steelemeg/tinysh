@@ -202,3 +202,97 @@ void handleSIGTSTP(bool dfl) {
 	sigaction(SIGTSTP, &SIGTSTP_action, NULL);
 	return;
 }
+
+
+
+
+
+void ignoreSIGINT() {
+	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
+	struct sigaction SIGINT_action = { { 0 } };
+	// SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
+	if (debugMessages) { write(STDOUT_FILENO, "Handing sigint, ignore behavior\n", 32); }
+	SIGINT_action.sa_handler = SIG_IGN;
+	
+
+	// Block all catchable signals while handle_SIGINT is running
+	sigfillset(&SIGINT_action.sa_mask);
+	// No flags set
+	SIGINT_action.sa_flags = 0;
+
+	// Install our signal handler
+	sigaction(SIGINT, &SIGINT_action, NULL);
+	return;
+}
+
+void observeSIGINT() {
+	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
+	struct sigaction SIGINT_action = { { 0 } };
+	// SIG_DFL – specifying this value means we want the default action to be taken for the signal type.
+	if (debugMessages) { write(STDOUT_FILENO, "Handing sigint, observe behavior\n", 32); }
+	SIGINT_action.sa_handler = SIG_DFL;
+
+
+	// Block all catchable signals while handle_SIGINT is running
+	sigfillset(&SIGINT_action.sa_mask);
+	// No flags set
+	SIGINT_action.sa_flags = 0;
+
+	// Install our signal handler
+	sigaction(SIGINT, &SIGINT_action, NULL);
+	return;
+}
+
+void ignoreSIGTSTP(){
+	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
+	struct sigaction SIGTSTP_action = { { 0 } };
+	
+	if (debugMessages) { write(STDOUT_FILENO, "Setting SIGTSTP to ignore\n", 26); }
+	SIGTSTP_action.sa_handler = ignoreSignal;
+	
+	// Block all catchable signals while handle_SIGINT is running
+	sigfillset(&SIGTSTP_action.sa_mask);
+	// No flags set
+	SIGTSTP_action.sa_flags = 0;
+
+	// Install our signal handler
+	sigaction(SIGTSTP, &SIGTSTP_action, NULL);
+	return;
+}
+
+void superSpecialSIGTSTP(int signo) {
+	char* informativeMessage;
+	if (allowBackgroundMode) { informativeMessage = "Entering foreground-only mode (& is now ignored)\n"; }
+	else { informativeMessage = "Exiting foreground-only mode\n";}
+
+	// Per Ed TODO FIND WHERE I SAW THIS I KNOW I SAW THIS don't use magic numbers in handlers
+	// TODO cite https://stackoverflow.com/questions/3992192/string-length-without-len-function
+	// Code method from https://stackoverflow.com/questions/3992192/string-length-without-len-function
+	int strlen = 0;
+	while (informativeMessage[strlen] != "\0") { strlen += 1; }
+
+	write(STDOUT_FILENO, informativeMessage, strlen);
+	allowBackgroundMode = !allowBackgroundMode;
+	return;
+
+
+}
+
+void observeSIGTSTP() {
+	// Per Ed #387, need double braces to de-confuse gcc. Citation in readme.
+	struct sigaction SIGTSTP_action = { { 0 } };
+
+	if (debugMessages) { write(STDOUT_FILENO, "Setting SIGTSTP to default\n", 27); }
+	SIGTSTP_action.sa_handler = superSpecialSIGTSTP;
+
+	// Block all catchable signals while handle_SIGINT is running
+	sigfillset(&SIGTSTP_action.sa_mask);
+	// No flags set
+	SIGTSTP_action.sa_flags = 0;
+
+	// Install our signal handler
+	sigaction(SIGTSTP, &SIGTSTP_action, NULL);
+	return;
+}
+
+

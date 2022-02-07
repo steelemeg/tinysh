@@ -79,7 +79,6 @@ void execCd(struct command* currCommand) {
 */
 void execStatus(struct command* currCommand) {
     char* output = calloc(20, sizeof(char));
-    // Note: Originally ysed 
     sprintf(output, "exit value %d", lastFGExitStatus);
     printShout(output, true);
     free(output);
@@ -119,7 +118,8 @@ void execLibrary(struct command* currCommand) {
         // Child process creation successful. This code will be executed only by the child.
         // Background and foreground children should ignore SIGTSTP. Since this case is child-only, set to ignore.
         // TODO something is wrong here
-        handleSIGTSTP(false);
+        //handleSIGTSTP(false);
+        ignoreSIGTSTP();
 
         // Are we redirecting input or output?
         if (currCommand->redirectOutput) { 
@@ -136,7 +136,8 @@ void execLibrary(struct command* currCommand) {
             if (debugMessages) { printShout("Background job setup begins", true); }
             childCreatedInBackground = true;
             // Per the specs, any children running as background processes must ignore SIGINT.
-            handleSIGINT(false);
+            //TODO             handleSIGINT(false);
+            ignoreSIGINT();
             // per the spec, if no input redirect for a background command, then standard input should be redirected to /dev/null
             if (!redirectedInput) { redirector(NULL, true, false); }
             // per the spec, if no output redirect for a background command, then standard output should be redirected to /dev/null
@@ -149,7 +150,8 @@ void execLibrary(struct command* currCommand) {
         else { 
             if (debugMessages) { printShout("Foreground job setup begins", true); }
             childCreatedInBackground = false;
-            handleSIGINT(true); 
+            //TODO handleSIGINT(true); 
+            observeSIGINT();
         }
 
         // Child process created and tracked, signal handlers configured. Execute the actual command.
