@@ -23,7 +23,7 @@ int killChildProcesses() {
         printShout(output, true);
         currChild = currChild->next;
     }
-    free(output);
+    // TODO free(output);
     free(currChild); 
     
     return EXIT_SUCCESS;
@@ -201,7 +201,6 @@ void execLibrary(struct command* currCommand) {
         }
     } 
     if (debugMessages) { printShout("Execution task concludes", true); }
-    printShout("free bg message", true);
     free(bgExitMessage);
     return;
 }
