@@ -82,6 +82,7 @@ int main(int argc, char* argv[]) {
         if (newCommand->instruction) {
             execCommand(newCommand);
         }
+        free(newCommand);
     }
 
     return EXIT_SUCCESS;

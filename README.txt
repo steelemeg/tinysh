@@ -67,3 +67,5 @@ Ruttan, Arden (Febraury 5, 2022) Introduction To Unix Signals Programming [Examp
 CS344 ED Discussion (February 5, 2022) sigaction struct initialization [Example source code] https://edstem.org/us/courses/16718/discussion/1077481
 
 Linux die.net (February 4, 2022) waitpid man page [Documentation] https://linux.die.net/man/2/waitpid
+
+Stack Overflow (February 6, 2022) Proper Way to Free Memory of a Returned Variable [Example source code] https://stackoverflow.com/questions/29655051/proper-way-to-free-memory-of-a-returned-variable
