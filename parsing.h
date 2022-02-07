@@ -221,7 +221,8 @@ struct command* createCommand(char* userInput) {
       
     }
     // Add a trailing null just in case--execvp requires this in the args array
-    //newCommand->operands[operandArrayCounter] = calloc(1, sizeof(char));
+    newCommand->operands[operandArrayCounter] = calloc(1, sizeof(char));
+    strcpy(newCommand->operands[operandArrayCounter], "\0");
     newCommand->operandCount = operandArrayCounter;
     return newCommand;
 }
