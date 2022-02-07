@@ -179,7 +179,8 @@ void observeSIGTSTP(bool dfl) {
 	struct sigaction SIGTSTP_action = { { 0 } };
 
 	if (debugMessages) { 
-		write(STDOUT_FILENO, "Setting SIGTSTP\n", 27);
+		write(STDOUT_FILENO, "Setting SIGTSTP\n", 16);
+		tcflush(1, TCIOFLUSH);
 	}
 	if (dfl) { SIGTSTP_action.sa_handler = customSIGTSTP; }
 	else { SIGTSTP_action.sa_handler = SIG_IGN; }
