@@ -139,7 +139,7 @@ void customSIGTSTP(int signo) {
 	// be displayed and background processing should be re-enabled. Using the background mode
 	// global flag to determine which behavior should be executed.
 
-	// Per Ed, do not use strlen in handler. Also don't use fflush. TODO https://edstem.org/us/courses/16718/discussion/1075111
+	// Per Ed, do not use strlen in handler. Also don't use fflush. https://edstem.org/us/courses/16718/discussion/1075111
 	if (allowBackgroundMode) { write(STDOUT_FILENO, backgroundTurningOff, 49); }
 	else { write(STDOUT_FILENO, backgroundTurningOn, 29); }
 	tcflush(1, TCIOFLUSH);

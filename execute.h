@@ -199,6 +199,7 @@ void execLibrary(struct command* currCommand) {
             if (debugMessages) { printShout("Foregroudn job parent, waitpid concludes", true); }
             // Based on https://linux.die.net/man/2/waitpid full citation in readme
             // waitpid should return WIFEXITED true if normal termination and and the actual exit status in WIFEXITSTATUS
+            // Idea for structure from https://edstem.org/us/courses/16718/discussion/1079841
             if (WIFEXITED(childExitStatus)) {
                 removeChild(&firstChild, newPid);
                 lastFGExitStatus = WEXITSTATUS(childExitStatus);
