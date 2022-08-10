@@ -44,7 +44,7 @@ void printArray(char* arrayInput[], int entries) {
 * Used for debugging.
 * Displays key metrics about the program.
 * Accepts no parameters.
-* returns no values.
+* Returns no values.
 */
 void exploreValues() {
     printf("Allow background mode: %d\n", allowBackgroundMode);
