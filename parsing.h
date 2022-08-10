@@ -1,7 +1,4 @@
 
-/*
-*  As recommended in the assignment, creating a struct to hold commands and their possible parameters.
-*/
 struct command {
     bool isCommentOrBlank;
     char* instruction;
@@ -18,9 +15,7 @@ struct command {
 };
 
 
-// Opting to track child processes in a linked list. Completed this section before finding 
-// out from Ed post #396 that we could assume a max of 200 processes. Sticking with linked list
-// since it seems to be working and potentially more flexible than an array.
+// Track child processes in a linked list.
 struct child {
     int childPid;
     struct child* next;
@@ -160,8 +155,7 @@ struct command* createCommand(char* userInput) {
     operandArrayCounter++;
 
     // The output from getExpandedInput has been space-condensed. Therefore we can use spaces as a proxy 
-    // for the number of arguments. Idea from https://www.geeksforgeeks.org/program-count-occurrence-given-character-string ,
-    // formal citation in the readme
+    // for the number of arguments. Idea from https://www.geeksforgeeks.org/program-count-occurrence-given-character-string  
     for (int n = 0; copyInput[n]; n++) {
         if (copyInput[n] == *DELIMITER) { tokenCounter++; }
     }

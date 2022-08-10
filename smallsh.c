@@ -1,19 +1,6 @@
 /* Author:					Megan Steele
 * Last Modified:			02/07/2022
-* OSU email address:		marshmeg@oregonstate.edu
-* Course number/section:    CS344 Section 405
-* Project Number:			3 (smallsh)
-* Due Date:					02/07/2022
-* Description:				Smallsh implements a subset of shell features. It provides a prompt for the user 
-*                           to enter commands, ignores blank/comment lines, expands $$ variables, has custom 
-*                           execution for [cd, exit, status], and uses exec functions to handle all other commands. 
-*                           It also supports I/O redirection and custom handling for SIGINT and SIGTSTP.
 */
-
-// Basic template copied from students.c Please see readme for full citations.
-// If you are not compiling with the gcc option --std=gnu99, then
-// uncomment the following line or you might get a compiler warning
-//#define _GNU_SOURCE
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,11 +44,6 @@ bool debugMessages = false;
 #include "./utility.h"
 #include "./execute.h"
 
-// Basic template copied from students.c Please see readme for full citations.
-// If you are not compiling with the gcc option --std=gnu99, then
-// uncomment the following line or you might get a compiler warning
-//#define _GNU_SOURCE
-
 /*
 *   Runs an interactive shell program
 *   Compile the program as follows (full details in README):
@@ -76,8 +58,7 @@ int main(int argc, char* argv[]) {
 
     // Similar to the movies project, repeat the prompt until the user exits.
     while (1) {
-        // Before displaying the command prompt, check for untermintaed processes per 
-        // Ed post https://edstem.org/us/courses/16718/discussion/1074998
+        // Before displaying the command prompt, check for untermintaed processes
         killZombieChildren();
         // Mimicing the formatting of the screenshots, start each line with ":"
         printShout(colon, false);
@@ -93,8 +74,7 @@ int main(int argc, char* argv[]) {
 
         // Execute the instruction        
         execCommand(newCommand);  
-        // I was freeing protoCommand and newCommand , but this caused errors when running against the test script
-        // It worked perfectly when running manually, but as this is not how we will be graded, the commands have been removed.
+        free(newCommand)
     }
 
     return EXIT_SUCCESS;
