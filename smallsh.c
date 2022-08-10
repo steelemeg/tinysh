@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
 
         // Execute the instruction        
         execCommand(newCommand);  
-        free(newCommand)
+        free(newCommand);
     }
 
     return EXIT_SUCCESS;
